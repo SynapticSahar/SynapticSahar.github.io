@@ -820,11 +820,15 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   drawHeatmap();
 
 // ENTROPY CURVE
-// ENTROPY CURVE
 const eC = document.getElementById('ba-entropy-canvas');
 const eX = eC.getContext('2d');
+const dpr = window.devicePixelRatio || 1;
 const EW=360, EH=100;
-eC.width=EW; eC.height=EH;
+eC.width = EW * dpr;
+eC.height = EH * dpr;
+eC.style.width = EW + 'px';
+eC.style.height = EH + 'px';
+eX.scale(dpr, dpr);
 const epEntropyHistory=[];
 const cumRewardHistory=[];
 let cumReward = 0;
