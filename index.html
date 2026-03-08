@@ -963,8 +963,13 @@ drawEntropy();
 })();
 
 
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.remove('scrolled'));
-// SCROLL REVEAL
+let lastY = 0;
+window.addEventListener('scroll',()=>{
+  const nav = document.getElementById('nav');
+  nav.classList.remove('scrolled');
+  nav.style.transform = window.scrollY > lastY && window.scrollY > 100 ? 'translateY(-100%)' : 'translateY(0)';
+  lastY = window.scrollY;
+});// SCROLL REVEAL
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
