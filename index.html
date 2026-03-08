@@ -724,12 +724,9 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   const GRID_SIZE = 12;
 
   const gC = document.getElementById('ba-grid-canvas');
+  if(!gC) return;
   const gX = gC.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  gC.width = 180 * dpr; gC.height = 180 * dpr;
-  gC.style.width = '180px'; gC.style.height = '180px';
-  gX.scale(dpr, dpr);
-const CELL = 180 / GRID_SIZE;
+  const CELL = 180 / GRID_SIZE;
   const visits = Array.from({length:GRID_SIZE}, ()=>new Array(GRID_SIZE).fill(0));
   let agentR = Math.floor(GRID_SIZE/2), agentC = Math.floor(GRID_SIZE/2);
   let goalR = 10, goalC = 10;
@@ -801,10 +798,6 @@ const CELL = 180 / GRID_SIZE;
   // HEATMAP
   const hC = document.getElementById('ba-heatmap-canvas');
   const hX = hC.getContext('2d');
-  const dpr2 = window.devicePixelRatio || 1;
-  hC.width = 180 * dpr2; hC.height = 180 * dpr2;
-  hC.style.width = '180px'; hC.style.height = '180px';
-  hX.scale(dpr2, dpr2);
   const HM = 9, HCELL = 180/HM;
   const hmData = Array.from({length:HM}, ()=>new Array(HM).fill(0));
   const hmTarget = Array.from({length:HM}, ()=>new Array(HM).fill(0));
@@ -827,15 +820,11 @@ const CELL = 180 / GRID_SIZE;
   drawHeatmap();
 
 // ENTROPY CURVE
+// ENTROPY CURVE
 const eC = document.getElementById('ba-entropy-canvas');
 const eX = eC.getContext('2d');
-const dpr = window.devicePixelRatio || 1;
 const EW=360, EH=100;
-eC.width = EW * dpr;
-eC.height = EH * dpr;
-eC.style.width = EW + 'px';
-eC.style.height = EH + 'px';
-eX.scale(dpr, dpr);
+eC.width=EW; eC.height=EH;
 const epEntropyHistory=[];
 const cumRewardHistory=[];
 let cumReward = 0;
@@ -848,6 +837,57 @@ function computeEntropy(){
   occupancy.forEach(o=>{ if(o>0){ const p=o/total; H-=p*Math.log2(p); } });
   return H/Math.log2(7);
 }
+
+setInterval(()=>{
+  if(episode !== lastEpisode){
+    epOccupancy.fill(0);
+    epEntropyHistory.length = 0;
+    lastEpisode = episode;
+  }
+  epOccupancy[cellCluster[agentR][agentC]]++;
+  const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
+  let H=0;
+  epOccupancy.forEach(o=>{ if(o>0){ const p=o/epTotal; H-=p*Math.log2(p); } });
+  const epH = H/Math.log2(7);
+  cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
+  const normCumR = 1 - Math.exp(-cumReward*0.08);
+  epEntropyHistory.push(epH);
+  cumRewardHistory.push(normCumR);
+  if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
+  if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
+  document.getElementById('ba-h-val').textContent=epH.toFixed(3);
+  document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
+}, 200);
+
+function drawEntropy(){
+  eX.clearRect(0,0,EW,EH);
+  eX.strokeStyle='rgba(255,255,255,.04)'; eX.lineWidth=1;
+  [0.25,0.5,0.75].forEach(y=>{ eX.beginPath(); eX.moveTo(0,y*EH); eX.lineTo(EW,y*EH); eX.stroke(); });
+  const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
+  if(n<2){ requestAnimationFrame(drawEntropy); return; }
+  const xScale=EW/(EW/2);
+  function drawLine(data,col,dashed){
+    if(data.length<2) return;
+    dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
+    eX.beginPath();
+    data.forEach((v,i)=>{ const x=i*xScale,y=EH-v*(EH-8)-4; i===0?eX.moveTo(x,y):eX.lineTo(x,y); });
+    eX.strokeStyle=col; eX.lineWidth=1.5; eX.stroke();
+    eX.setLineDash([]);
+  }
+  if(cumRewardHistory.length>1){
+    eX.beginPath();
+    cumRewardHistory.forEach((v,i)=>{ const x=i*xScale,y=EH-v*(EH-8)-4; i===0?eX.moveTo(x,y):eX.lineTo(x,y); });
+    eX.lineTo((cumRewardHistory.length-1)*xScale,EH); eX.lineTo(0,EH); eX.closePath();
+    eX.fillStyle='rgba(245,158,11,.05)'; eX.fill();
+  }
+  drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
+  drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
+  eX.font='8px DM Mono,monospace';
+  eX.fillStyle='rgba(0,229,255,.8)'; eX.fillText('- - H(s) per episode',4,12);
+  eX.fillStyle='rgba(245,158,11,.8)'; eX.fillText('——  cumulative R',4,24);
+  requestAnimationFrame(drawEntropy);
+}
+drawEntropy();
 
 setInterval(()=>{
   if(episode !== lastEpisode){
