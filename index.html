@@ -28,8 +28,6 @@ nav.scrolled{background:rgba(2,4,8,.93);backdrop-filter:blur(24px);border-bottom
 .hero-name{font-family:'Bebas Neue',sans-serif;line-height:.92;letter-spacing:.04em;margin-bottom:1.5rem;opacity:0;animation:fsup .8s .4s forwards}
 .hero-name .l1{font-size:clamp(4rem,7vw,8rem)}
 .hero-name .l2{font-size:clamp(2.2rem,4.2vw,5rem);color:transparent;-webkit-text-stroke:1px var(--violet2);white-space:nowrap}
-.hero-sub{font-family:'Outfit',sans-serif;font-weight:300;font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:3rem;max-width:420px;opacity:0;animation:fsup .8s .6s forwards}
-.hero-sub em{color:var(--violet2);font-style:normal}
 .hero-actions{display:flex;gap:1.2rem;flex-wrap:wrap;opacity:0;animation:fsup .8s .8s forwards}
 .btn-p{position:relative;padding:.9rem 2.2rem;background:transparent;border:1px solid var(--cyan);color:var(--cyan);font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;overflow:hidden;transition:color .3s;cursor:none}
 .btn-p::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-101%);transition:transform .3s;z-index:-1}
@@ -96,6 +94,19 @@ section{position:relative;z-index:1}
 .exp-stack{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--border)}
 .etag{font-size:.62rem;padding:.2rem .6rem;border:1px solid var(--border2);color:var(--muted);letter-spacing:.06em;transition:border-color .3s,color .3s}
 .exp-card:hover .etag{border-color:rgba(0,229,255,.3);color:#8ab8d0}
+.research-extra{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
+.research-kicker{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem}
+.research-core{font-size:.78rem;color:var(--muted);line-height:1.85}
+.research-core strong{color:var(--text)}
+.research-meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem;font-size:.72rem;color:var(--muted)}
+.research-meta strong{color:var(--cyan)}
+.research-entropy-wrap{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
+.research-entropy-panel{background:rgba(2,4,8,.65);border:1px solid var(--border);padding:1rem 1.2rem}
+.research-entropy-note{font-size:.72rem;color:var(--muted);line-height:1.8;margin-bottom:.8rem}
+.ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+#ba-entropy-canvas{display:block;width:100%;max-width:100%;border:1px solid var(--border);background:#020408}
+.ba-entropy-stats{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.65rem;letter-spacing:.08em;color:var(--muted);margin-top:.8rem}
+.ba-stat-val{color:var(--cyan);font-variant-numeric:tabular-nums}
 #projects{padding:9rem 0;background:var(--bg2)}
 .projects-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .proj-card{background:var(--card);border:1px solid var(--border);padding:2.2rem;position:relative;overflow:hidden;transition:transform .4s,border-color .4s;cursor:none}
@@ -109,7 +120,6 @@ section{position:relative;z-index:1}
 .proj-card:hover .proj-num{color:var(--cyan)}
 .proj-badge{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:.25rem .7rem;border:1px solid var(--border2);color:var(--muted)}
 .proj-badge.hot{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.06)}
-.proj-badge.thesis{border-color:var(--violet2);color:var(--violet2);background:rgba(167,139,250,.06)}
 .proj-badge.clinical{border-color:var(--green);color:var(--green);background:rgba(16,185,129,.06)}
 .proj-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:.8rem;line-height:1.35}
 .proj-desc{font-size:.78rem;color:var(--muted);line-height:1.85;margin-bottom:1.5rem}
@@ -140,15 +150,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .reveal.in{opacity:1;transform:translateY(0)}
 .d1{transition-delay:.05s}.d2{transition-delay:.15s}.d3{transition-delay:.25s}
 .d4{transition-delay:.35s}.d5{transition-delay:.45s}.d6{transition-delay:.55s}
-@media(max-width:1024px){
-  #hero{grid-template-columns:1fr;padding:7rem 2.5rem 3rem}
-  .hero-right{height:350px}
-  .container{padding:0 2.5rem}
-  nav{padding:1.2rem 2.5rem}
-  .about-layout,.projects-layout,.skills-layout{grid-template-columns:1fr}
-  .exp-inner{grid-template-columns:1fr}
-  .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
-}
 .eeg-viz-wrap{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
 .viz-block{background:rgba(2,4,8,.6);border:1px solid var(--border);padding:1rem 1.2rem}
 .viz-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
@@ -162,96 +163,22 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .quad-wrap{position:relative;display:inline-block}
 .quad-canvas{display:block}
 .quad-emotion-label{position:absolute;bottom:.5rem;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
-
-/* BRAINAGENT VIZ */
-.ba-viz-grid{display:grid;grid-template-columns:180px 180px 1fr;grid-template-rows:auto auto;gap:1rem;margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid var(--border)}
-.ba-panel{background:rgba(2,4,8,.7);border:1px solid var(--border);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem}
-.ba-panel-wide{grid-column:3/4;grid-row:1/2}
-.ba-panel-full{grid-column:1/-1;grid-row:2/3}
-.ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.ba-panel canvas{display:block;border:1px solid var(--border);background:#020408}
-.ba-entropy-stats{display:flex;gap:1.5rem;font-size:.65rem;letter-spacing:.08em;color:var(--muted)}
-.ba-stat-val{color:var(--cyan);font-variant-numeric:tabular-nums}
-.ba-cluster-bars{display:flex;gap:.5rem;align-items:flex-end;height:60px}
-.ba-cbar-wrap{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:1}
-.ba-cbar-track{width:100%;background:var(--border);border-radius:2px;overflow:hidden;height:50px;display:flex;flex-direction:column;justify-content:flex-end}
-.ba-cbar-fill{width:100%;border-radius:2px;transition:height .5s ease}
-.ba-cbar-label{font-size:.55rem;color:var(--muted);letter-spacing:.06em}
-
-/* ABOUT SECTION BRAINAGENT FEATURE */
-.about-brainagent-feature{
-  margin-top:-1.2rem;
-  margin-bottom:3rem;
-  background:var(--card);
-  border:1px solid var(--border2);
-  position:relative;
-  overflow:hidden;
-}
-.about-brainagent-feature::before{
-  content:'';
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--violet2),var(--cyan));
-  background-size:200% 100%;
-  animation:shimmer 4s linear infinite;
-}
-.about-brainagent-head{
-  padding:1.4rem 1.8rem;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:1rem;
-  flex-wrap:wrap;
-}
-.about-brainagent-kicker{
-  font-size:.6rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--cyan);
-  margin-bottom:.5rem;
-}
-.about-brainagent-title{
-  font-family:'Outfit',sans-serif;
-  font-weight:600;
-  font-size:1.1rem;
-  color:var(--text);
-  line-height:1.4;
-}
-.about-brainagent-desc{
-  font-size:.76rem;
-  color:var(--muted);
-  line-height:1.8;
-  max-width:720px;
-}
-.about-brainagent-body{
-  padding:1.5rem 1.8rem 1.8rem;
-}
-.about-brainagent-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.4rem;
-  margin-top:1rem;
-}
-.about-brainagent-tags .ptag{
-  font-size:.6rem;
-}
-
-@media(max-width:1024px){
-  .ba-viz-grid{grid-template-columns:1fr 1fr}
-  .ba-panel-wide{grid-column:1/-1;grid-row:2/3}
-  .ba-panel-full{grid-column:1/-1;grid-row:3/4}
-  .ba-panel canvas{width:100%!important}
-  .about-brainagent-head,
-  .about-brainagent-body{
-    padding:1.2rem 1.2rem 1.4rem;
-  }
-}
 .hero-photo-wrap{width:300px;height:300px;border:2px solid var(--cyan);box-shadow:0 0 24px rgba(0,229,255,.3);margin-bottom:1.5rem;flex-shrink:0;overflow:hidden}
 .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center 15%}
+
+@media(max-width:1024px){
+  #hero{grid-template-columns:1fr;padding:7rem 2.5rem 3rem}
+  .hero-right{height:350px}
+  .container{padding:0 2.5rem}
+  nav{padding:1.2rem 2.5rem}
+  .about-layout,.projects-layout,.skills-layout{grid-template-columns:1fr}
+  .exp-inner{grid-template-columns:1fr}
+  .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
+}
+
+@media(max-width:768px){
+  footer{padding:2rem 2.5rem;flex-direction:column;gap:.8rem;text-align:center}
+}
 </style>
 </head>
 <body>
@@ -300,77 +227,22 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   <div class="container">
     <div class="sec-label">About</div>
     <h2 class="sec-title reveal">Where Neuroscience<br/>Meets Machine Intelligence</h2>
-
-    <div class="about-brainagent-feature reveal d1">
-      <div class="about-brainagent-head">
-        <div>
-          <div class="about-brainagent-kicker">Featured Project</div>
-          <div class="about-brainagent-title">BrainAgent - Neuro-Inspired RL</div>
-        </div>
-        <div class="about-brainagent-desc">
-          Translated brain metastability theory into an RL exploration algorithm. Online clustering of agent state history, occupancy entropy, and MOP-guided intrinsic reward help the agent explore sparse-reward environments more efficiently.
-        </div>
-      </div>
-
-      <div class="about-brainagent-body">
-        <div class="ba-viz-grid">
-          <div class="ba-panel">
-            <div class="ba-panel-label">RL Agent Exploring</div>
-            <canvas id="ba-grid-canvas" width="180" height="180"></canvas>
-          </div>
-
-          <div class="ba-panel">
-            <div class="ba-panel-label">Brain-State Heatmap</div>
-            <canvas id="ba-heatmap-canvas" width="180" height="180"></canvas>
-          </div>
-
-          <div class="ba-panel ba-panel-wide">
-            <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
-            <canvas id="ba-entropy-canvas" width="360" height="100"></canvas>
-            <div class="ba-entropy-stats">
-              <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.00</span></span>
-              <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.00</span></span>
-              <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
-            </div>
-          </div>
-
-          <div class="ba-panel ba-panel-full">
-            <div class="ba-panel-label">Occupancy · 7 Brain-State Clusters</div>
-            <div class="ba-cluster-bars" id="ba-cluster-bars"></div>
-          </div>
-        </div>
-
-        <div class="about-brainagent-tags">
-          <span class="ptag key">PyTorch</span>
-          <span class="ptag key">RL</span>
-          <span class="ptag key">MOP</span>
-          <span class="ptag">FastAPI</span>
-          <span class="ptag">React</span>
-          <span class="ptag">D3.js</span>
-          <span class="ptag">Docker</span>
-          <span class="ptag">AWS</span>
-        </div>
-      </div>
-    </div>
-
     <div class="about-layout">
       <div class="about-body reveal d1">
         <p>I'm a master's student in <strong>Computational Neuroscience</strong> at Pompeu Fabra University, working at the intersection of brain dynamics and deep learning. My question: how does the brain maintain the perfect balance between <span class="glow">stability and chaos</span> and can we teach machines to do the same?</p>
         <p>My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from fMRI using a novel vortex-space entropy approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility.</p>
-        <p>Before this, I built deep learning models for wearable EEG/EMG devices at <strong>Myant Inc.</strong>, and developed a threshold-free SWR detection pipeline using transformers. I write production-ready code and deploy full ML systems end-to-end.</p>
         <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native </p>
       </div>
       <div class="thesis-panel reveal d2">
-        <div class="thesis-header"><div class="status-dot"></div>Active Research · 2025–Present</div>
+        <div class="thesis-header"><div class="status-dot"></div>Current Focus</div>
         <div class="thesis-body">
-          <h3>Brain Metastability &amp; the Maximum Occupancy Principle</h3>
-          <p>Measuring how flexibly the brain navigates metastable states from fMRI (HCP · 1000 subjects). Computing Shannon &amp; path entropy in vortex-space to quantify cognitive flexibility, correlating with decision-making performance.</p>
-          <p>Core hypothesis: entropy of brain state occupancy reflects the MOP optimum, the brain's sweet spot between rigid habituation and uncontrolled chaos.</p>
+          <h3>Brain Dynamics, Entropy, and Adaptive Intelligence</h3>
+          <p>I study how metastable brain dynamics relate to cognitive flexibility, and how those principles can inform machine learning systems that explore, adapt, and generalize more efficiently.</p>
+          <p>The core idea is simple: useful intelligence may emerge near the balance point between rigid order and uncontrolled chaos. That principle guides both my neuroscience research and my ML work.</p>
           <div class="thesis-tags">
-            <span class="ttag">fMRI</span><span class="ttag">Vortex Space</span><span class="ttag">MOP</span>
-            <span class="ttag">Entropy</span><span class="ttag">HCP Dataset</span><span class="ttag">Clustering</span>
+            <span class="ttag">Computational Neuroscience</span><span class="ttag">Deep Learning</span><span class="ttag">Brain Dynamics</span>
+            <span class="ttag">Entropy</span><span class="ttag">Adaptive Systems</span><span class="ttag">Neuro-Inspired AI</span>
           </div>
-          <div class="thesis-advisor"><strong>Supervised by</strong>Prof. Gustavo Deco &amp; Dr. Ruben Moreno-Bote · UPF</div>
         </div>
       </div>
     </div>
@@ -391,17 +263,47 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-org">Deco Lab<br/><span>UPF · Barcelona</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">Researcher — Brain Metastability &amp; Maximum Occupancy Principle</div>
+            <div class="exp-title">Researcher - Brain Metastability, Maximum Occupancy Principle &amp; Neuro-Inspired RL</div>
             <div class="exp-date">Sep 2025 – Present</div>
             <ul class="exp-points">
-              <li>Computing whole-brain metastability from fMRI via vortex-space: clustering 1000 brain regions into 7–20 metastable states, measuring Shannon + path entropy per subject to quantify cognitive flexibility.</li>
-              <li>Testing the Maximum Occupancy Principle empirically: correlating occupancy probability vectors with HCP decision-making performance using ridge regression models.</li>
-              <li>Building whole-brain dynamical model to validate that optimal entropy occurs at the MOP-predicted working point.</li>
+              <li>Measuring whole-brain metastability from fMRI in vortex-space across HCP subjects, clustering brain dynamics into metastable states and quantifying cognitive flexibility through Shannon and path entropy.</li>
+              <li>Testing the Maximum Occupancy Principle by linking brain-state occupancy patterns to decision-making performance, asking whether optimal cognition emerges at the balance point between rigidity and chaos.</li>
+              <li>Translating this research into BrainAgent, a neuro-inspired RL framework where occupancy entropy and MOP-guided intrinsic reward drive more efficient exploration in sparse-reward settings.</li>
+              <li>Building whole-brain dynamical models and machine learning pipelines to connect theoretical metastability, empirical fMRI analysis, and adaptive agent behavior within one unified research program.</li>
             </ul>
-            <div class="exp-stack">
-              <span class="etag">fMRI</span><span class="etag">MATLAB</span><span class="etag">Python</span>
-              <span class="etag">k-means</span><span class="etag">Ridge Regression</span><span class="etag">HCP · 1000 subjects</span>
+
+            <div class="research-extra">
+              <div class="research-kicker">Core Hypothesis</div>
+              <div class="research-core">
+                Entropy of brain-state occupancy reflects the MOP optimum, the brain's sweet spot between rigid habituation and uncontrolled chaos.
+              </div>
+              <div class="research-meta">
+                <span><strong>Supervised by</strong> Prof. Gustavo Deco &amp; Dr. Ruben Moreno-Bote · UPF</span>
+              </div>
             </div>
+
+            <div class="exp-stack">
+              <span class="etag">fMRI</span><span class="etag">Vortex Space</span><span class="etag">MOP</span>
+              <span class="etag">Entropy</span><span class="etag">HCP Dataset</span><span class="etag">Clustering</span>
+              <span class="etag">MATLAB</span><span class="etag">Python</span><span class="etag">k-means</span>
+              <span class="etag">Ridge Regression</span><span class="etag">RL</span>
+            </div>
+
+            <div class="research-entropy-wrap">
+              <div class="research-kicker">Entropy Visualization</div>
+              <div class="research-entropy-panel">
+                <div class="research-entropy-note">A simplified live view of entropy-guided exploration in BrainAgent. The curve tracks within-episode occupancy entropy and its linked reward signal.</div>
+                <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
+                <canvas id="ba-entropy-canvas" width="720" height="120"></canvas>
+                <div class="ba-entropy-stats">
+                  <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.000</span></span>
+                  <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.000</span></span>
+                  <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
+                  <span>Clusters: <span class="ba-stat-val">7</span></span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -414,7 +316,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-org">CMC Lab<br/><span>Dr. Shervin Safavi</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">Researcher — Sharp Wave Ripple Detection from LFP</div>
+            <div class="exp-title">Researcher - Sharp Wave Ripple Detection from LFP</div>
             <div class="exp-date">Apr 2025 – Feb 2026</div>
             <ul class="exp-points">
               <li>Built the first threshold-free SWR detection pipeline: NMF extracts spectral patterns directly from raw LFP, eliminating manual parameter tuning entirely.</li>
@@ -437,7 +339,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-org">Myant Inc.<br/><span>Canada · Remote</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">ML Researcher — Wearable BCI / EEG·EMG Modeling</div>
+            <div class="exp-title">ML Researcher - Wearable BCI / EEG·EMG Modeling</div>
             <div class="exp-date">Jan 2024 – Jan 2025</div>
             <ul class="exp-points">
               <li>Preprocessed EEG/EMG from textile-based wearable prototypes; engineered artifact removal pipelines for noisy on-skin sensor data from headband and glove devices.</li>
@@ -460,7 +362,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-org">Imam Khomeini<br/><span>Hospital · Clinical Lab</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">ML Research Engineer — Real-Time EEG Emotion Recognition</div>
+            <div class="exp-title">ML Research Engineer - Real-Time EEG Emotion Recognition</div>
             <div class="exp-date">Mar 2025 – Aug 2025</div>
             <ul class="exp-points">
               <li>Built full EEG emotion recognition pipeline end-to-end: bandpass filtering, ICA artifact removal, and epoching on clinical EEG recordings using MNE-Python.</li>
@@ -553,42 +455,47 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="sec-label">Projects</div>
     <h2 class="sec-title reveal">Selected Work</h2>
     <div class="projects-layout">
-      <div class="proj-card c1 reveal d1" style="grid-column:1/-1"><div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">01</div><span class="proj-badge thesis">Thesis-linked</span></div>
-        <div class="proj-title">BrainAgent - Neuro-Inspired RL</div>
-        <div class="proj-desc">A neuro-inspired reinforcement learning system built around metastable brain-state occupancy and entropy-guided exploration.</div>
-      </div>
 
-      <div class="proj-card c2 reveal d2"><div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">02</div><span class="proj-badge hot">LLM × Neuro</span></div>
+      <div class="proj-card c2 reveal d1">
+        <div class="proj-glow"></div>
+        <div class="proj-top"><div class="proj-num">01</div><span class="proj-badge hot">LLM × Neuro</span></div>
         <div class="proj-title">EEG → Image Decoding via CLIP</div>
         <div class="proj-desc">Transformer encoder aligns EEG responses to CLIP image embeddings via contrastive loss (THINGS-EEG2 dataset). At inference: retrieves top-3 image categories the brain saw with confidence scores. GPT-4o narrates the decoded perception in natural language.</div>
         <div class="proj-tags"><span class="ptag key">CLIP</span><span class="ptag key">Transformers</span><span class="ptag key">Contrastive</span><span class="ptag">MNE-Python</span><span class="ptag">HuggingFace</span><span class="ptag">OpenAI API</span></div>
       </div>
-      <div class="proj-card c3 reveal d3"><div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">03</div><span class="proj-badge clinical">Clinical ML</span></div>
-        <div class="proj-title">Seizure Detection — Foundation Model</div>
+
+      <div class="proj-card c3 reveal d2">
+        <div class="proj-glow"></div>
+        <div class="proj-top"><div class="proj-num">02</div><span class="proj-badge clinical">Clinical ML</span></div>
+        <div class="proj-title">Seizure Detection - Foundation Model</div>
         <div class="proj-desc">Fine-tuned PatchTST on CHB-MIT Scalp EEG (PhysioNet) for binary seizure detection. Per-patient evaluation benchmarked against clinical sensitivity/specificity baselines. Deployed with FastAPI and live demo.</div>
         <div class="proj-tags"><span class="ptag key">PatchTST</span><span class="ptag key">Foundation Model</span><span class="ptag">HuggingFace</span><span class="ptag">AWS SageMaker</span><span class="ptag">Clinical EEG</span></div>
       </div>
-      <div class="proj-card c4 reveal d4"><div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">04</div><span class="proj-badge">Research</span></div>
+
+      <div class="proj-card c4 reveal d3">
+        <div class="proj-glow"></div>
+        <div class="proj-top"><div class="proj-num">03</div><span class="proj-badge">Research</span></div>
         <div class="proj-title">SWR Detection from LFP</div>
         <div class="proj-desc">First threshold-free sharp wave ripple pipeline. NMF learns spectral patterns from raw LFP; transformer classifier achieves session-stable performance without manual threshold tuning.</div>
         <div class="proj-tags"><span class="ptag key">Transformers</span><span class="ptag key">NMF</span><span class="ptag">LFP</span><span class="ptag">PyTorch</span><span class="ptag">scikit-learn</span></div>
       </div>
-      <div class="proj-card c5 reveal d5"><div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">05</div><span class="proj-badge">Neuro Sim</span></div>
+
+      <div class="proj-card c5 reveal d4">
+        <div class="proj-glow"></div>
+        <div class="proj-top"><div class="proj-num">04</div><span class="proj-badge">Neuro Sim</span></div>
         <div class="proj-title">Synaptic Plasticity in Mouse V1</div>
         <div class="proj-desc">Simulated reward-modulated STDP in spiking neural networks. Studied VIP/SST/excitatory neuron interactions under rewarded vs passive conditions using Allen Institute Ophys dataset.</div>
         <div class="proj-tags"><span class="ptag key">Brian2</span><span class="ptag key">SNNs</span><span class="ptag">STDP</span><span class="ptag">Allen SDK</span></div>
       </div>
-      <div class="proj-card c6 reveal d6"><div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">06</div><span class="proj-badge">fMRI · HCP</span></div>
+
+      <div class="proj-card c6 reveal d5">
+        <div class="proj-glow"></div>
+        <div class="proj-top"><div class="proj-num">05</div><span class="proj-badge">fMRI · HCP</span></div>
         <div class="proj-title">Shannon Entropy for fMRI Prediction</div>
         <div class="proj-desc">Showed entropy features outperform raw BOLD for n-back task prediction. GRU with cross-subject transfer learning on Human Connectome Project. Entropy gain consistent across all runs.</div>
         <div class="proj-tags"><span class="ptag key">GRU</span><span class="ptag key">Transfer Learning</span><span class="ptag">PyTorch</span><span class="ptag">fMRI</span><span class="ptag">HCP</span></div>
       </div>
+
     </div>
   </div>
 </section>
@@ -807,236 +714,170 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   drawQuad();
 })();
 
-// BRAINAGENT VISUALIZATIONS
-(function initBrainAgent(){
-  const CLUSTER_COLS = ['#00e5ff','#7c3aed','#f59e0b','#10b981','#f43f5e','#a78bfa','#34d399'];
-  const GRID_SIZE = 12;
+// BRAINAGENT ENTROPY VISUALIZATION
+(function initBrainAgentEntropy(){
+  const canvas = document.getElementById('ba-entropy-canvas');
+  if(!canvas) return;
 
-  const gC = document.getElementById('ba-grid-canvas');
-  if(!gC) return;
-  const gX = gC.getContext('2d');
-  const CELL = 180 / GRID_SIZE;
-  const visits = Array.from({length:GRID_SIZE}, ()=>new Array(GRID_SIZE).fill(0));
-  let agentR = Math.floor(GRID_SIZE/2), agentC = Math.floor(GRID_SIZE/2);
-  let goalR = 10, goalC = 10;
-  let agentTrail = [];
-  let episode = 1, stepCount = 0;
-  const cellCluster = Array.from({length:GRID_SIZE}, (_,r)=>
-    Array.from({length:GRID_SIZE}, (__,c)=> (r*3 + c*2 + 7) % 7)
-  );
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  let width = canvas.clientWidth || 720;
+  let height = 120;
+
+  function setupCanvas(){
+    width = canvas.clientWidth || 720;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  setupCanvas();
+  window.addEventListener('resize', setupCanvas);
+
+  let episode = 1;
+  let steps = 0;
+  let reward = 0;
+  const maxSteps = 90;
+  const historyEntropy = [];
+  const historyReward = [];
   const occupancy = new Array(7).fill(0);
 
-  function agentStep(){
-    const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
-    let best = null, bestScore = Infinity;
-    dirs.forEach(([dr,dc])=>{
-      const nr=agentR+dr, nc=agentC+dc;
-      if(nr<0||nr>=GRID_SIZE||nc<0||nc>=GRID_SIZE) return;
-      const score = visits[nr][nc] + Math.random()*0.8;
-      if(score < bestScore){ bestScore=score; best=[nr,nc]; }
+  const states = [
+    [0.55,0.10,0.08,0.08,0.07,0.07,0.05],
+    [0.35,0.16,0.14,0.10,0.09,0.08,0.08],
+    [0.22,0.18,0.16,0.14,0.12,0.10,0.08],
+    [0.16,0.15,0.15,0.14,0.14,0.13,0.13]
+  ];
+
+  function normalize(arr){
+    const s = arr.reduce((a,b)=>a+b,0) || 1;
+    return arr.map(v=>v/s);
+  }
+
+  function blend(a,b,t){
+    return a.map((v,i)=>v*(1-t)+b[i]*t);
+  }
+
+  function sampleIndex(probs){
+    const r = Math.random();
+    let c = 0;
+    for(let i=0;i<probs.length;i++){
+      c += probs[i];
+      if(r <= c) return i;
+    }
+    return probs.length - 1;
+  }
+
+  function entropyFromCounts(counts){
+    const total = counts.reduce((a,b)=>a+b,0) || 1;
+    let h = 0;
+    counts.forEach(v=>{
+      if(v>0){
+        const p = v/total;
+        h -= p * Math.log2(p);
+      }
     });
-    if(!best) return;
-    [agentR, agentC] = best;
-    visits[agentR][agentC]++;
-    agentTrail.push({r:agentR, c:agentC, age:0});
-    if(agentTrail.length > 18) agentTrail.shift();
-    agentTrail.forEach(t=>t.age++);
-    const cl = cellCluster[agentR][agentC];
-    occupancy[cl]++;
-    stepCount++;
-    if(agentR===goalR && agentC===goalC){
+    return h / Math.log2(counts.length);
+  }
+
+  function tick(){
+    steps++;
+
+    const stage = (episode - 1) % states.length;
+    const nextStage = (stage + 1) % states.length;
+    const t = (steps % maxSteps) / maxSteps;
+    const probs = normalize(blend(states[stage], states[nextStage], t * 0.8));
+
+    const cluster = sampleIndex(probs);
+    occupancy[cluster]++;
+
+    const h = entropyFromCounts(occupancy);
+    reward += 0.002 + h * 0.007 + Math.random() * 0.002;
+    const rewardNorm = Math.min(1, reward);
+
+    historyEntropy.push(h);
+    historyReward.push(rewardNorm);
+
+    if(historyEntropy.length > maxSteps) historyEntropy.shift();
+    if(historyReward.length > maxSteps) historyReward.shift();
+
+    document.getElementById('ba-h-val').textContent = h.toFixed(3);
+    document.getElementById('ba-r-val').textContent = rewardNorm.toFixed(3);
+    document.getElementById('ba-steps-val').textContent = steps;
+    document.getElementById('ba-episode-label').textContent = 'Episode ' + episode;
+
+    if(steps >= maxSteps){
       episode++;
-      stepCount = 0;
-      document.getElementById('ba-episode-label').textContent = 'Episode '+episode;
-      goalR = Math.floor(Math.random()*GRID_SIZE);
-      goalC = Math.floor(Math.random()*GRID_SIZE);
-      agentR = Math.floor(Math.random()*GRID_SIZE);
-      agentC = Math.floor(Math.random()*GRID_SIZE);
+      steps = 0;
+      reward = 0;
+      historyEntropy.length = 0;
+      historyReward.length = 0;
+      occupancy.fill(0);
     }
-    document.getElementById('ba-steps-val').textContent = stepCount;
   }
 
-  function drawGrid(){
-    gX.clearRect(0,0,180,180);
-    const maxV = Math.max(...visits.flat(), 1);
-    for(let r=0;r<GRID_SIZE;r++) for(let c=0;c<GRID_SIZE;c++){
-      const v = visits[r][c]/maxV;
-      const col = CLUSTER_COLS[cellCluster[r][c]];
-      gX.fillStyle = col + Math.round(v*60+8).toString(16).padStart(2,'0');
-      gX.fillRect(c*CELL, r*CELL, CELL-1, CELL-1);
-    }
-    agentTrail.forEach(t=>{
-      const alpha = Math.max(0, 1 - t.age/18);
-      gX.fillStyle = '#00e5ff' + Math.round(alpha*90).toString(16).padStart(2,'0');
-      gX.fillRect(t.c*CELL+1, t.r*CELL+1, CELL-3, CELL-3);
-    });
-    gX.fillStyle = '#f59e0b';
-    gX.font = `${CELL-2}px serif`;
-    gX.fillText('★', goalC*CELL, (goalR+1)*CELL-1);
-    const ax = agentC*CELL + CELL/2, ay = agentR*CELL + CELL/2;
-    const grd = gX.createRadialGradient(ax,ay,0,ax,ay,CELL);
-    grd.addColorStop(0,'#fff'); grd.addColorStop(0.3,'#00e5ff'); grd.addColorStop(1,'transparent');
-    gX.beginPath(); gX.arc(ax,ay,CELL/2,0,Math.PI*2); gX.fillStyle=grd; gX.fill();
-    gX.beginPath(); gX.arc(ax,ay,3,0,Math.PI*2);
-    gX.fillStyle='#fff'; gX.shadowBlur=8; gX.shadowColor='#00e5ff'; gX.fill(); gX.shadowBlur=0;
-    requestAnimationFrame(drawGrid);
-  }
-  setInterval(agentStep, 80);
-  drawGrid();
+  setInterval(tick, 140);
 
-  const hC = document.getElementById('ba-heatmap-canvas');
-  const hX = hC.getContext('2d');
-  const HM = 9, HCELL = 180/HM;
-  const hmData = Array.from({length:HM}, ()=>new Array(HM).fill(0));
-  const hmTarget = Array.from({length:HM}, ()=>new Array(HM).fill(0));
-  function newHMTargets(){ for(let r=0;r<HM;r++) for(let c=0;c<HM;c++) hmTarget[r][c]=Math.random(); }
-  newHMTargets(); setInterval(newHMTargets, 2200);
-  function drawHeatmap(){
-    hX.clearRect(0,0,180,180);
-    for(let r=0;r<HM;r++) for(let c=0;c<HM;c++){
-      hmData[r][c] += (hmTarget[r][c]-hmData[r][c])*0.04;
-      const v = hmData[r][c];
-      const rv=Math.round((1-v)*124), gv=Math.round(v*229), bv=Math.round(v*255);
-      hX.fillStyle=`rgba(${rv},${gv},${bv},${0.2+v*0.8})`;
-      hX.fillRect(c*HCELL, r*HCELL, HCELL-1, HCELL-1);
-      hX.fillStyle='rgba(255,255,255,'+(0.15+v*0.35)+')';
-      hX.font='7px DM Mono,monospace';
-      hX.fillText('S'+((r*4+c*3)%7+1), c*HCELL+3, r*HCELL+HCELL-3);
-    }
-    requestAnimationFrame(drawHeatmap);
-  }
-  drawHeatmap();
+  function draw(){
+    ctx.clearRect(0,0,width,height);
 
-  const eC = document.getElementById('ba-entropy-canvas');
-  const eX = eC.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const EW=360, EH=100;
-  eC.width = EW * dpr;
-  eC.height = EH * dpr;
-  eC.style.width = EW + 'px';
-  eC.style.height = EH + 'px';
-  eX.scale(dpr, dpr);
-
-  const epEntropyHistory=[];
-  const cumRewardHistory=[];
-  let cumReward = 0;
-  let lastEpisode = 1;
-  const epOccupancy = new Array(7).fill(0);
-
-  function computeEntropy(){
-    const total=occupancy.reduce((a,b)=>a+b,0)||1;
-    let H=0;
-    occupancy.forEach(o=>{ if(o>0){ const p=o/total; H-=p*Math.log2(p); } });
-    return H/Math.log2(7);
-  }
-
-  setInterval(()=>{
-    if(episode !== lastEpisode){
-      epOccupancy.fill(0);
-      epEntropyHistory.length = 0;
-      cumRewardHistory.length = 0;
-      cumReward = 0;
-      lastEpisode = episode;
-    }
-    epOccupancy[cellCluster[agentR][agentC]]++;
-    const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
-    let H=0;
-    epOccupancy.forEach(o=>{ if(o>0){ const p=o/epTotal; H-=p*Math.log2(p); } });
-    const epH = H/Math.log2(7);
-    cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
-    const normCumR = 1 - Math.exp(-cumReward*0.08);
-    epEntropyHistory.push(epH);
-    cumRewardHistory.push(normCumR);
-    if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
-    if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
-    document.getElementById('ba-h-val').textContent=epH.toFixed(3);
-    document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
-  }, 200);
-
-  function drawEntropy(){
-    eX.clearRect(0,0,EW,EH);
-    eX.strokeStyle='rgba(255,255,255,.04)';
-    eX.lineWidth=1;
+    ctx.strokeStyle = 'rgba(255,255,255,.04)';
+    ctx.lineWidth = 1;
     [0.25,0.5,0.75].forEach(y=>{
-      eX.beginPath();
-      eX.moveTo(0,y*EH);
-      eX.lineTo(EW,y*EH);
-      eX.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0,y*height);
+      ctx.lineTo(width,y*height);
+      ctx.stroke();
     });
 
-    const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
-    if(n<2){
-      requestAnimationFrame(drawEntropy);
-      return;
-    }
+    const drawLine = (data, color, dashed=false, fill=false) => {
+      if(data.length < 2) return;
+      const xStep = width / Math.max(1, maxSteps - 1);
 
-    const xScale=EW/(EW/2);
+      if(fill){
+        ctx.beginPath();
+        data.forEach((v,i)=>{
+          const x = i * xStep;
+          const y = height - v * (height - 10) - 5;
+          i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        });
+        ctx.lineTo((data.length-1)*xStep,height);
+        ctx.lineTo(0,height);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(245,158,11,.06)';
+        ctx.fill();
+      }
 
-    function drawLine(data,col,dashed){
-      if(data.length<2) return;
-      dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
-      eX.beginPath();
+      ctx.setLineDash(dashed ? [4,4] : []);
+      ctx.beginPath();
       data.forEach((v,i)=>{
-        const x=i*xScale;
-        const y=EH-v*(EH-8)-4;
-        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
+        const x = i * xStep;
+        const y = height - v * (height - 10) - 5;
+        i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
       });
-      eX.strokeStyle=col;
-      eX.lineWidth=1.5;
-      eX.stroke();
-      eX.setLineDash([]);
-    }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.7;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    };
 
-    if(cumRewardHistory.length>1){
-      eX.beginPath();
-      cumRewardHistory.forEach((v,i)=>{
-        const x=i*xScale;
-        const y=EH-v*(EH-8)-4;
-        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
-      });
-      eX.lineTo((cumRewardHistory.length-1)*xScale,EH);
-      eX.lineTo(0,EH);
-      eX.closePath();
-      eX.fillStyle='rgba(245,158,11,.05)';
-      eX.fill();
-    }
+    drawLine(historyReward,'rgba(245,158,11,.75)',false,true);
+    drawLine(historyReward,'rgba(245,158,11,.8)',false,false);
+    drawLine(historyEntropy,'rgba(0,229,255,.95)',true,false);
 
-    drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
-    drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
+    ctx.font = '10px DM Mono, monospace';
+    ctx.fillStyle = 'rgba(0,229,255,.85)';
+    ctx.fillText('H(s)',8,14);
+    ctx.fillStyle = 'rgba(245,158,11,.85)';
+    ctx.fillText('reward',8,28);
 
-    eX.font='8px DM Mono,monospace';
-    eX.fillStyle='rgba(0,229,255,.8)';
-    eX.fillText('H(s)',4,12);
-    eX.fillStyle='rgba(245,158,11,.8)';
-    eX.fillText('cumulative R',4,24);
-
-    requestAnimationFrame(drawEntropy);
+    requestAnimationFrame(draw);
   }
-  drawEntropy();
-
-  const barsEl = document.getElementById('ba-cluster-bars');
-  if(!barsEl) return;
-  const barEls = CLUSTER_COLS.map((col,i)=>{
-    const wrap=document.createElement('div'); wrap.className='ba-cbar-wrap';
-    const track=document.createElement('div'); track.className='ba-cbar-track';
-    const fill=document.createElement('div'); fill.className='ba-cbar-fill';
-    fill.style.background=col; fill.style.height='0%';
-    const label=document.createElement('div'); label.className='ba-cbar-label';
-    label.textContent='S'+(i+1);
-    track.appendChild(fill); wrap.appendChild(track); wrap.appendChild(label);
-    barsEl.appendChild(wrap);
-    return fill;
-  });
-  function updateBars(){
-    const total=occupancy.reduce((a,b)=>a+b,0)||1;
-    barEls.forEach((fill,i)=>{ fill.style.height=(occupancy[i]/total*100).toFixed(1)+'%'; });
-    requestAnimationFrame(updateBars);
-  }
-  updateBars();
+  draw();
 })();
 
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
 
+// SCROLL REVEAL
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
