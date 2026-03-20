@@ -100,23 +100,25 @@ section{position:relative;z-index:1}
 .research-entropy-wrap{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
 .research-entropy-panel{background:rgba(2,4,8,.65);border:1px solid var(--border);padding:1rem 1.2rem}
 .research-entropy-note{font-size:.72rem;color:var(--violet2);line-height:1.8;margin-top:1rem}
-.ba-panel{background:rgba(2,4,8,.7);border:1px solid var(--border);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem}
+
 .ba-viz-grid{
   display:grid;
-  grid-template-columns:180px 180px;
+  grid-template-columns:260px 260px;
   grid-template-rows:auto auto auto;
-  gap:1rem;
+  gap:1.2rem;
   align-items:start;
 }
-
+.ba-panel{
+  background:rgba(2,4,8,.7);
+  border:1px solid var(--border);
+  padding:1rem 1.1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+}
 .ba-panel-wide{
   grid-column:1/-1;
   grid-row:2/3;
-  justify-self:start;
-}
-.ba-panel-wide canvas{
-  width:100%;
-  max-width:100%;
 }
 .ba-panel-full{
   grid-column:1/-1;
@@ -124,13 +126,14 @@ section{position:relative;z-index:1}
 }
 .ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .ba-panel canvas{display:block;border:1px solid var(--border);background:#020408}
+.ba-panel-wide canvas{width:100%;max-width:100%}
 .ba-entropy-stats{display:flex;gap:1.5rem;font-size:.65rem;letter-spacing:.08em;color:var(--muted);flex-wrap:wrap}
 .ba-stat-val{color:var(--cyan);font-variant-numeric:tabular-nums}
-.ba-cluster-bars{display:flex;gap:.5rem;align-items:flex-end;height:60px}
-.ba-cbar-wrap{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:1}
-.ba-cbar-track{width:100%;background:var(--border);border-radius:2px;overflow:hidden;height:50px;display:flex;flex-direction:column;justify-content:flex-end}
+.ba-cluster-bars{display:flex;gap:.7rem;align-items:flex-end;height:100px}
+.ba-cbar-wrap{display:flex;flex-direction:column;align-items:center;gap:.35rem;flex:1}
+.ba-cbar-track{width:100%;background:var(--border);border-radius:2px;overflow:hidden;height:84px;display:flex;flex-direction:column;justify-content:flex-end}
 .ba-cbar-fill{width:100%;border-radius:2px;transition:height .5s ease}
-.ba-cbar-label{font-size:.55rem;color:var(--muted);letter-spacing:.06em}
+.ba-cbar-label{font-size:.58rem;color:var(--muted);letter-spacing:.06em}
 
 #projects{padding:9rem 0;background:var(--bg2)}
 .projects-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
@@ -204,23 +207,9 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
   .thesis-body{padding:1.4rem 1.2rem 1.4rem}
   .thesis-body p{font-size:1rem}
-  .ba-viz-grid{
-    display:grid;
-    grid-template-columns:180px 180px;
-    grid-template-rows:auto auto auto;
-    gap:1rem;
-    align-items:start;
-  }
-
-  .ba-panel-wide{
-    grid-column:1/-1;
-    grid-row:2/3;
-  }
-
-  .ba-panel-full{
-    grid-column:1/-1;
-    grid-row:3/4;
-  }
+  .ba-viz-grid{grid-template-columns:1fr}
+  .ba-panel-wide{grid-column:1/-1;grid-row:auto}
+  .ba-panel-full{grid-column:1/-1;grid-row:auto}
   .ba-panel canvas{width:100%!important}
 }
 @media(max-width:768px){
@@ -288,7 +277,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 
           <p>My goal is to use computational models to test hypotheses about how the brain works, apply <span class="about-accent-violet">neuroscience insights</span> to build better <span class="about-accent-violet">AI systems</span>, and translate these insights into real solutions for <span class="about-accent-amber">neurological diseases</span>, <span class="about-accent-amber">clinical tools</span>, and <span class="about-accent-amber">industry applications</span>.</p>
 
-          <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent </p>
+          <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent</p>
         </div>
       </div>
     </div>
@@ -339,17 +328,17 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
                 <div class="ba-viz-grid">
                   <div class="ba-panel">
                     <div class="ba-panel-label">RL Agent Exploring</div>
-                    <canvas id="ba-grid-canvas" width="180" height="180"></canvas>
+                    <canvas id="ba-grid-canvas" width="260" height="260"></canvas>
                   </div>
 
                   <div class="ba-panel">
                     <div class="ba-panel-label">Brain-State Heatmap</div>
-                    <canvas id="ba-heatmap-canvas" width="180" height="180"></canvas>
+                    <canvas id="ba-heatmap-canvas" width="260" height="260"></canvas>
                   </div>
 
                   <div class="ba-panel ba-panel-wide">
                     <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
-                    <canvas id="ba-entropy-canvas" width="360" height="100"></canvas>
+                    <canvas id="ba-entropy-canvas" width="820" height="180"></canvas>
                     <div class="ba-entropy-stats">
                       <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.00</span></span>
                       <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.00</span></span>
@@ -787,122 +776,175 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   const gC = document.getElementById('ba-grid-canvas');
   if(!gC) return;
   const gX = gC.getContext('2d');
-  const CELL = 180 / GRID_SIZE;
+
+  const GSIZE = gC.width;
+  const CELL = GSIZE / GRID_SIZE;
+
   const visits = Array.from({length:GRID_SIZE}, ()=>new Array(GRID_SIZE).fill(0));
   let agentR = Math.floor(GRID_SIZE/2), agentC = Math.floor(GRID_SIZE/2);
   let goalR = 10, goalC = 10;
   let agentTrail = [];
   let episode = 1, stepCount = 0;
+
   const cellCluster = Array.from({length:GRID_SIZE}, (_,r)=>
     Array.from({length:GRID_SIZE}, (__,c)=> (r*3 + c*2 + 7) % 7)
   );
+
   const occupancy = new Array(7).fill(0);
 
   function agentStep(){
     const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
     let best = null, bestScore = Infinity;
+
     dirs.forEach(([dr,dc])=>{
       const nr=agentR+dr, nc=agentC+dc;
       if(nr<0||nr>=GRID_SIZE||nc<0||nc>=GRID_SIZE) return;
       const score = visits[nr][nc] + Math.random()*0.8;
-      if(score < bestScore){ bestScore=score; best=[nr,nc]; }
+      if(score < bestScore){
+        bestScore=score;
+        best=[nr,nc];
+      }
     });
+
     if(!best) return;
+
     [agentR, agentC] = best;
     visits[agentR][agentC]++;
     agentTrail.push({r:agentR, c:agentC, age:0});
+
     if(agentTrail.length > 18) agentTrail.shift();
     agentTrail.forEach(t=>t.age++);
+
     const cl = cellCluster[agentR][agentC];
     occupancy[cl]++;
     stepCount++;
+
     if(agentR===goalR && agentC===goalC){
       episode++;
       stepCount = 0;
-      document.getElementById('ba-episode-label').textContent = 'Episode '+episode;
+      document.getElementById('ba-episode-label').textContent = 'Episode ' + episode;
       goalR = Math.floor(Math.random()*GRID_SIZE);
       goalC = Math.floor(Math.random()*GRID_SIZE);
       agentR = Math.floor(Math.random()*GRID_SIZE);
       agentC = Math.floor(Math.random()*GRID_SIZE);
     }
+
     document.getElementById('ba-steps-val').textContent = stepCount;
   }
 
   function drawGrid(){
-    gX.clearRect(0,0,180,180);
+    gX.clearRect(0,0,GSIZE,GSIZE);
+
     const maxV = Math.max(...visits.flat(), 1);
-    for(let r=0;r<GRID_SIZE;r++) for(let c=0;c<GRID_SIZE;c++){
-      const v = visits[r][c]/maxV;
-      const col = CLUSTER_COLS[cellCluster[r][c]];
-      gX.fillStyle = col + Math.round(v*60+8).toString(16).padStart(2,'0');
-      gX.fillRect(c*CELL, r*CELL, CELL-1, CELL-1);
+
+    for(let r=0;r<GRID_SIZE;r++){
+      for(let c=0;c<GRID_SIZE;c++){
+        const v = visits[r][c]/maxV;
+        const col = CLUSTER_COLS[cellCluster[r][c]];
+        gX.fillStyle = col + Math.round(v*60+8).toString(16).padStart(2,'0');
+        gX.fillRect(c*CELL, r*CELL, CELL-1, CELL-1);
+      }
     }
+
     agentTrail.forEach(t=>{
       const alpha = Math.max(0, 1 - t.age/18);
       gX.fillStyle = '#00e5ff' + Math.round(alpha*90).toString(16).padStart(2,'0');
       gX.fillRect(t.c*CELL+1, t.r*CELL+1, CELL-3, CELL-3);
     });
+
     gX.fillStyle = '#f59e0b';
-    gX.font = `${CELL-2}px serif`;
-    gX.fillText('★', goalC*CELL, (goalR+1)*CELL-1);
-    const ax = agentC*CELL + CELL/2, ay = agentR*CELL + CELL/2;
-    const grd = gX.createRadialGradient(ax,ay,0,ax,ay,CELL);
+    gX.font = `${Math.max(16, CELL-3)}px serif`;
+    gX.fillText('★', goalC*CELL + CELL*0.18, (goalR+1)*CELL - CELL*0.12);
+
+    const ax = agentC*CELL + CELL/2;
+    const ay = agentR*CELL + CELL/2;
+    const grd = gX.createRadialGradient(ax,ay,0,ax,ay,CELL*0.9);
     grd.addColorStop(0,'#fff');
     grd.addColorStop(0.3,'#00e5ff');
     grd.addColorStop(1,'transparent');
+
     gX.beginPath();
     gX.arc(ax,ay,CELL/2,0,Math.PI*2);
     gX.fillStyle=grd;
     gX.fill();
+
     gX.beginPath();
-    gX.arc(ax,ay,3,0,Math.PI*2);
+    gX.arc(ax,ay,4,0,Math.PI*2);
     gX.fillStyle='#fff';
-    gX.shadowBlur=8;
+    gX.shadowBlur=10;
     gX.shadowColor='#00e5ff';
     gX.fill();
     gX.shadowBlur=0;
+
     requestAnimationFrame(drawGrid);
   }
+
   setInterval(agentStep, 80);
   drawGrid();
 
   const hC = document.getElementById('ba-heatmap-canvas');
   const hX = hC.getContext('2d');
-  const HM = 9, HCELL = 180/HM;
+  const HSIZE = hC.width;
+  const HM = 9;
+  const HCELL = HSIZE / HM;
+
   const hmData = Array.from({length:HM}, ()=>new Array(HM).fill(0));
   const hmTarget = Array.from({length:HM}, ()=>new Array(HM).fill(0));
 
   function newHMTargets(){
-    for(let r=0;r<HM;r++) for(let c=0;c<HM;c++) hmTarget[r][c]=Math.random();
+    for(let r=0;r<HM;r++){
+      for(let c=0;c<HM;c++){
+        hmTarget[r][c]=Math.random();
+      }
+    }
   }
+
   newHMTargets();
   setInterval(newHMTargets, 2200);
 
   function drawHeatmap(){
-    hX.clearRect(0,0,180,180);
-    for(let r=0;r<HM;r++) for(let c=0;c<HM;c++){
-      hmData[r][c] += (hmTarget[r][c]-hmData[r][c])*0.04;
-      const v = hmData[r][c];
-      const rv=Math.round((1-v)*124), gv=Math.round(v*229), bv=Math.round(v*255);
-      hX.fillStyle=`rgba(${rv},${gv},${bv},${0.2+v*0.8})`;
-      hX.fillRect(c*HCELL, r*HCELL, HCELL-1, HCELL-1);
-      hX.fillStyle='rgba(255,255,255,'+(0.15+v*0.35)+')';
-      hX.font='7px DM Mono,monospace';
-      hX.fillText('S'+((r*4+c*3)%7+1), c*HCELL+3, r*HCELL+HCELL-3);
+    hX.clearRect(0,0,HSIZE,HSIZE);
+
+    for(let r=0;r<HM;r++){
+      for(let c=0;c<HM;c++){
+        hmData[r][c] += (hmTarget[r][c]-hmData[r][c])*0.04;
+        const v = hmData[r][c];
+        const rv=Math.round((1-v)*124);
+        const gv=Math.round(v*229);
+        const bv=Math.round(v*255);
+
+        hX.fillStyle=`rgba(${rv},${gv},${bv},${0.2+v*0.8})`;
+        hX.fillRect(c*HCELL, r*HCELL, HCELL-1, HCELL-1);
+
+        hX.fillStyle='rgba(255,255,255,'+(0.15+v*0.35)+')';
+        hX.font='9px DM Mono, monospace';
+        hX.fillText('S'+((r*4+c*3)%7+1), c*HCELL+5, r*HCELL+HCELL-5);
+      }
     }
+
     requestAnimationFrame(drawHeatmap);
   }
+
   drawHeatmap();
 
   const eC = document.getElementById('ba-entropy-canvas');
   const eX = eC.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const EW=360, EH=100;
-  eC.width = EW * dpr;
-  eC.height = EH * dpr;
-  eC.style.width = EW + 'px';
-  eC.style.height = EH + 'px';
-  eX.scale(dpr, dpr);
+  let EW = 820;
+  let EH = 180;
+
+  function resizeEntropyCanvas(){
+    EW = Math.max(480, Math.floor(eC.parentElement.clientWidth - 2));
+    EH = 180;
+    eC.width = EW * dpr;
+    eC.height = EH * dpr;
+    eC.style.width = EW + 'px';
+    eC.style.height = EH + 'px';
+    eX.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  resizeEntropyCanvas();
+  window.addEventListener('resize', resizeEntropyCanvas);
 
   const epEntropyHistory=[];
   const cumRewardHistory=[];
@@ -934,6 +976,7 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     epOccupancy[cellCluster[agentR][agentC]]++;
     const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
     let H=0;
+
     epOccupancy.forEach(o=>{
       if(o>0){
         const p=o/epTotal;
@@ -948,8 +991,9 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     epEntropyHistory.push(epH);
     cumRewardHistory.push(normCumR);
 
-    if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
-    if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
+    const maxPoints = Math.floor(EW / 4);
+    if(epEntropyHistory.length > maxPoints) epEntropyHistory.shift();
+    if(cumRewardHistory.length > maxPoints) cumRewardHistory.shift();
 
     document.getElementById('ba-h-val').textContent=epH.toFixed(3);
     document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
@@ -973,19 +1017,19 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
       return;
     }
 
-    const xScale=EW/(EW/2);
+    const xScale = EW / Math.max(1, n - 1);
 
     function drawLine(data,col,dashed){
       if(data.length<2) return;
-      dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
+      dashed ? eX.setLineDash([4,4]) : eX.setLineDash([]);
       eX.beginPath();
       data.forEach((v,i)=>{
         const x=i*xScale;
-        const y=EH-v*(EH-8)-4;
+        const y=EH-v*(EH-12)-6;
         i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
       });
       eX.strokeStyle=col;
-      eX.lineWidth=1.5;
+      eX.lineWidth=2;
       eX.stroke();
       eX.setLineDash([]);
     }
@@ -994,31 +1038,33 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
       eX.beginPath();
       cumRewardHistory.forEach((v,i)=>{
         const x=i*xScale;
-        const y=EH-v*(EH-8)-4;
+        const y=EH-v*(EH-12)-6;
         i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
       });
       eX.lineTo((cumRewardHistory.length-1)*xScale,EH);
       eX.lineTo(0,EH);
       eX.closePath();
-      eX.fillStyle='rgba(245,158,11,.05)';
+      eX.fillStyle='rgba(245,158,11,.06)';
       eX.fill();
     }
 
-    drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
-    drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
+    drawLine(cumRewardHistory,'rgba(245,158,11,.72)',false);
+    drawLine(epEntropyHistory,'rgba(0,229,255,.95)',true);
 
-    eX.font='8px DM Mono,monospace';
-    eX.fillStyle='rgba(0,229,255,.8)';
-    eX.fillText('- - H(s) per episode',4,12);
-    eX.fillStyle='rgba(245,158,11,.8)';
-    eX.fillText('—— cumulative R',4,24);
+    eX.font='10px DM Mono, monospace';
+    eX.fillStyle='rgba(0,229,255,.82)';
+    eX.fillText('- - H(s) per episode',8,16);
+    eX.fillStyle='rgba(245,158,11,.82)';
+    eX.fillText('—— cumulative R',8,31);
 
     requestAnimationFrame(drawEntropy);
   }
+
   drawEntropy();
 
   const barsEl = document.getElementById('ba-cluster-bars');
   if(!barsEl) return;
+
   const barEls = CLUSTER_COLS.map((col,i)=>{
     const wrap=document.createElement('div');
     wrap.className='ba-cbar-wrap';
@@ -1039,6 +1085,7 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     wrap.appendChild(track);
     wrap.appendChild(label);
     barsEl.appendChild(wrap);
+
     return fill;
   });
 
@@ -1049,6 +1096,7 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     });
     requestAnimationFrame(updateBars);
   }
+
   updateBars();
 })();
 
