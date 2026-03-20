@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sahar Hosseinzadeh — Computational Neuroscientist</title>
+<title>Sahar Hosseinzadeh - Computational Neuroscientist</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#020408;--bg2:#040810;--card:#070d18;--border:#0e1f35;--border2:#142840;--cyan:#00e5ff;--violet:#7c3aed;--violet2:#a78bfa;--amber:#f59e0b;--green:#10b981;--text:#e2e8f0;--muted:#4a6080;--muted2:#1a2f4a}
@@ -162,7 +162,8 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .quad-wrap{position:relative;display:inline-block}
 .quad-canvas{display:block}
 .quad-emotion-label{position:absolute;bottom:.5rem;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
-/* ── BRAINAGENT VIZ ── */
+
+/* BRAINAGENT VIZ */
 .ba-viz-grid{display:grid;grid-template-columns:180px 180px 1fr;grid-template-rows:auto auto;gap:1rem;margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid var(--border)}
 .ba-panel{background:rgba(2,4,8,.7);border:1px solid var(--border);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem}
 .ba-panel-wide{grid-column:3/4;grid-row:1/2}
@@ -176,7 +177,79 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .ba-cbar-track{width:100%;background:var(--border);border-radius:2px;overflow:hidden;height:50px;display:flex;flex-direction:column;justify-content:flex-end}
 .ba-cbar-fill{width:100%;border-radius:2px;transition:height .5s ease}
 .ba-cbar-label{font-size:.55rem;color:var(--muted);letter-spacing:.06em}
-@media(max-width:1024px){.ba-viz-grid{grid-template-columns:1fr 1fr;}.ba-panel-wide{grid-column:1/-1;grid-row:2/3}.ba-panel-full{grid-column:1/-1;grid-row:3/4}.ba-panel canvas{width:100%!important}}
+
+/* ABOUT SECTION BRAINAGENT FEATURE */
+.about-brainagent-feature{
+  margin-top:-1.2rem;
+  margin-bottom:3rem;
+  background:var(--card);
+  border:1px solid var(--border2);
+  position:relative;
+  overflow:hidden;
+}
+.about-brainagent-feature::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet2),var(--cyan));
+  background-size:200% 100%;
+  animation:shimmer 4s linear infinite;
+}
+.about-brainagent-head{
+  padding:1.4rem 1.8rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.about-brainagent-kicker{
+  font-size:.6rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:.5rem;
+}
+.about-brainagent-title{
+  font-family:'Outfit',sans-serif;
+  font-weight:600;
+  font-size:1.1rem;
+  color:var(--text);
+  line-height:1.4;
+}
+.about-brainagent-desc{
+  font-size:.76rem;
+  color:var(--muted);
+  line-height:1.8;
+  max-width:720px;
+}
+.about-brainagent-body{
+  padding:1.5rem 1.8rem 1.8rem;
+}
+.about-brainagent-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  margin-top:1rem;
+}
+.about-brainagent-tags .ptag{
+  font-size:.6rem;
+}
+
+@media(max-width:1024px){
+  .ba-viz-grid{grid-template-columns:1fr 1fr}
+  .ba-panel-wide{grid-column:1/-1;grid-row:2/3}
+  .ba-panel-full{grid-column:1/-1;grid-row:3/4}
+  .ba-panel canvas{width:100%!important}
+  .about-brainagent-head,
+  .about-brainagent-body{
+    padding:1.2rem 1.2rem 1.4rem;
+  }
+}
 .hero-photo-wrap{width:300px;height:300px;border:2px solid var(--cyan);box-shadow:0 0 24px rgba(0,229,255,.3);margin-bottom:1.5rem;flex-shrink:0;overflow:hidden}
 .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center 15%}
 </style>
@@ -227,9 +300,62 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   <div class="container">
     <div class="sec-label">About</div>
     <h2 class="sec-title reveal">Where Neuroscience<br/>Meets Machine Intelligence</h2>
+
+    <div class="about-brainagent-feature reveal d1">
+      <div class="about-brainagent-head">
+        <div>
+          <div class="about-brainagent-kicker">Featured Project</div>
+          <div class="about-brainagent-title">BrainAgent - Neuro-Inspired RL</div>
+        </div>
+        <div class="about-brainagent-desc">
+          Translated brain metastability theory into an RL exploration algorithm. Online clustering of agent state history, occupancy entropy, and MOP-guided intrinsic reward help the agent explore sparse-reward environments more efficiently.
+        </div>
+      </div>
+
+      <div class="about-brainagent-body">
+        <div class="ba-viz-grid">
+          <div class="ba-panel">
+            <div class="ba-panel-label">RL Agent Exploring</div>
+            <canvas id="ba-grid-canvas" width="180" height="180"></canvas>
+          </div>
+
+          <div class="ba-panel">
+            <div class="ba-panel-label">Brain-State Heatmap</div>
+            <canvas id="ba-heatmap-canvas" width="180" height="180"></canvas>
+          </div>
+
+          <div class="ba-panel ba-panel-wide">
+            <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
+            <canvas id="ba-entropy-canvas" width="360" height="100"></canvas>
+            <div class="ba-entropy-stats">
+              <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.00</span></span>
+              <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.00</span></span>
+              <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
+            </div>
+          </div>
+
+          <div class="ba-panel ba-panel-full">
+            <div class="ba-panel-label">Occupancy · 7 Brain-State Clusters</div>
+            <div class="ba-cluster-bars" id="ba-cluster-bars"></div>
+          </div>
+        </div>
+
+        <div class="about-brainagent-tags">
+          <span class="ptag key">PyTorch</span>
+          <span class="ptag key">RL</span>
+          <span class="ptag key">MOP</span>
+          <span class="ptag">FastAPI</span>
+          <span class="ptag">React</span>
+          <span class="ptag">D3.js</span>
+          <span class="ptag">Docker</span>
+          <span class="ptag">AWS</span>
+        </div>
+      </div>
+    </div>
+
     <div class="about-layout">
       <div class="about-body reveal d1">
-        <p>I'm a master's student in <strong>Computational Neuroscience</strong> at Pompeu Fabra University, working at the intersection of brain dynamics and deep learning. My question: how does the brain maintain the perfect balance between <span class="glow">stability and chaos</span> — and can we teach machines to do the same?</p>
+        <p>I'm a master's student in <strong>Computational Neuroscience</strong> at Pompeu Fabra University, working at the intersection of brain dynamics and deep learning. My question: how does the brain maintain the perfect balance between <span class="glow">stability and chaos</span> and can we teach machines to do the same?</p>
         <p>My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from fMRI using a novel vortex-space entropy approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility.</p>
         <p>Before this, I built deep learning models for wearable EEG/EMG devices at <strong>Myant Inc.</strong>, and developed a threshold-free SWR detection pipeline using transformers. I write production-ready code and deploy full ML systems end-to-end.</p>
         <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native </p>
@@ -239,7 +365,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
         <div class="thesis-body">
           <h3>Brain Metastability &amp; the Maximum Occupancy Principle</h3>
           <p>Measuring how flexibly the brain navigates metastable states from fMRI (HCP · 1000 subjects). Computing Shannon &amp; path entropy in vortex-space to quantify cognitive flexibility, correlating with decision-making performance.</p>
-          <p>Core hypothesis: entropy of brain state occupancy reflects the MOP optimum — the brain's sweet spot between rigid habituation and uncontrolled chaos.</p>
+          <p>Core hypothesis: entropy of brain state occupancy reflects the MOP optimum, the brain's sweet spot between rigid habituation and uncontrolled chaos.</p>
           <div class="thesis-tags">
             <span class="ttag">fMRI</span><span class="ttag">Vortex Space</span><span class="ttag">MOP</span>
             <span class="ttag">Entropy</span><span class="ttag">HCP Dataset</span><span class="ttag">Clustering</span>
@@ -293,7 +419,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <ul class="exp-points">
               <li>Built the first threshold-free SWR detection pipeline: NMF extracts spectral patterns directly from raw LFP, eliminating manual parameter tuning entirely.</li>
               <li>Designed end-to-end pipeline: NMF feature extraction → candidate generation → transformer classifier → session-stable evaluation.</li>
-              <li>Result: strong generalization across sessions without recalibration — the core unsolved problem in SWR detection.</li>
+              <li>Result: strong generalization across sessions without recalibration, the core unsolved problem in SWR detection.</li>
             </ul>
             <div class="exp-stack">
               <span class="etag">PyTorch</span><span class="etag">Transformers</span><span class="etag">NMF</span>
@@ -316,7 +442,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <ul class="exp-points">
               <li>Preprocessed EEG/EMG from textile-based wearable prototypes; engineered artifact removal pipelines for noisy on-skin sensor data from headband and glove devices.</li>
               <li>Built sleep staging and real-time eye-tracking models from headband EEG; delivered working training + evaluation pipelines used directly in prototype testing.</li>
-              <li>Developed sequential RNN for EMG-based AR/VR movement steering using textile glove data — real-time inference pipeline validated on device.</li>
+              <li>Developed sequential RNN for EMG-based AR/VR movement steering using textile glove data, real-time inference pipeline validated on device.</li>
             </ul>
             <div class="exp-stack">
               <span class="etag">EEG · EMG</span><span class="etag">RNN</span><span class="etag">Sleep Staging</span>
@@ -346,16 +472,12 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
               <span class="etag">PyTorch</span><span class="etag">FastAPI</span><span class="etag">Streamlit</span><span class="etag">Docker</span><span class="etag">AWS EC2</span>
             </div>
 
-            <!-- VISUALIZATIONS -->
             <div class="eeg-viz-wrap">
-
-              <!-- 1. EEG WAVEFORM -->
               <div class="viz-block">
                 <div class="viz-label">live eeg signal</div>
                 <canvas class="eeg-wave-canvas" width="500" height="52"></canvas>
               </div>
 
-              <!-- 2. FREQUENCY BANDS -->
               <div class="viz-block">
                 <div class="viz-label">frequency band power</div>
                 <div class="band-bars">
@@ -366,7 +488,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
                 </div>
               </div>
 
-              <!-- 3. EMOTION QUADRANT -->
               <div class="viz-block">
                 <div class="viz-label">valence / arousal space</div>
                 <div class="quad-wrap">
@@ -374,7 +495,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
                   <div class="quad-emotion-label" id="quad-label">CALM</div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -410,11 +530,11 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-org">Rahnema<br/><span>College</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">Full-Stack Software Development </div>
+            <div class="exp-title">Full-Stack Software Development</div>
             <div class="exp-date">Mar 2021 – Mar 2022</div>
             <ul class="exp-points">
               <li>Built and deployed full-stack web applications end-to-end over a one-year intensive program.</li>
-              <li>Foundations: clean code, REST APIs, OOP design patterns, Agile workflow — directly applicable to production ML system deployment.</li>
+              <li>Foundations: clean code, REST APIs, OOP design patterns, Agile workflow, directly applicable to production ML system deployment.</li>
             </ul>
             <div class="exp-stack">
               <span class="etag">JavaScript</span><span class="etag">REST APIs</span>
@@ -434,37 +554,10 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <h2 class="sec-title reveal">Selected Work</h2>
     <div class="projects-layout">
       <div class="proj-card c1 reveal d1" style="grid-column:1/-1"><div class="proj-glow"></div>
-      <div class="proj-top"><div class="proj-num">01</div><span class="proj-badge thesis">Thesis-linked</span></div>
-      <div class="proj-title">BrainAgent — Neuro-Inspired RL</div>
-      <div class="proj-desc">Translated brain metastability theory into an RL exploration algorithm. Online clustering of agent state history → occupancy entropy → MOP-guided intrinsic reward bonus. Outperforms DQN in sparse-reward environments. Live WebSocket dashboard streams brain-state heatmap and entropy curves in real time.</div>
-
-      <div class="ba-viz-grid">
-        <div class="ba-panel">
-          <div class="ba-panel-label">RL Agent Exploring</div>
-          <canvas id="ba-grid-canvas" width="180" height="180"></canvas>
-        </div>
-        <div class="ba-panel">
-          <div class="ba-panel-label">Brain-State Heatmap</div>
-          <canvas id="ba-heatmap-canvas" width="180" height="180"></canvas>
-        </div>
-        <div class="ba-panel ba-panel-wide">
-          <div class="ba-panel-label">Entropy &amp; Reward — <span id="ba-episode-label">Episode 1</span></div>
-          <canvas id="ba-entropy-canvas" width="360" height="100"></canvas>
-          <div class="ba-entropy-stats">
-            <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.00</span></span>
-            <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.00</span></span>
-            <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
-          </div>
-        </div>
-        <div class="ba-panel ba-panel-full">
-          <div class="ba-panel-label">Occupancy — 7 Brain-State Clusters</div>
-          <div class="ba-cluster-bars" id="ba-cluster-bars"></div>
-        </div>
+        <div class="proj-top"><div class="proj-num">01</div><span class="proj-badge thesis">Thesis-linked</span></div>
+        <div class="proj-title">BrainAgent - Neuro-Inspired RL</div>
+        <div class="proj-desc">A neuro-inspired reinforcement learning system built around metastable brain-state occupancy and entropy-guided exploration.</div>
       </div>
-
-  <div class="proj-tags" style="margin-top:1.2rem"><span class="ptag key">PyTorch</span><span class="ptag key">RL</span><span class="ptag key">MOP</span><span class="ptag">FastAPI</span><span class="ptag">React</span><span class="ptag">D3.js</span><span class="ptag">Docker</span><span class="ptag">AWS</span></div>
-</div>
-      
 
       <div class="proj-card c2 reveal d2"><div class="proj-glow"></div>
         <div class="proj-top"><div class="proj-num">02</div><span class="proj-badge hot">LLM × Neuro</span></div>
@@ -586,13 +679,11 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   requestAnimationFrame(drawN);
 })();
 
-// ── EEG VISUALIZATIONS ──────────────────────────────
+// EEG VISUALIZATIONS
 (function initEEGViz(){
-  // 1. EEG WAVEFORM
   const wCanvas = document.querySelector('.eeg-wave-canvas');
   if(!wCanvas) return;
   const wCtx = wCanvas.getContext('2d');
-  const W = () => wCanvas.offsetWidth;
   wCanvas.width = wCanvas.offsetWidth;
   wCanvas.height = 52;
 
@@ -624,19 +715,17 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   }
   drawWave();
 
-  // 2. FREQUENCY BANDS
   const bandState = {theta:0, alpha:0, beta:0, gamma:0};
   const bandTargets = {theta:0, alpha:0, beta:0, gamma:0};
   const bandIds = ['theta','alpha','beta','gamma'];
 
   function newBandTargets(){
-    // simulate emotion state cycling
     const emotion = Math.floor(Date.now()/4000) % 4;
     const presets = [
-      {theta:0.6, alpha:0.8, beta:0.3, gamma:0.2}, // calm
-      {theta:0.3, alpha:0.4, beta:0.8, gamma:0.6}, // excited
-      {theta:0.7, alpha:0.5, beta:0.5, gamma:0.3}, // happy
-      {theta:0.5, alpha:0.3, beta:0.7, gamma:0.8}, // aroused
+      {theta:0.6, alpha:0.8, beta:0.3, gamma:0.2},
+      {theta:0.3, alpha:0.4, beta:0.8, gamma:0.6},
+      {theta:0.7, alpha:0.5, beta:0.5, gamma:0.3},
+      {theta:0.5, alpha:0.3, beta:0.7, gamma:0.8},
     ];
     Object.assign(bandTargets, presets[emotion]);
   }
@@ -654,7 +743,6 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   }
   animBands();
 
-  // 3. EMOTION QUADRANT
   const qCanvas = document.getElementById('quad-canvas');
   if(!qCanvas) return;
   const qCtx = qCanvas.getContext('2d');
@@ -681,39 +769,34 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
 
     qCtx.clearRect(0,0,QS,QS);
 
-    // Quadrant backgrounds
     const quads = [
-      {x:0,   y:0,   c:'rgba(245,158,11,.06)', label:'High Arousal\nNeg Valence'},
-      {x:QS/2,y:0,   c:'rgba(245,158,11,.06)', label:'High Arousal\nPos Valence'},
-      {x:0,   y:QS/2,c:'rgba(124,58,237,.06)', label:'Low Arousal\nNeg Valence'},
-      {x:QS/2,y:QS/2,c:'rgba(0,229,255,.06)',  label:'Low Arousal\nPos Valence'},
+      {x:0,   y:0,   c:'rgba(245,158,11,.06)'},
+      {x:QS/2,y:0,   c:'rgba(245,158,11,.06)'},
+      {x:0,   y:QS/2,c:'rgba(124,58,237,.06)'},
+      {x:QS/2,y:QS/2,c:'rgba(0,229,255,.06)'},
     ];
     quads.forEach(q => {
       qCtx.fillStyle = q.c;
       qCtx.fillRect(q.x, q.y, QS/2, QS/2);
     });
 
-    // Grid lines
     qCtx.strokeStyle = 'rgba(255,255,255,.08)';
     qCtx.lineWidth = 1;
     qCtx.beginPath(); qCtx.moveTo(QS/2,0); qCtx.lineTo(QS/2,QS); qCtx.stroke();
     qCtx.beginPath(); qCtx.moveTo(0,QS/2); qCtx.lineTo(QS,QS/2); qCtx.stroke();
 
-    // Axis labels
     qCtx.fillStyle = 'rgba(74,96,128,.8)';
     qCtx.font = '9px DM Mono, monospace';
     qCtx.fillText('− valence +', QS/2 - 28, QS - 4);
     qCtx.save(); qCtx.translate(10, QS/2+20); qCtx.rotate(-Math.PI/2);
     qCtx.fillText('− arousal +', 0, 0); qCtx.restore();
 
-    // Dot glow
     const grd = qCtx.createRadialGradient(dotX,dotY,0,dotX,dotY,18);
     grd.addColorStop(0,'rgba(0,229,255,.5)');
     grd.addColorStop(1,'transparent');
     qCtx.beginPath(); qCtx.arc(dotX,dotY,18,0,Math.PI*2);
     qCtx.fillStyle = grd; qCtx.fill();
 
-    // Dot core
     qCtx.beginPath(); qCtx.arc(dotX,dotY,5,0,Math.PI*2);
     qCtx.fillStyle = '#00e5ff';
     qCtx.shadowBlur = 12; qCtx.shadowColor = '#00e5ff';
@@ -723,7 +806,8 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   }
   drawQuad();
 })();
-// ── BRAINAGENT VISUALIZATIONS ──────────────────────────────────────────
+
+// BRAINAGENT VISUALIZATIONS
 (function initBrainAgent(){
   const CLUSTER_COLS = ['#00e5ff','#7c3aed','#f59e0b','#10b981','#f43f5e','#a78bfa','#34d399'];
   const GRID_SIZE = 12;
@@ -800,7 +884,6 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   setInterval(agentStep, 80);
   drawGrid();
 
-  // HEATMAP
   const hC = document.getElementById('ba-heatmap-canvas');
   const hX = hC.getContext('2d');
   const HM = 9, HCELL = 180/HM;
@@ -824,132 +907,113 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   }
   drawHeatmap();
 
-// ENTROPY CURVE
-const eC = document.getElementById('ba-entropy-canvas');
-const eX = eC.getContext('2d');
-const dpr = window.devicePixelRatio || 1;
-const EW=360, EH=100;
-eC.width = EW * dpr;
-eC.height = EH * dpr;
-eC.style.width = EW + 'px';
-eC.style.height = EH + 'px';
-eX.scale(dpr, dpr);
-const epEntropyHistory=[];
-const cumRewardHistory=[];
-let cumReward = 0;
-let lastEpisode = 1;
-const epOccupancy = new Array(7).fill(0);
+  const eC = document.getElementById('ba-entropy-canvas');
+  const eX = eC.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const EW=360, EH=100;
+  eC.width = EW * dpr;
+  eC.height = EH * dpr;
+  eC.style.width = EW + 'px';
+  eC.style.height = EH + 'px';
+  eX.scale(dpr, dpr);
 
-function computeEntropy(){
-  const total=occupancy.reduce((a,b)=>a+b,0)||1;
-  let H=0;
-  occupancy.forEach(o=>{ if(o>0){ const p=o/total; H-=p*Math.log2(p); } });
-  return H/Math.log2(7);
-}
+  const epEntropyHistory=[];
+  const cumRewardHistory=[];
+  let cumReward = 0;
+  let lastEpisode = 1;
+  const epOccupancy = new Array(7).fill(0);
 
-setInterval(()=>{
-  if(episode !== lastEpisode){
-    epOccupancy.fill(0);
-    epEntropyHistory.length = 0;
-    lastEpisode = episode;
+  function computeEntropy(){
+    const total=occupancy.reduce((a,b)=>a+b,0)||1;
+    let H=0;
+    occupancy.forEach(o=>{ if(o>0){ const p=o/total; H-=p*Math.log2(p); } });
+    return H/Math.log2(7);
   }
-  epOccupancy[cellCluster[agentR][agentC]]++;
-  const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
-  let H=0;
-  epOccupancy.forEach(o=>{ if(o>0){ const p=o/epTotal; H-=p*Math.log2(p); } });
-  const epH = H/Math.log2(7);
-  cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
-  const normCumR = 1 - Math.exp(-cumReward*0.08);
-  epEntropyHistory.push(epH);
-  cumRewardHistory.push(normCumR);
-  if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
-  if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
-  document.getElementById('ba-h-val').textContent=epH.toFixed(3);
-  document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
-}, 200);
 
-function drawEntropy(){
-  eX.clearRect(0,0,EW,EH);
-  eX.strokeStyle='rgba(255,255,255,.04)'; eX.lineWidth=1;
-  [0.25,0.5,0.75].forEach(y=>{ eX.beginPath(); eX.moveTo(0,y*EH); eX.lineTo(EW,y*EH); eX.stroke(); });
-  const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
-  if(n<2){ requestAnimationFrame(drawEntropy); return; }
-  const xScale=EW/(EW/2);
-  function drawLine(data,col,dashed){
-    if(data.length<2) return;
-    dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
-    eX.beginPath();
-    data.forEach((v,i)=>{ const x=i*xScale,y=EH-v*(EH-8)-4; i===0?eX.moveTo(x,y):eX.lineTo(x,y); });
-    eX.strokeStyle=col; eX.lineWidth=1.5; eX.stroke();
-    eX.setLineDash([]);
-  }
-  if(cumRewardHistory.length>1){
-    eX.beginPath();
-    cumRewardHistory.forEach((v,i)=>{ const x=i*xScale,y=EH-v*(EH-8)-4; i===0?eX.moveTo(x,y):eX.lineTo(x,y); });
-    eX.lineTo((cumRewardHistory.length-1)*xScale,EH); eX.lineTo(0,EH); eX.closePath();
-    eX.fillStyle='rgba(245,158,11,.05)'; eX.fill();
-  }
-  drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
-  drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
-  eX.font='8px DM Mono,monospace';
-  eX.fillStyle='rgba(0,229,255,.8)'; eX.fillText('- - H(s) per episode',4,12);
-  eX.fillStyle='rgba(245,158,11,.8)'; eX.fillText('——  cumulative R',4,24);
-  requestAnimationFrame(drawEntropy);
-}
-drawEntropy();
+  setInterval(()=>{
+    if(episode !== lastEpisode){
+      epOccupancy.fill(0);
+      epEntropyHistory.length = 0;
+      cumRewardHistory.length = 0;
+      cumReward = 0;
+      lastEpisode = episode;
+    }
+    epOccupancy[cellCluster[agentR][agentC]]++;
+    const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
+    let H=0;
+    epOccupancy.forEach(o=>{ if(o>0){ const p=o/epTotal; H-=p*Math.log2(p); } });
+    const epH = H/Math.log2(7);
+    cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
+    const normCumR = 1 - Math.exp(-cumReward*0.08);
+    epEntropyHistory.push(epH);
+    cumRewardHistory.push(normCumR);
+    if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
+    if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
+    document.getElementById('ba-h-val').textContent=epH.toFixed(3);
+    document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
+  }, 200);
 
-setInterval(()=>{
-  if(episode !== lastEpisode){
-    epOccupancy.fill(0);
-    epEntropyHistory.length = 0;
-    lastEpisode = episode;
-  }
-  epOccupancy[cellCluster[agentR][agentC]]++;
-  const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
-  let H=0;
-  epOccupancy.forEach(o=>{ if(o>0){ const p=o/epTotal; H-=p*Math.log2(p); } });
-  const epH = H/Math.log2(7);
-  cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
-  const normCumR = 1 - Math.exp(-cumReward*0.08);
-  epEntropyHistory.push(epH);
-  cumRewardHistory.push(normCumR);
-  if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
-  if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
-  document.getElementById('ba-h-val').textContent=epH.toFixed(3);
-  document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
-}, 200);
+  function drawEntropy(){
+    eX.clearRect(0,0,EW,EH);
+    eX.strokeStyle='rgba(255,255,255,.04)';
+    eX.lineWidth=1;
+    [0.25,0.5,0.75].forEach(y=>{
+      eX.beginPath();
+      eX.moveTo(0,y*EH);
+      eX.lineTo(EW,y*EH);
+      eX.stroke();
+    });
 
-function drawEntropy(){
-  eX.clearRect(0,0,EW,EH);
-  eX.strokeStyle='rgba(255,255,255,.04)'; eX.lineWidth=1;
-  [0.25,0.5,0.75].forEach(y=>{ eX.beginPath(); eX.moveTo(0,y*EH); eX.lineTo(EW,y*EH); eX.stroke(); });
-  const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
-  if(n<2){ requestAnimationFrame(drawEntropy); return; }
-  const xScale=EW/(EW/2);
-  function drawLine(data,col,dashed){
-    if(data.length<2) return;
-    dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
-    eX.beginPath();
-    data.forEach((v,i)=>{ const x=i*xScale,y=EH-v*(EH-8)-4; i===0?eX.moveTo(x,y):eX.lineTo(x,y); });
-    eX.strokeStyle=col; eX.lineWidth=1.5; eX.stroke();
-    eX.setLineDash([]);
-  }
-  if(cumRewardHistory.length>1){
-    eX.beginPath();
-    cumRewardHistory.forEach((v,i)=>{ const x=i*xScale,y=EH-v*(EH-8)-4; i===0?eX.moveTo(x,y):eX.lineTo(x,y); });
-    eX.lineTo((cumRewardHistory.length-1)*xScale,EH); eX.lineTo(0,EH); eX.closePath();
-    eX.fillStyle='rgba(245,158,11,.05)'; eX.fill();
-  }
-  drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
-  drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
-  eX.font='8px DM Mono,monospace';
-  eX.fillStyle='rgba(0,229,255,.8)'; eX.fillText('- - H(s) per episode',4,12);
-  eX.fillStyle='rgba(245,158,11,.8)'; eX.fillText('——  cumulative R',4,24);
-  requestAnimationFrame(drawEntropy);
-}
-drawEntropy();
+    const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
+    if(n<2){
+      requestAnimationFrame(drawEntropy);
+      return;
+    }
 
-  // CLUSTER BARS
+    const xScale=EW/(EW/2);
+
+    function drawLine(data,col,dashed){
+      if(data.length<2) return;
+      dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
+      eX.beginPath();
+      data.forEach((v,i)=>{
+        const x=i*xScale;
+        const y=EH-v*(EH-8)-4;
+        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
+      });
+      eX.strokeStyle=col;
+      eX.lineWidth=1.5;
+      eX.stroke();
+      eX.setLineDash([]);
+    }
+
+    if(cumRewardHistory.length>1){
+      eX.beginPath();
+      cumRewardHistory.forEach((v,i)=>{
+        const x=i*xScale;
+        const y=EH-v*(EH-8)-4;
+        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
+      });
+      eX.lineTo((cumRewardHistory.length-1)*xScale,EH);
+      eX.lineTo(0,EH);
+      eX.closePath();
+      eX.fillStyle='rgba(245,158,11,.05)';
+      eX.fill();
+    }
+
+    drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
+    drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
+
+    eX.font='8px DM Mono,monospace';
+    eX.fillStyle='rgba(0,229,255,.8)';
+    eX.fillText('H(s)',4,12);
+    eX.fillStyle='rgba(245,158,11,.8)';
+    eX.fillText('cumulative R',4,24);
+
+    requestAnimationFrame(drawEntropy);
+  }
+  drawEntropy();
+
   const barsEl = document.getElementById('ba-cluster-bars');
   if(!barsEl) return;
   const barEls = CLUSTER_COLS.map((col,i)=>{
@@ -971,10 +1035,8 @@ drawEntropy();
   updateBars();
 })();
 
-
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
 
-// SCROLL REVEAL
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
