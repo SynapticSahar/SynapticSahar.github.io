@@ -26,8 +26,6 @@ nav.scrolled{background:rgba(2,4,8,.93);backdrop-filter:blur(24px);border-bottom
 .hero-eyebrow{display:flex;align-items:center;gap:1rem;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:2rem;opacity:0;animation:fsup .8s .2s forwards}
 .eyebrow-line{width:40px;height:1px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
 .hero-name{font-family:'Bebas Neue',sans-serif;line-height:.92;letter-spacing:.04em;margin-bottom:1.5rem;opacity:0;animation:fsup .8s .4s forwards}
-.hero-name .l1{font-size:clamp(4rem,7vw,8rem)}
-.hero-name .l2{font-size:clamp(2.2rem,4.2vw,5rem);color:transparent;-webkit-text-stroke:1px var(--violet2);white-space:nowrap}
 .hero-actions{display:flex;gap:1.2rem;flex-wrap:wrap;opacity:0;animation:fsup .8s .8s forwards}
 .btn-p{position:relative;padding:.9rem 2.2rem;background:transparent;border:1px solid var(--cyan);color:var(--cyan);font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;overflow:hidden;transition:color .3s;cursor:none}
 .btn-p::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-101%);transition:transform .3s;z-index:-1}
@@ -56,7 +54,6 @@ section{position:relative;z-index:1}
 .about-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .about-body{font-family:'Outfit',sans-serif;font-weight:300;font-size:1rem;line-height:1.95;color:#8fa8c8}
 .about-body strong{color:var(--text);font-family:'Outfit',sans-serif;font-weight:600}
-.about-body .glow{color:var(--cyan)}
 .about-body p+p{margin-top:1.4rem}
 .thesis-panel{background:var(--card);border:1px solid var(--border2);overflow:hidden;position:relative}
 .thesis-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--violet));background-size:200% 100%;animation:shimmer 3s linear infinite}
@@ -65,10 +62,9 @@ section{position:relative;z-index:1}
 .thesis-body{padding:2rem}
 .thesis-body h3{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:1rem;line-height:1.4}
 .thesis-body p{font-size:.8rem;color:var(--muted);line-height:1.9;margin-bottom:1rem}
-.thesis-advisor{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:.72rem;color:var(--muted)}
-.thesis-advisor strong{color:var(--cyan);display:block;margin-bottom:.3rem}
 .thesis-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem}
 .ttag{font-size:.65rem;padding:.25rem .7rem;border:1px solid var(--violet);color:var(--violet2);letter-spacing:.08em;background:rgba(124,58,237,.08)}
+
 #experience{padding:9rem 0}
 .exp-grid{display:grid;gap:1.8rem}
 .exp-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .4s,transform .4s;cursor:none;position:relative}
@@ -97,23 +93,32 @@ section{position:relative;z-index:1}
 .research-extra{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
 .research-kicker{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem}
 .research-core{font-size:.78rem;color:var(--muted);line-height:1.85}
-.research-core strong{color:var(--text)}
 .research-meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem;font-size:.72rem;color:var(--muted)}
 .research-meta strong{color:var(--cyan)}
 .research-entropy-wrap{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
 .research-entropy-panel{background:rgba(2,4,8,.65);border:1px solid var(--border);padding:1rem 1.2rem}
-.research-entropy-note{font-size:.72rem;color:var(--muted);line-height:1.8;margin-bottom:.8rem}
-.ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
-#ba-entropy-canvas{display:block;width:100%;max-width:100%;border:1px solid var(--border);background:#020408}
-.ba-entropy-stats{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.65rem;letter-spacing:.08em;color:var(--muted);margin-top:.8rem}
+.research-entropy-note{font-size:.72rem;color:var(--violet2);line-height:1.8;margin-top:1rem}
+.ba-viz-grid{display:grid;grid-template-columns:180px 180px 1fr;grid-template-rows:auto auto;gap:1rem}
+.ba-panel{background:rgba(2,4,8,.7);border:1px solid var(--border);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem}
+.ba-panel-wide{grid-column:3/4;grid-row:1/2}
+.ba-panel-full{grid-column:1/-1;grid-row:2/3}
+.ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.ba-panel canvas{display:block;border:1px solid var(--border);background:#020408}
+.ba-entropy-stats{display:flex;gap:1.5rem;font-size:.65rem;letter-spacing:.08em;color:var(--muted);flex-wrap:wrap}
 .ba-stat-val{color:var(--cyan);font-variant-numeric:tabular-nums}
+.ba-cluster-bars{display:flex;gap:.5rem;align-items:flex-end;height:60px}
+.ba-cbar-wrap{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:1}
+.ba-cbar-track{width:100%;background:var(--border);border-radius:2px;overflow:hidden;height:50px;display:flex;flex-direction:column;justify-content:flex-end}
+.ba-cbar-fill{width:100%;border-radius:2px;transition:height .5s ease}
+.ba-cbar-label{font-size:.55rem;color:var(--muted);letter-spacing:.06em}
+
 #projects{padding:9rem 0;background:var(--bg2)}
 .projects-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .proj-card{background:var(--card);border:1px solid var(--border);padding:2.2rem;position:relative;overflow:hidden;transition:transform .4s,border-color .4s;cursor:none}
 .proj-card:hover{transform:translateY(-8px);border-color:var(--border2)}
 .proj-glow{position:absolute;width:200px;height:200px;border-radius:50%;filter:blur(60px);opacity:0;transition:opacity .5s;pointer-events:none;top:-50px;right:-50px}
 .proj-card:hover .proj-glow{opacity:.12}
-.c1 .proj-glow{background:var(--cyan)}.c2 .proj-glow{background:var(--violet)}.c3 .proj-glow{background:var(--amber)}
+.c2 .proj-glow{background:var(--violet)}.c3 .proj-glow{background:var(--amber)}
 .c4 .proj-glow{background:var(--green)}.c5 .proj-glow{background:var(--violet2)}.c6 .proj-glow{background:var(--cyan)}
 .proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem}
 .proj-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:var(--muted2);transition:color .4s}
@@ -127,6 +132,7 @@ section{position:relative;z-index:1}
 .ptag{font-size:.6rem;padding:.18rem .55rem;letter-spacing:.06em;border:1px solid var(--border2);color:var(--muted);transition:all .3s}
 .ptag.key{border-color:rgba(0,229,255,.4);color:rgba(0,229,255,.8);background:rgba(0,229,255,.04)}
 .proj-card:hover .ptag.key{background:rgba(0,229,255,.1)}
+
 #skills{padding:9rem 0}
 .skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
 .skill-card{background:var(--card);border:1px solid var(--border);padding:1.8rem 2rem;transition:border-color .3s}
@@ -136,6 +142,7 @@ section{position:relative;z-index:1}
 .spill{font-size:.73rem;padding:.3rem .8rem;background:rgba(14,31,53,.6);border:1px solid var(--border2);color:#8098b8;letter-spacing:.04em;transition:all .25s}
 .spill:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,229,255,.05)}
 .spill.star{border-color:rgba(124,58,237,.5);color:var(--violet2);background:rgba(124,58,237,.06)}
+
 #contact{padding:9rem 0;background:var(--bg2);text-align:center}
 .contact-wrap{max-width:700px;margin:0 auto}
 .avail-pill{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.5rem 1.4rem;border:1px solid rgba(16,185,129,.4);color:var(--green);background:rgba(16,185,129,.05);margin-bottom:2.5rem}
@@ -174,8 +181,11 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .about-layout,.projects-layout,.skills-layout{grid-template-columns:1fr}
   .exp-inner{grid-template-columns:1fr}
   .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
+  .ba-viz-grid{grid-template-columns:1fr 1fr}
+  .ba-panel-wide{grid-column:1/-1;grid-row:2/3}
+  .ba-panel-full{grid-column:1/-1;grid-row:3/4}
+  .ba-panel canvas{width:100%!important}
 }
-
 @media(max-width:768px){
   footer{padding:2rem 2.5rem;flex-direction:column;gap:.8rem;text-align:center}
 }
@@ -229,8 +239,13 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <h2 class="sec-title reveal">Where Neuroscience<br/>Meets Machine Intelligence</h2>
     <div class="about-layout">
       <div class="about-body reveal d1">
-        <p>I'm a master's student in <strong>Computational Neuroscience</strong> at Pompeu Fabra University, working at the intersection of brain dynamics and deep learning. My question: how does the brain maintain the perfect balance between <span class="glow">stability and chaos</span> and can we teach machines to do the same?</p>
-        <p>My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from fMRI using a novel vortex-space entropy approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility.</p>
+        <p>I am a <strong>computational neuroscientist</strong> and <strong>ML engineer</strong> currently completing my master's at <strong>Pompeu Fabra University</strong>, working at the intersection of <strong>brain dynamics</strong> and <strong>computational modeling</strong>.</p>
+
+        <p>My central question is how the brain maintains the perfect balance between <strong>stability</strong> and <strong>chaos</strong>, and whether we can teach machines to do the same. My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from <strong>fMRI</strong> using a novel <strong>vortex-space entropy</strong> approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility. I am translating this research into a <strong>neuro inspired RL framework</strong> where occupancy entropy and <strong>MOP-guided intrinsic rewards</strong> drive more efficient exploration in sparse-reward settings.</p>
+
+        <p>On the engineering side, I have a strong technical foundation across <strong>signal processing</strong>, <strong>ML/DL algorithm design</strong>, <strong>LLM engineering</strong>, <strong>RAG and agent-based applications</strong>, and <strong>full-stack development</strong>.</p>
+
+        <p>My goal is to use computational models to test hypotheses about how the brain works, apply <strong>neuroscience insights</strong> to build better <strong>AI systems</strong>, and translate these insights into real solutions for <strong>neurological diseases</strong>, <strong>clinical tools</strong>, and <strong>industry applications</strong>.</p>
         <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native </p>
       </div>
       <div class="thesis-panel reveal d2">
@@ -290,16 +305,36 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             </div>
 
             <div class="research-entropy-wrap">
-              <div class="research-kicker">Entropy Visualization</div>
               <div class="research-entropy-panel">
-                <div class="research-entropy-note">A simplified live view of entropy-guided exploration in BrainAgent. The curve tracks within-episode occupancy entropy and its linked reward signal.</div>
-                <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
-                <canvas id="ba-entropy-canvas" width="720" height="120"></canvas>
-                <div class="ba-entropy-stats">
-                  <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.000</span></span>
-                  <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.000</span></span>
-                  <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
-                  <span>Clusters: <span class="ba-stat-val">7</span></span>
+                <div class="ba-viz-grid">
+                  <div class="ba-panel">
+                    <div class="ba-panel-label">RL Agent Exploring</div>
+                    <canvas id="ba-grid-canvas" width="180" height="180"></canvas>
+                  </div>
+
+                  <div class="ba-panel">
+                    <div class="ba-panel-label">Brain-State Heatmap</div>
+                    <canvas id="ba-heatmap-canvas" width="180" height="180"></canvas>
+                  </div>
+
+                  <div class="ba-panel ba-panel-wide">
+                    <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
+                    <canvas id="ba-entropy-canvas" width="360" height="100"></canvas>
+                    <div class="ba-entropy-stats">
+                      <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.00</span></span>
+                      <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.00</span></span>
+                      <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
+                    </div>
+                  </div>
+
+                  <div class="ba-panel ba-panel-full">
+                    <div class="ba-panel-label">Occupancy · 7 Brain-State Clusters</div>
+                    <div class="ba-cluster-bars" id="ba-cluster-bars"></div>
+                  </div>
+                </div>
+
+                <div class="research-entropy-note">
+                  A simplified live view of entropy-guided exploration in BrainAgent. The curve tracks within-episode occupancy entropy and its linked reward signal.
                 </div>
               </div>
             </div>
@@ -714,165 +749,277 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   drawQuad();
 })();
 
-// BRAINAGENT ENTROPY VISUALIZATION
-(function initBrainAgentEntropy(){
-  const canvas = document.getElementById('ba-entropy-canvas');
-  if(!canvas) return;
+// BRAINAGENT VISUALIZATION
+(function initBrainAgent(){
+  const CLUSTER_COLS = ['#00e5ff','#7c3aed','#f59e0b','#10b981','#f43f5e','#a78bfa','#34d399'];
+  const GRID_SIZE = 12;
 
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  let width = canvas.clientWidth || 720;
-  let height = 120;
-
-  function setupCanvas(){
-    width = canvas.clientWidth || 720;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  setupCanvas();
-  window.addEventListener('resize', setupCanvas);
-
-  let episode = 1;
-  let steps = 0;
-  let reward = 0;
-  const maxSteps = 90;
-  const historyEntropy = [];
-  const historyReward = [];
+  const gC = document.getElementById('ba-grid-canvas');
+  if(!gC) return;
+  const gX = gC.getContext('2d');
+  const CELL = 180 / GRID_SIZE;
+  const visits = Array.from({length:GRID_SIZE}, ()=>new Array(GRID_SIZE).fill(0));
+  let agentR = Math.floor(GRID_SIZE/2), agentC = Math.floor(GRID_SIZE/2);
+  let goalR = 10, goalC = 10;
+  let agentTrail = [];
+  let episode = 1, stepCount = 0;
+  const cellCluster = Array.from({length:GRID_SIZE}, (_,r)=>
+    Array.from({length:GRID_SIZE}, (__,c)=> (r*3 + c*2 + 7) % 7)
+  );
   const occupancy = new Array(7).fill(0);
 
-  const states = [
-    [0.55,0.10,0.08,0.08,0.07,0.07,0.05],
-    [0.35,0.16,0.14,0.10,0.09,0.08,0.08],
-    [0.22,0.18,0.16,0.14,0.12,0.10,0.08],
-    [0.16,0.15,0.15,0.14,0.14,0.13,0.13]
-  ];
-
-  function normalize(arr){
-    const s = arr.reduce((a,b)=>a+b,0) || 1;
-    return arr.map(v=>v/s);
-  }
-
-  function blend(a,b,t){
-    return a.map((v,i)=>v*(1-t)+b[i]*t);
-  }
-
-  function sampleIndex(probs){
-    const r = Math.random();
-    let c = 0;
-    for(let i=0;i<probs.length;i++){
-      c += probs[i];
-      if(r <= c) return i;
-    }
-    return probs.length - 1;
-  }
-
-  function entropyFromCounts(counts){
-    const total = counts.reduce((a,b)=>a+b,0) || 1;
-    let h = 0;
-    counts.forEach(v=>{
-      if(v>0){
-        const p = v/total;
-        h -= p * Math.log2(p);
-      }
+  function agentStep(){
+    const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+    let best = null, bestScore = Infinity;
+    dirs.forEach(([dr,dc])=>{
+      const nr=agentR+dr, nc=agentC+dc;
+      if(nr<0||nr>=GRID_SIZE||nc<0||nc>=GRID_SIZE) return;
+      const score = visits[nr][nc] + Math.random()*0.8;
+      if(score < bestScore){ bestScore=score; best=[nr,nc]; }
     });
-    return h / Math.log2(counts.length);
-  }
-
-  function tick(){
-    steps++;
-
-    const stage = (episode - 1) % states.length;
-    const nextStage = (stage + 1) % states.length;
-    const t = (steps % maxSteps) / maxSteps;
-    const probs = normalize(blend(states[stage], states[nextStage], t * 0.8));
-
-    const cluster = sampleIndex(probs);
-    occupancy[cluster]++;
-
-    const h = entropyFromCounts(occupancy);
-    reward += 0.002 + h * 0.007 + Math.random() * 0.002;
-    const rewardNorm = Math.min(1, reward);
-
-    historyEntropy.push(h);
-    historyReward.push(rewardNorm);
-
-    if(historyEntropy.length > maxSteps) historyEntropy.shift();
-    if(historyReward.length > maxSteps) historyReward.shift();
-
-    document.getElementById('ba-h-val').textContent = h.toFixed(3);
-    document.getElementById('ba-r-val').textContent = rewardNorm.toFixed(3);
-    document.getElementById('ba-steps-val').textContent = steps;
-    document.getElementById('ba-episode-label').textContent = 'Episode ' + episode;
-
-    if(steps >= maxSteps){
+    if(!best) return;
+    [agentR, agentC] = best;
+    visits[agentR][agentC]++;
+    agentTrail.push({r:agentR, c:agentC, age:0});
+    if(agentTrail.length > 18) agentTrail.shift();
+    agentTrail.forEach(t=>t.age++);
+    const cl = cellCluster[agentR][agentC];
+    occupancy[cl]++;
+    stepCount++;
+    if(agentR===goalR && agentC===goalC){
       episode++;
-      steps = 0;
-      reward = 0;
-      historyEntropy.length = 0;
-      historyReward.length = 0;
-      occupancy.fill(0);
+      stepCount = 0;
+      document.getElementById('ba-episode-label').textContent = 'Episode '+episode;
+      goalR = Math.floor(Math.random()*GRID_SIZE);
+      goalC = Math.floor(Math.random()*GRID_SIZE);
+      agentR = Math.floor(Math.random()*GRID_SIZE);
+      agentC = Math.floor(Math.random()*GRID_SIZE);
     }
+    document.getElementById('ba-steps-val').textContent = stepCount;
   }
 
-  setInterval(tick, 140);
+  function drawGrid(){
+    gX.clearRect(0,0,180,180);
+    const maxV = Math.max(...visits.flat(), 1);
+    for(let r=0;r<GRID_SIZE;r++) for(let c=0;c<GRID_SIZE;c++){
+      const v = visits[r][c]/maxV;
+      const col = CLUSTER_COLS[cellCluster[r][c]];
+      gX.fillStyle = col + Math.round(v*60+8).toString(16).padStart(2,'0');
+      gX.fillRect(c*CELL, r*CELL, CELL-1, CELL-1);
+    }
+    agentTrail.forEach(t=>{
+      const alpha = Math.max(0, 1 - t.age/18);
+      gX.fillStyle = '#00e5ff' + Math.round(alpha*90).toString(16).padStart(2,'0');
+      gX.fillRect(t.c*CELL+1, t.r*CELL+1, CELL-3, CELL-3);
+    });
+    gX.fillStyle = '#f59e0b';
+    gX.font = `${CELL-2}px serif`;
+    gX.fillText('★', goalC*CELL, (goalR+1)*CELL-1);
+    const ax = agentC*CELL + CELL/2, ay = agentR*CELL + CELL/2;
+    const grd = gX.createRadialGradient(ax,ay,0,ax,ay,CELL);
+    grd.addColorStop(0,'#fff');
+    grd.addColorStop(0.3,'#00e5ff');
+    grd.addColorStop(1,'transparent');
+    gX.beginPath();
+    gX.arc(ax,ay,CELL/2,0,Math.PI*2);
+    gX.fillStyle=grd;
+    gX.fill();
+    gX.beginPath();
+    gX.arc(ax,ay,3,0,Math.PI*2);
+    gX.fillStyle='#fff';
+    gX.shadowBlur=8;
+    gX.shadowColor='#00e5ff';
+    gX.fill();
+    gX.shadowBlur=0;
+    requestAnimationFrame(drawGrid);
+  }
+  setInterval(agentStep, 80);
+  drawGrid();
 
-  function draw(){
-    ctx.clearRect(0,0,width,height);
+  const hC = document.getElementById('ba-heatmap-canvas');
+  const hX = hC.getContext('2d');
+  const HM = 9, HCELL = 180/HM;
+  const hmData = Array.from({length:HM}, ()=>new Array(HM).fill(0));
+  const hmTarget = Array.from({length:HM}, ()=>new Array(HM).fill(0));
 
-    ctx.strokeStyle = 'rgba(255,255,255,.04)';
-    ctx.lineWidth = 1;
-    [0.25,0.5,0.75].forEach(y=>{
-      ctx.beginPath();
-      ctx.moveTo(0,y*height);
-      ctx.lineTo(width,y*height);
-      ctx.stroke();
+  function newHMTargets(){
+    for(let r=0;r<HM;r++) for(let c=0;c<HM;c++) hmTarget[r][c]=Math.random();
+  }
+  newHMTargets();
+  setInterval(newHMTargets, 2200);
+
+  function drawHeatmap(){
+    hX.clearRect(0,0,180,180);
+    for(let r=0;r<HM;r++) for(let c=0;c<HM;c++){
+      hmData[r][c] += (hmTarget[r][c]-hmData[r][c])*0.04;
+      const v = hmData[r][c];
+      const rv=Math.round((1-v)*124), gv=Math.round(v*229), bv=Math.round(v*255);
+      hX.fillStyle=`rgba(${rv},${gv},${bv},${0.2+v*0.8})`;
+      hX.fillRect(c*HCELL, r*HCELL, HCELL-1, HCELL-1);
+      hX.fillStyle='rgba(255,255,255,'+(0.15+v*0.35)+')';
+      hX.font='7px DM Mono,monospace';
+      hX.fillText('S'+((r*4+c*3)%7+1), c*HCELL+3, r*HCELL+HCELL-3);
+    }
+    requestAnimationFrame(drawHeatmap);
+  }
+  drawHeatmap();
+
+  const eC = document.getElementById('ba-entropy-canvas');
+  const eX = eC.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const EW=360, EH=100;
+  eC.width = EW * dpr;
+  eC.height = EH * dpr;
+  eC.style.width = EW + 'px';
+  eC.style.height = EH + 'px';
+  eX.scale(dpr, dpr);
+
+  const epEntropyHistory=[];
+  const cumRewardHistory=[];
+  let cumReward = 0;
+  let lastEpisode = 1;
+  const epOccupancy = new Array(7).fill(0);
+
+  function computeEntropy(){
+    const total=occupancy.reduce((a,b)=>a+b,0)||1;
+    let H=0;
+    occupancy.forEach(o=>{
+      if(o>0){
+        const p=o/total;
+        H-=p*Math.log2(p);
+      }
+    });
+    return H/Math.log2(7);
+  }
+
+  setInterval(()=>{
+    if(episode !== lastEpisode){
+      epOccupancy.fill(0);
+      epEntropyHistory.length = 0;
+      cumRewardHistory.length = 0;
+      cumReward = 0;
+      lastEpisode = episode;
+    }
+
+    epOccupancy[cellCluster[agentR][agentC]]++;
+    const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
+    let H=0;
+    epOccupancy.forEach(o=>{
+      if(o>0){
+        const p=o/epTotal;
+        H-=p*Math.log2(p);
+      }
     });
 
-    const drawLine = (data, color, dashed=false, fill=false) => {
-      if(data.length < 2) return;
-      const xStep = width / Math.max(1, maxSteps - 1);
+    const epH = H/Math.log2(7);
+    cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
+    const normCumR = 1 - Math.exp(-cumReward*0.08);
 
-      if(fill){
-        ctx.beginPath();
-        data.forEach((v,i)=>{
-          const x = i * xStep;
-          const y = height - v * (height - 10) - 5;
-          i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-        });
-        ctx.lineTo((data.length-1)*xStep,height);
-        ctx.lineTo(0,height);
-        ctx.closePath();
-        ctx.fillStyle = 'rgba(245,158,11,.06)';
-        ctx.fill();
-      }
+    epEntropyHistory.push(epH);
+    cumRewardHistory.push(normCumR);
 
-      ctx.setLineDash(dashed ? [4,4] : []);
-      ctx.beginPath();
+    if(epEntropyHistory.length > EW/2) epEntropyHistory.shift();
+    if(cumRewardHistory.length > EW/2) cumRewardHistory.shift();
+
+    document.getElementById('ba-h-val').textContent=epH.toFixed(3);
+    document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
+  }, 200);
+
+  function drawEntropy(){
+    eX.clearRect(0,0,EW,EH);
+    eX.strokeStyle='rgba(255,255,255,.04)';
+    eX.lineWidth=1;
+
+    [0.25,0.5,0.75].forEach(y=>{
+      eX.beginPath();
+      eX.moveTo(0,y*EH);
+      eX.lineTo(EW,y*EH);
+      eX.stroke();
+    });
+
+    const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
+    if(n<2){
+      requestAnimationFrame(drawEntropy);
+      return;
+    }
+
+    const xScale=EW/(EW/2);
+
+    function drawLine(data,col,dashed){
+      if(data.length<2) return;
+      dashed ? eX.setLineDash([3,3]) : eX.setLineDash([]);
+      eX.beginPath();
       data.forEach((v,i)=>{
-        const x = i * xStep;
-        const y = height - v * (height - 10) - 5;
-        i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        const x=i*xScale;
+        const y=EH-v*(EH-8)-4;
+        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
       });
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 1.7;
-      ctx.stroke();
-      ctx.setLineDash([]);
-    };
+      eX.strokeStyle=col;
+      eX.lineWidth=1.5;
+      eX.stroke();
+      eX.setLineDash([]);
+    }
 
-    drawLine(historyReward,'rgba(245,158,11,.75)',false,true);
-    drawLine(historyReward,'rgba(245,158,11,.8)',false,false);
-    drawLine(historyEntropy,'rgba(0,229,255,.95)',true,false);
+    if(cumRewardHistory.length>1){
+      eX.beginPath();
+      cumRewardHistory.forEach((v,i)=>{
+        const x=i*xScale;
+        const y=EH-v*(EH-8)-4;
+        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
+      });
+      eX.lineTo((cumRewardHistory.length-1)*xScale,EH);
+      eX.lineTo(0,EH);
+      eX.closePath();
+      eX.fillStyle='rgba(245,158,11,.05)';
+      eX.fill();
+    }
 
-    ctx.font = '10px DM Mono, monospace';
-    ctx.fillStyle = 'rgba(0,229,255,.85)';
-    ctx.fillText('H(s)',8,14);
-    ctx.fillStyle = 'rgba(245,158,11,.85)';
-    ctx.fillText('reward',8,28);
+    drawLine(cumRewardHistory,'rgba(245,158,11,.65)',false);
+    drawLine(epEntropyHistory,'rgba(0,229,255,.9)',true);
 
-    requestAnimationFrame(draw);
+    eX.font='8px DM Mono,monospace';
+    eX.fillStyle='rgba(0,229,255,.8)';
+    eX.fillText('- - H(s) per episode',4,12);
+    eX.fillStyle='rgba(245,158,11,.8)';
+    eX.fillText('—— cumulative R',4,24);
+
+    requestAnimationFrame(drawEntropy);
   }
-  draw();
+  drawEntropy();
+
+  const barsEl = document.getElementById('ba-cluster-bars');
+  if(!barsEl) return;
+  const barEls = CLUSTER_COLS.map((col,i)=>{
+    const wrap=document.createElement('div');
+    wrap.className='ba-cbar-wrap';
+
+    const track=document.createElement('div');
+    track.className='ba-cbar-track';
+
+    const fill=document.createElement('div');
+    fill.className='ba-cbar-fill';
+    fill.style.background=col;
+    fill.style.height='0%';
+
+    const label=document.createElement('div');
+    label.className='ba-cbar-label';
+    label.textContent='S'+(i+1);
+
+    track.appendChild(fill);
+    wrap.appendChild(track);
+    wrap.appendChild(label);
+    barsEl.appendChild(wrap);
+    return fill;
+  });
+
+  function updateBars(){
+    const total=occupancy.reduce((a,b)=>a+b,0)||1;
+    barEls.forEach((fill,i)=>{
+      fill.style.height=(occupancy[i]/total*100).toFixed(1)+'%';
+    });
+    requestAnimationFrame(updateBars);
+  }
+  updateBars();
 })();
 
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
