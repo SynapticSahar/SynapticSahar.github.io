@@ -112,8 +112,12 @@ section{position:relative;z-index:1}
 .ba-panel-wide{
   grid-column:1/-1;
   grid-row:2/3;
+  justify-self:start;
 }
-
+.ba-panel-wide canvas{
+  width:100%;
+  max-width:100%;
+}
 .ba-panel-full{
   grid-column:1/-1;
   grid-row:3/4;
