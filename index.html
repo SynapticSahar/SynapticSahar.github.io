@@ -186,9 +186,23 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
   .thesis-body{padding:1.4rem 1.2rem 1.4rem}
   .thesis-body p{font-size:1rem}
-  .ba-viz-grid{grid-template-columns:1fr 1fr}
-  .ba-panel-wide{grid-column:1/-1;grid-row:2/3}
-  .ba-panel-full{grid-column:1/-1;grid-row:3/4}
+  .ba-viz-grid{
+    display:grid;
+    grid-template-columns:180px 180px;
+    grid-template-rows:auto auto auto;
+    gap:1rem;
+    align-items:start;
+  }
+
+  .ba-panel-wide{
+    grid-column:1/-1;
+    grid-row:2/3;
+  }
+
+  .ba-panel-full{
+    grid-column:1/-1;
+    grid-row:3/4;
+  }
   .ba-panel canvas{width:100%!important}
 }
 @media(max-width:768px){
@@ -250,7 +264,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 
           <div class="focus-inline"><div class="status-dot"></div>Current Focus</div>
 
-          <p>My central question is how the brain maintains the perfect balance between <span class="about-accent-amber">stability</span> and <span class="about-accent-amber">chaos</span>, and whether we can teach machines to do the same. My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from fMRI using a novel <span class="about-accent-violet">vortex-space entropy</span> approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility. I am translating this research into a <span class="about-accent-cyan">neuro inspired RL framework</span> where occupancy entropy and <span class="about-accent-cyan">MOP-guided intrinsic rewards</span> drive more efficient exploration in sparse-reward settings.</p>
+          <p>My central question is how the brain maintains the perfect balance between <span class="about-accent-amber">stability</span> and <span class="about-accent-amber">chaos</span>, and whether we can teach machines to do the same. My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from fMRI using a novel <span class="about-accent-violet">vortex-space entropy</span> approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility. I am translating this research into a <span class="about-accent-cyan">neuro-inspired RL framework</span> where occupancy entropy and <span class="about-accent-cyan">MOP-guided intrinsic rewards</span> drive more efficient exploration in sparse-reward settings.</p>
 
           <p>On the engineering side, I have a strong technical foundation across <span class="about-accent-cyan">signal processing</span>, <span class="about-accent-cyan">ML/DL algorithm design</span>, <span class="about-accent-cyan">LLM engineering</span>, <span class="about-accent-cyan">RAG and agent-based applications</span>, and <span class="about-accent-cyan">full-stack development</span>.</p>
 
