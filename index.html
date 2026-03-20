@@ -100,10 +100,24 @@ section{position:relative;z-index:1}
 .research-entropy-wrap{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
 .research-entropy-panel{background:rgba(2,4,8,.65);border:1px solid var(--border);padding:1rem 1.2rem}
 .research-entropy-note{font-size:.72rem;color:var(--violet2);line-height:1.8;margin-top:1rem}
-.ba-viz-grid{display:grid;grid-template-columns:180px 180px 1fr;grid-template-rows:auto auto;gap:1rem}
 .ba-panel{background:rgba(2,4,8,.7);border:1px solid var(--border);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.6rem}
-.ba-panel-wide{grid-column:3/4;grid-row:1/2}
-.ba-panel-full{grid-column:1/-1;grid-row:2/3}
+.ba-viz-grid{
+  display:grid;
+  grid-template-columns:180px 180px;
+  grid-template-rows:auto auto auto;
+  gap:1rem;
+  align-items:start;
+}
+
+.ba-panel-wide{
+  grid-column:1/-1;
+  grid-row:2/3;
+}
+
+.ba-panel-full{
+  grid-column:1/-1;
+  grid-row:3/4;
+}
 .ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .ba-panel canvas{display:block;border:1px solid var(--border);background:#020408}
 .ba-entropy-stats{display:flex;gap:1.5rem;font-size:.65rem;letter-spacing:.08em;color:var(--muted);flex-wrap:wrap}
