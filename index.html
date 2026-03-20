@@ -50,16 +50,21 @@ section{position:relative;z-index:1}
 .sec-label{display:flex;align-items:center;gap:1rem;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);margin-bottom:1rem}
 .sec-label::before{content:'◈'}
 .sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,5rem);letter-spacing:.04em;line-height:.95;margin-bottom:3.5rem}
+
 #about{padding:9rem 0;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
-.about-body{font-family:'Outfit',sans-serif;font-weight:300;font-size:1rem;line-height:1.95;color:#8fa8c8}
-.about-body strong{color:var(--text);font-family:'Outfit',sans-serif;font-weight:600}
-.about-body p+p{margin-top:1.4rem}
-.thesis-panel{background:var(--card);border:1px solid var(--border2);overflow:hidden;position:relative}
+.about-panel-wrap{max-width:960px}
+.about-body{font-family:'Outfit',sans-serif;font-weight:300;font-size:1.04rem;line-height:1.95;color:#93a9c4}
+.about-body p + p{margin-top:1.25rem}
+.about-body strong{font-weight:600;color:#c7d6ea}
+.about-accent-cyan{color:#7ee7f7;font-weight:500}
+.about-accent-violet{color:#c4b5fd;font-weight:500}
+.about-accent-amber{color:#f7c66d;font-weight:500}
+.thesis-panel{background:linear-gradient(180deg,rgba(7,13,24,.96) 0%,rgba(5,10,18,.96) 100%);border:1px solid var(--border2);overflow:hidden;position:relative;box-shadow:0 18px 50px rgba(0,0,0,.22)}
 .thesis-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--violet));background-size:200% 100%;animation:shimmer 3s linear infinite}
-.thesis-body{padding:2rem}
-.thesis-body p{font-size:1rem;color:#8fa8c8;line-height:1.95;margin-bottom:1.2rem;font-family:'Outfit',sans-serif;font-weight:300}
+.thesis-body{padding:2.2rem 2.3rem 2.1rem}
+.thesis-body p{font-size:1.04rem;color:#93a9c4;line-height:1.95;margin-bottom:1.2rem;font-family:'Outfit',sans-serif;font-weight:300;max-width:88ch}
 .thesis-body p:last-child{margin-bottom:0}
-.focus-inline{display:flex;align-items:center;gap:.8rem;margin:1.6rem 0 1rem;padding:1rem 1.2rem;border:1px solid var(--border);background:rgba(14,31,53,.25);font-size:.65rem;letter-spacing:.2em;color:var(--violet2);text-transform:uppercase}
+.focus-inline{display:inline-flex;align-items:center;gap:.8rem;margin:1.7rem 0 1.05rem;padding:.8rem 1rem;border:1px solid rgba(167,139,250,.22);background:rgba(124,58,237,.08);font-size:.62rem;letter-spacing:.22em;color:#c4b5fd;text-transform:uppercase;border-radius:999px}
 .status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0}
 
 #experience{padding:9rem 0}
@@ -175,9 +180,12 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .hero-right{height:350px}
   .container{padding:0 2.5rem}
   nav{padding:1.2rem 2.5rem}
+  .about-panel-wrap{max-width:100%}
   .projects-layout,.skills-layout{grid-template-columns:1fr}
   .exp-inner{grid-template-columns:1fr}
   .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
+  .thesis-body{padding:1.4rem 1.2rem 1.4rem}
+  .thesis-body p{font-size:1rem}
   .ba-viz-grid{grid-template-columns:1fr 1fr}
   .ba-panel-wide{grid-column:1/-1;grid-row:2/3}
   .ba-panel-full{grid-column:1/-1;grid-row:3/4}
@@ -235,19 +243,21 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="sec-label">About</div>
     <h2 class="sec-title reveal">Where Neuroscience<br/>Meets Machine Intelligence</h2>
 
-    <div class="thesis-panel reveal d1">
-      <div class="thesis-body about-body">
-        <p>I am a <strong>computational neuroscientist</strong> and <strong>ML engineer</strong> currently completing my master's at <strong>Pompeu Fabra University</strong>, working at the intersection of <strong>brain dynamics</strong> and <strong>computational modeling</strong>.</p>
+    <div class="about-panel-wrap">
+      <div class="thesis-panel reveal d1">
+        <div class="thesis-body about-body">
+          <p>I am a <span class="about-accent-cyan">computational neuroscientist</span> and <span class="about-accent-cyan">ML engineer</span> currently completing my master's at <strong>Pompeu Fabra University</strong>, working at the intersection of <span class="about-accent-violet">brain dynamics</span> and <span class="about-accent-violet">computational modeling</span>.</p>
 
-        <div class="focus-inline"><div class="status-dot"></div>Current Focus</div>
+          <div class="focus-inline"><div class="status-dot"></div>Current Focus</div>
 
-        <p>My central question is how the brain maintains the perfect balance between <strong>stability</strong> and <strong>chaos</strong>, and whether we can teach machines to do the same. My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from <strong>fMRI</strong> using a novel <strong>vortex-space entropy</strong> approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility. I am translating this research into a <strong>neuro inspired RL framework</strong> where occupancy entropy and <strong>MOP-guided intrinsic rewards</strong> drive more efficient exploration in sparse-reward settings.</p>
+          <p>My central question is how the brain maintains the perfect balance between <span class="about-accent-amber">stability</span> and <span class="about-accent-amber">chaos</span>, and whether we can teach machines to do the same. My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from <strong>fMRI</strong> using a novel <span class="about-accent-violet">vortex-space entropy</span> approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility. I am translating this research into a <span class="about-accent-cyan">neuro inspired RL framework</span> where occupancy entropy and <span class="about-accent-cyan">MOP-guided intrinsic rewards</span> drive more efficient exploration in sparse-reward settings.</p>
 
-        <p>On the engineering side, I have a strong technical foundation across <strong>signal processing</strong>, <strong>ML/DL algorithm design</strong>, <strong>LLM engineering</strong>, <strong>RAG and agent-based applications</strong>, and <strong>full-stack development</strong>.</p>
+          <p>On the engineering side, I have a strong technical foundation across <span class="about-accent-cyan">signal processing</span>, <span class="about-accent-cyan">ML/DL algorithm design</span>, <span class="about-accent-cyan">LLM engineering</span>, <span class="about-accent-cyan">RAG and agent-based applications</span>, and <span class="about-accent-cyan">full-stack development</span>.</p>
 
-        <p>My goal is to use computational models to test hypotheses about how the brain works, apply <strong>neuroscience insights</strong> to build better <strong>AI systems</strong>, and translate these insights into real solutions for <strong>neurological diseases</strong>, <strong>clinical tools</strong>, and <strong>industry applications</strong>.</p>
+          <p>My goal is to use computational models to test hypotheses about how the brain works, apply <span class="about-accent-violet">neuroscience insights</span> to build better <span class="about-accent-violet">AI systems</span>, and translate these insights into real solutions for <span class="about-accent-amber">neurological diseases</span>, <span class="about-accent-amber">clinical tools</span>, and <span class="about-accent-amber">industry applications</span>.</p>
 
-        <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native</p>
+          <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native</p>
+        </div>
       </div>
     </div>
   </div>
