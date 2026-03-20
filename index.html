@@ -51,19 +51,16 @@ section{position:relative;z-index:1}
 .sec-label::before{content:'◈'}
 .sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,5rem);letter-spacing:.04em;line-height:.95;margin-bottom:3.5rem}
 #about{padding:9rem 0;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
-.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .about-body{font-family:'Outfit',sans-serif;font-weight:300;font-size:1rem;line-height:1.95;color:#8fa8c8}
 .about-body strong{color:var(--text);font-family:'Outfit',sans-serif;font-weight:600}
 .about-body p+p{margin-top:1.4rem}
 .thesis-panel{background:var(--card);border:1px solid var(--border2);overflow:hidden;position:relative}
 .thesis-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--cyan),var(--violet));background-size:200% 100%;animation:shimmer 3s linear infinite}
-.thesis-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem;font-size:.65rem;letter-spacing:.2em;color:var(--violet2);text-transform:uppercase}
-.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0}
 .thesis-body{padding:2rem}
-.thesis-body h3{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:1rem;line-height:1.4}
-.thesis-body p{font-size:.8rem;color:var(--muted);line-height:1.9;margin-bottom:1rem}
-.thesis-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem}
-.ttag{font-size:.65rem;padding:.25rem .7rem;border:1px solid var(--violet);color:var(--violet2);letter-spacing:.08em;background:rgba(124,58,237,.08)}
+.thesis-body p{font-size:1rem;color:#8fa8c8;line-height:1.95;margin-bottom:1.2rem;font-family:'Outfit',sans-serif;font-weight:300}
+.thesis-body p:last-child{margin-bottom:0}
+.focus-inline{display:flex;align-items:center;gap:.8rem;margin:1.6rem 0 1rem;padding:1rem 1.2rem;border:1px solid var(--border);background:rgba(14,31,53,.25);font-size:.65rem;letter-spacing:.2em;color:var(--violet2);text-transform:uppercase}
+.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0}
 
 #experience{padding:9rem 0}
 .exp-grid{display:grid;gap:1.8rem}
@@ -178,7 +175,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .hero-right{height:350px}
   .container{padding:0 2.5rem}
   nav{padding:1.2rem 2.5rem}
-  .about-layout,.projects-layout,.skills-layout{grid-template-columns:1fr}
+  .projects-layout,.skills-layout{grid-template-columns:1fr}
   .exp-inner{grid-template-columns:1fr}
   .exp-side{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:1.5rem}
   .ba-viz-grid{grid-template-columns:1fr 1fr}
@@ -237,28 +234,20 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   <div class="container">
     <div class="sec-label">About</div>
     <h2 class="sec-title reveal">Where Neuroscience<br/>Meets Machine Intelligence</h2>
-    <div class="about-layout">
-      <div class="about-body reveal d1">
+
+    <div class="thesis-panel reveal d1">
+      <div class="thesis-body about-body">
         <p>I am a <strong>computational neuroscientist</strong> and <strong>ML engineer</strong> currently completing my master's at <strong>Pompeu Fabra University</strong>, working at the intersection of <strong>brain dynamics</strong> and <strong>computational modeling</strong>.</p>
+
+        <div class="focus-inline"><div class="status-dot"></div>Current Focus</div>
 
         <p>My central question is how the brain maintains the perfect balance between <strong>stability</strong> and <strong>chaos</strong>, and whether we can teach machines to do the same. My thesis with <strong>Prof. Gustavo Deco</strong> and <strong>Dr. Ruben Moreno-Bote</strong> measures whole-brain metastability from <strong>fMRI</strong> using a novel <strong>vortex-space entropy</strong> approach, connecting it to the <strong>Maximum Occupancy Principle</strong> and predicting human cognitive flexibility. I am translating this research into a <strong>neuro inspired RL framework</strong> where occupancy entropy and <strong>MOP-guided intrinsic rewards</strong> drive more efficient exploration in sparse-reward settings.</p>
 
         <p>On the engineering side, I have a strong technical foundation across <strong>signal processing</strong>, <strong>ML/DL algorithm design</strong>, <strong>LLM engineering</strong>, <strong>RAG and agent-based applications</strong>, and <strong>full-stack development</strong>.</p>
 
         <p>My goal is to use computational models to test hypotheses about how the brain works, apply <strong>neuroscience insights</strong> to build better <strong>AI systems</strong>, and translate these insights into real solutions for <strong>neurological diseases</strong>, <strong>clinical tools</strong>, and <strong>industry applications</strong>.</p>
-        <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native </p>
-      </div>
-      <div class="thesis-panel reveal d2">
-        <div class="thesis-header"><div class="status-dot"></div>Current Focus</div>
-        <div class="thesis-body">
-          <h3>Brain Dynamics, Entropy, and Adaptive Intelligence</h3>
-          <p>I study how metastable brain dynamics relate to cognitive flexibility, and how those principles can inform machine learning systems that explore, adapt, and generalize more efficiently.</p>
-          <p>The core idea is simple: useful intelligence may emerge near the balance point between rigid order and uncontrolled chaos. That principle guides both my neuroscience research and my ML work.</p>
-          <div class="thesis-tags">
-            <span class="ttag">Computational Neuroscience</span><span class="ttag">Deep Learning</span><span class="ttag">Brain Dynamics</span>
-            <span class="ttag">Entropy</span><span class="ttag">Adaptive Systems</span><span class="ttag">Neuro-Inspired AI</span>
-          </div>
-        </div>
+
+        <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent &nbsp;·&nbsp; 🇮🇷 Persian native</p>
       </div>
     </div>
   </div>
