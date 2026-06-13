@@ -168,7 +168,7 @@ section{position:relative;z-index:1}
 
 #contact{padding:9rem 0;background:var(--bg2);text-align:center}
 .contact-wrap{max-width:700px;margin:0 auto}
-.avail-pill{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.5rem 1.4rem;border:1px solid rgba(16,185,129,.4);color:var(--green);background:rgba(16,185,129,.05);margin-bottom:2.5rem}
+.avail-pill{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;max-width:100%;font-size:.68rem;letter-spacing:.15em;line-height:1.6;text-transform:uppercase;padding:.5rem 1.4rem;border:1px solid rgba(16,185,129,.4);color:var(--green);background:rgba(16,185,129,.05);margin-bottom:2.5rem;white-space:normal}
 .contact-tagline{font-family:'Outfit',sans-serif;font-weight:300;font-size:1.2rem;color:#8098b8;line-height:1.7;margin-bottom:3.5rem}
 .contact-tagline strong{color:var(--text);font-weight:600}
 .contact-links{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:3rem}
@@ -288,6 +288,28 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="sec-label">Experience</div>
     <h2 class="sec-title reveal">Where I've Worked &amp; What I Built</h2>
     <div class="exp-grid">
+
+      <div class="exp-card reveal d1">
+        <div class="exp-inner">
+          <div class="exp-side">
+            <span class="exp-type internship">Internship</span>
+            <div class="exp-year">2026</div>
+            <div class="exp-org">BSC<br/><span>Digital Health Unit</span></div>
+          </div>
+          <div class="exp-main">
+            <div class="exp-title">Incoming Research Intern - Barcelona Supercomputing Center</div>
+            <div class="exp-date">Jul 16 - Sep 30, 2026</div>
+            <ul class="exp-points">
+              <li>Joining the Digital Health Unit at Barcelona Supercomputing Center for a summer research internship in Barcelona.</li>
+              <li>Bringing computational neuroscience, clinical ML, signal processing, and production software experience into digital health research.</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="etag">Digital Health</span><span class="etag">Clinical AI</span><span class="etag">Machine Learning</span>
+              <span class="etag">Neuroscience</span><span class="etag">Research Software</span><span class="etag">Barcelona</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="exp-card reveal d1">
         <div class="exp-inner">
@@ -571,8 +593,8 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="contact-wrap">
       <div class="sec-label" style="justify-content:center">Contact</div>
       <h2 class="sec-title reveal" style="text-align:center">Let's Build Something</h2>
-      <div class="avail-pill reveal"><div class="status-dot"></div>Open to internships · Short notice · Barcelona / Remote</div>
-      <p class="contact-tagline reveal">Looking for roles in <strong>ML engineering</strong>, <strong>neurotech</strong>, <strong>signal processing</strong>, or <strong>LLM/GenAI</strong>.<br/>Deep neuroscience expertise + production software skills.</p>
+      <div class="avail-pill reveal"><div class="status-dot"></div>BSC Digital Health intern · Jul-Sep 2026</div>
+      <p class="contact-tagline reveal">Working across <strong>ML engineering</strong>, <strong>neurotech</strong>, <strong>signal processing</strong>, and <strong>digital health</strong>.<br/>Deep neuroscience expertise + production software skills.</p>
       <div class="contact-links reveal">
         <a href="mailto:sahar.hosseinzadeh.1999@gmail.com" class="clink"><span>✉</span> Email</a>
         <a href="https://github.com/SynapticSahar?tab=repositories" class="clink" target="_blank"><span>⌥</span> GitHub</a>
