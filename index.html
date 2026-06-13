@@ -221,6 +221,44 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .ba-panel canvas{width:100%!important}
 }
 @media(max-width:768px){
+  nav{padding:1rem;align-items:flex-start;gap:.9rem;flex-direction:column}
+  .nav-logo{font-size:2.35rem;letter-spacing:.08em;line-height:1;max-width:100%}
+  .nav-links{width:100%;gap:.75rem 1rem;flex-wrap:wrap}
+  .nav-links a{font-size:.58rem;letter-spacing:.12em}
+  #hero{padding:9rem 1rem 3rem;gap:2rem}
+  .hero-photo-wrap{width:220px;height:220px}
+  .hero-actions{gap:.8rem}
+  .btn-p,.btn-g{padding:.8rem 1.25rem;font-size:.65rem}
+  #experience{padding:5.5rem 0}
+  .container{padding:0 1rem}
+  .sec-title{font-size:clamp(2.4rem,13vw,3.4rem);margin-bottom:2.2rem}
+  .exp-grid{gap:1.2rem}
+  .exp-card:hover{transform:none}
+  .exp-side,.exp-card.bsc-card .exp-side{
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:1.3rem 1.2rem;
+    gap:.7rem;
+  }
+  .exp-year{font-size:2.8rem}
+  .exp-org{font-size:.6rem;letter-spacing:.1em;line-height:1.65}
+  .exp-org.compact{font-size:.58rem;letter-spacing:.06em}
+  .exp-main{padding:1.35rem 1.2rem 1.5rem}
+  .exp-title{font-size:1rem;line-height:1.38}
+  .exp-date{font-size:.62rem;letter-spacing:.06em;margin-bottom:1.1rem;padding-bottom:1rem}
+  .exp-points{gap:.6rem}
+  .exp-points li{font-size:.76rem;line-height:1.7}
+  .exp-stack{margin-top:1.1rem;padding-top:1rem}
+  .etag{font-size:.58rem;letter-spacing:.04em}
+  .research-extra,.research-entropy-wrap{margin-top:1.1rem;padding-top:1rem}
+  .research-entropy-panel{padding:.7rem;overflow:hidden}
+  .ba-viz-grid{gap:.8rem}
+  .ba-panel{min-width:0;padding:.75rem}
+  .ba-panel canvas{max-width:100%;height:auto}
+  .ba-entropy-stats{gap:.7rem;font-size:.58rem}
+  .proj-card{padding:1.4rem}
+  .proj-glow{display:none}
   footer{padding:2rem 2.5rem;flex-direction:column;gap:.8rem;text-align:center}
 }
 </style>
@@ -333,7 +371,8 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-date">Sep 2025 – Jul 2026</div>
             <ul class="exp-points">
               <li>Measuring whole-brain metastability from 7T fMRI in vortex-space across HCP subjects, clustering 1000 brain regions into 17 metastable states, and correlating Shannon and path entropy per subject with cognitive flexibility and behavioral performance.</li>
-              <li><li>Implementing MOP and assessing its performance by comparing model predictions against empirical ones</li> </li>
+              <li>Implementing MOP and assessing its performance by comparing model predictions against empirical ones.</li>
+            </ul>
 
             <div class="research-extra">
               <div class="research-kicker">Core Hypothesis</div>
