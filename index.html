@@ -4,6 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sahar Hosseinzadeh - Computational Neuroscientist</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EFWMEE84WC"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js',new Date());
+  gtag('config','G-EFWMEE84WC');
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#020408;--bg2:#040810;--card:#070d18;--border:#0e1f35;--border2:#142840;--cyan:#00e5ff;--violet:#7c3aed;--violet2:#a78bfa;--amber:#f59e0b;--rose:#fb7185;--green:#10b981;--text:#e2e8f0;--muted:#4a6080;--muted2:#1a2f4a}
@@ -671,6 +679,73 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 </footer>
 
 <script>
+// ANALYTICS
+function cleanAnalyticsUrl(url){
+  if(!url)return '';
+  if(url.startsWith('mailto:'))return 'mailto';
+  try{
+    const parsed=new URL(url,window.location.href);
+    parsed.search='';
+    return parsed.toString();
+  }catch{
+    return String(url).split('?')[0];
+  }
+}
+function trackEvent(name,params={}){
+  if(typeof gtag!=='function')return;
+  gtag('event',name,params);
+}
+document.addEventListener('click',event=>{
+  const target=event.target.closest('a,button');
+  if(!target)return;
+  const rawUrl=target.href||'';
+  const linkUrl=cleanAnalyticsUrl(rawUrl);
+  const linkText=(target.textContent||target.getAttribute('aria-label')||linkUrl||'unknown').trim().replace(/\s+/g,' ').slice(0,100);
+  const section=target.closest('section')?.id||(target.closest('nav')?'nav':'global');
+  const params={link_text:linkText,link_url:linkUrl,link_id:target.id||'',link_classes:typeof target.className==='string'?target.className:'',section};
+
+  trackEvent('site_click',params);
+  if(target.hasAttribute('download')||/\.pdf$/i.test(new URL(rawUrl||window.location.href,window.location.href).pathname)){
+    trackEvent('cv_download',params);
+  }
+  if(rawUrl.startsWith('mailto:'))trackEvent('email_click',{...params,link_url:'mailto'});
+  if(rawUrl.includes('github.com'))trackEvent('github_click',params);
+  if(rawUrl.includes('linkedin.com'))trackEvent('linkedin_click',params);
+  if(rawUrl.includes('#contact'))trackEvent('contact_click',params);
+});
+
+const viewedSections=new Set();
+if('IntersectionObserver' in window){
+  const sectionObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting||viewedSections.has(entry.target.id))return;
+      viewedSections.add(entry.target.id);
+      trackEvent('section_view',{section_id:entry.target.id,section_name:entry.target.id});
+    });
+  },{threshold:.55});
+  document.querySelectorAll('section[id]').forEach(section=>sectionObserver.observe(section));
+}
+
+const scrollDepths=[25,50,75,90];
+const trackedScrollDepths=new Set();
+let scrollDepthTimer=null;
+function trackScrollDepth(){
+  scrollDepthTimer=null;
+  const scrollable=document.documentElement.scrollHeight-window.innerHeight;
+  if(scrollable<=0)return;
+  const percent=Math.round((window.scrollY/scrollable)*100);
+  scrollDepths.forEach(depth=>{
+    if(percent>=depth&&!trackedScrollDepths.has(depth)){
+      trackedScrollDepths.add(depth);
+      trackEvent('scroll_depth',{percent_scrolled:depth});
+    }
+  });
+}
+window.addEventListener('scroll',()=>{
+  if(scrollDepthTimer)return;
+  scrollDepthTimer=setTimeout(trackScrollDepth,250);
+},{passive:true});
+
 // CURSOR
 const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=-100,my=-100,rx=-100,ry=-100;
