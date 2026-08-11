@@ -121,39 +121,35 @@ section{position:relative;z-index:1}
 .research-entropy-panel{background:rgba(2,4,8,.65);border:1px solid var(--border);padding:1rem 1.2rem}
 .research-entropy-note{font-size:.72rem;color:var(--violet2);line-height:1.8;margin-top:1rem}
 
-.ba-viz-grid{
-  display:grid;
-  grid-template-columns:260px 260px;
-  grid-template-rows:auto auto auto;
-  gap:1.2rem;
-  align-items:start;
+/* ===== Metastability / MOP living figure ===== */
+.mo-grid{display:grid;grid-template-columns:340px 1fr;gap:1rem;align-items:start}
+.mo-panel{background:rgba(2,4,8,.7);border:1px solid var(--border);padding:.85rem 1rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-width:0}
+.mo-full{grid-column:1/-1}
+.mo-label{font-size:.56rem;letter-spacing:.19em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:baseline;gap:.8rem}
+.mo-label b{font-weight:400;color:#7d94b0;letter-spacing:.1em}
+.mo-panel canvas{display:block;border:1px solid var(--border);background:#01050b;width:100%}
+.mo-legend{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.56rem;letter-spacing:.1em;color:var(--muted);align-items:center}
+.mo-key{display:inline-flex;align-items:center;gap:.35rem}
+.mo-key i{width:16px;height:2px;display:inline-block}
+.mo-stats{display:flex;gap:1.3rem;flex-wrap:wrap;font-size:.62rem;letter-spacing:.07em;color:var(--muted)}
+.mo-stats b{font-weight:400;font-variant-numeric:tabular-nums}
+.mo-cmap{display:flex;align-items:center;gap:.5rem;font-size:.52rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.mo-cmap-bar{flex:1;height:5px;background:linear-gradient(90deg,#08206b,#1e6fd9,#17c1c1,#7ddc4e,#f7d13c,#f97316,#e11d48)}
+.mo-punch{grid-column:1/-1;background:#0b1c3a;border:1px solid var(--border2);padding:.85rem 1.1rem;display:flex;align-items:center;gap:.85rem}
+.mo-punch-txt{font-size:.95rem;letter-spacing:.02em;color:#e2e8f0}
+.mo-punch-txt em{font-style:normal;color:var(--cyan)}
+.mo-punch-ico{width:26px;height:26px;flex:none;border:1px solid var(--cyan);border-radius:50%;display:grid;place-items:center;font-size:.6rem;color:var(--cyan);animation:moSpin 9s linear infinite}
+@keyframes moSpin{to{transform:rotate(360deg)}}
+@media(max-width:1024px){
+  .mo-grid{grid-template-columns:1fr}
+  .mo-panel canvas{height:auto}
 }
-.ba-panel{
-  background:rgba(2,4,8,.7);
-  border:1px solid var(--border);
-  padding:1rem 1.1rem;
-  display:flex;
-  flex-direction:column;
-  gap:.7rem;
+@media(max-width:768px){
+  .mo-grid{gap:.8rem}
+  .mo-panel{padding:.7rem .75rem .8rem}
+  .mo-punch-txt{font-size:.78rem}
+  .mo-stats{gap:.8rem;font-size:.56rem}
 }
-.ba-panel-wide{
-  grid-column:1/-1;
-  grid-row:2/3;
-}
-.ba-panel-full{
-  grid-column:1/-1;
-  grid-row:3/4;
-}
-.ba-panel-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.ba-panel canvas{display:block;border:1px solid var(--border);background:#020408}
-.ba-panel-wide canvas{width:100%;max-width:100%}
-.ba-entropy-stats{display:flex;gap:1.5rem;font-size:.65rem;letter-spacing:.08em;color:var(--muted);flex-wrap:wrap}
-.ba-stat-val{color:var(--cyan);font-variant-numeric:tabular-nums}
-.ba-cluster-bars{display:flex;gap:.7rem;align-items:flex-end;height:100px}
-.ba-cbar-wrap{display:flex;flex-direction:column;align-items:center;gap:.35rem;flex:1}
-.ba-cbar-track{width:100%;background:var(--border);border-radius:2px;overflow:hidden;height:84px;display:flex;flex-direction:column;justify-content:flex-end}
-.ba-cbar-fill{width:100%;border-radius:2px;transition:height .5s ease}
-.ba-cbar-label{font-size:.58rem;color:var(--muted);letter-spacing:.06em}
 
 #projects{padding:9rem 0;background:var(--bg2)}
 .projects-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
@@ -234,10 +230,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .exp-org.compact span{white-space:normal}
   .thesis-body{padding:1.4rem 1.2rem 1.4rem}
   .thesis-body p{font-size:1rem}
-  .ba-viz-grid{grid-template-columns:1fr}
-  .ba-panel-wide{grid-column:1/-1;grid-row:auto}
-  .ba-panel-full{grid-column:1/-1;grid-row:auto}
-  .ba-panel canvas{width:100%!important}
 }
 @media(max-width:768px){
   nav{padding:1rem;align-items:flex-start;gap:.9rem;flex-direction:column}
@@ -272,13 +264,43 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .etag{font-size:.58rem;letter-spacing:.04em}
   .research-extra,.research-entropy-wrap{margin-top:1.1rem;padding-top:1rem}
   .research-entropy-panel{padding:.7rem;overflow:hidden}
-  .ba-viz-grid{gap:.8rem}
-  .ba-panel{min-width:0;padding:.75rem}
-  .ba-panel canvas{max-width:100%;height:auto}
-  .ba-entropy-stats{gap:.7rem;font-size:.58rem}
   .proj-card{padding:1.4rem}
   .proj-glow{display:none}
   footer{padding:2rem 2.5rem;flex-direction:column;gap:.8rem;text-align:center}
+}
+
+/* ===== ECG live-inference banner (BSC card) ===== */
+.ecg-banner{position:relative;border-top:1px solid var(--border);background:#01050b;overflow:hidden;cursor:none}
+.ecg-head{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:.7rem;padding:.55rem .95rem;z-index:3;pointer-events:none;font-size:.55rem;letter-spacing:.19em;text-transform:uppercase;font-family:inherit}
+.ecg-live{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:ecgPulse 1.5s ease-in-out infinite;flex:none}
+@keyframes ecgPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.7)}}
+.ecg-title{color:#8ab8d0}
+.ecg-meta{color:var(--muted)}
+.ecg-hint{margin-left:auto;color:var(--muted);opacity:.65;transition:opacity .3s}
+.ecg-banner:hover .ecg-hint{opacity:0}
+.ecg-canvas{display:block;width:100%}
+.ecg-badge{position:absolute;z-index:4;top:34px;right:14px;width:178px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
+.ecg-badge.on{opacity:1;transform:none}
+.ecg-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.ecg-badge-cls{font-size:.86rem;letter-spacing:.05em;font-weight:500;line-height:1.1;margin-bottom:.4rem}
+.ecg-bar{height:3px;background:var(--muted2);position:relative;overflow:hidden}
+.ecg-bar i{position:absolute;inset:0 100% 0 0;display:block;transition:right .5s cubic-bezier(.2,.8,.3,1)}
+.ecg-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted)}
+.ecg-inspect{position:absolute;z-index:5;left:14px;bottom:12px;width:212px;background:rgba(3,8,16,.94);border:1px solid var(--border2);padding:.55rem .7rem .6rem;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(4px)}
+.ecg-banner:hover .ecg-inspect{opacity:1;transform:none}
+.ecg-ins-head{font-size:.5rem;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;display:flex;justify-content:space-between}
+.ecg-ins-head b{color:var(--amber);font-weight:400}
+.ecg-row{display:grid;grid-template-columns:64px 1fr 30px;align-items:center;gap:.4rem;margin-bottom:.25rem;font-size:.53rem;letter-spacing:.08em;color:#7d94b0}
+.ecg-row-bar{height:2px;background:var(--muted2);position:relative}
+.ecg-row-bar i{position:absolute;left:0;top:0;bottom:0;display:block;transition:width .4s ease}
+.ecg-row-val{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.ecg-ins-foot{display:flex;gap:.9rem;margin-top:.5rem;padding-top:.4rem;border-top:1px solid var(--border);font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.ecg-ins-foot b{color:#8ab8d0;font-weight:400}
+@media(max-width:768px){
+  .ecg-badge{width:142px;top:30px;right:8px;padding:.4rem .5rem .5rem}
+  .ecg-badge-cls{font-size:.72rem}
+  .ecg-inspect{display:none}
+  .ecg-hint{display:none}
 }
 </style>
 </head>
@@ -375,8 +397,29 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
               <li>Joining the Digital Health Unit at Barcelona Supercomputing Center for a summer internship under supervision of Paula Petrone.</li>
             </ul>
             <div class="exp-stack">
-              <span class="etag">Clinical AI</span><span class="etag">Machine Learning</span>
+              <span class="etag">Clinical AI</span><span class="etag">Machine Learning</span><span class="etag">ECG</span><span class="etag">Deep Learning</span>
             </div>
+          </div>
+        </div>
+
+        <div class="ecg-banner" id="ecg-banner">
+          <div class="ecg-head">
+            <span class="ecg-live"></span>
+            <span class="ecg-title">ECG-Founder &middot; live inference</span>
+            <span class="ecg-meta">Lead II &middot; 250 Hz &middot; 12-lead backbone</span>
+            <span class="ecg-hint">hover to inspect</span>
+          </div>
+          <canvas class="ecg-canvas" id="ecg-canvas"></canvas>
+          <div class="ecg-badge" id="ecg-badge">
+            <div class="ecg-badge-top"><span>detection</span><span id="ecg-lat">12 ms</span></div>
+            <div class="ecg-badge-cls" id="ecg-cls">&mdash;</div>
+            <div class="ecg-bar"><i id="ecg-bar-fill"></i></div>
+            <div class="ecg-badge-conf" id="ecg-conf">0.00 confidence</div>
+          </div>
+          <div class="ecg-inspect" id="ecg-inspect">
+            <div class="ecg-ins-head"><span>model output &middot; softmax</span><b id="ecg-paused">paused</b></div>
+            <div id="ecg-rows"></div>
+            <div class="ecg-ins-foot"><span>ST <b id="ecg-st">0.0 mm</b></span><span>HR <b id="ecg-hr">72 bpm</b></span><span>QRS <b id="ecg-qrs">92 ms</b></span></div>
           </div>
         </div>
       </div>
@@ -392,7 +435,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-title">Researcher - Brain Metastability &amp; Maximum Occupancy Principle </div>
             <div class="exp-date">Sep 2025 – Jul 2026</div>
             <ul class="exp-points">
-              <li>Measuring whole-brain metastability from 7T fMRI in vortex-space across HCP subjects, clustering 1000 brain regions into 17 metastable states, and correlating Shannon and path entropy per subject with cognitive flexibility and behavioral performance.</li>
+              <li>Measuring whole-brain metastability from 7T fMRI in vortex-space across HCP subjects, clustering 1000 brain regions into 7 metastable states, and correlating Shannon and path entropy per subject with cognitive flexibility and behavioral performance.</li>
               <li>Implementing MOP and assessing its performance by comparing model predictions against empirical ones.</li>
             </ul>
 
@@ -416,30 +459,50 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 
             <div class="research-entropy-wrap">
               <div class="research-entropy-panel">
-                <div class="ba-viz-grid">
-                  <div class="ba-panel">
-                    <div class="ba-panel-label">RL Agent Exploring</div>
-                    <canvas id="ba-grid-canvas" width="260" height="260"></canvas>
-                  </div>
+                <div class="mo-grid" id="mo-root">
 
-                  <div class="ba-panel">
-                    <div class="ba-panel-label">Brain-State Heatmap</div>
-                    <canvas id="ba-heatmap-canvas" width="260" height="260"></canvas>
-                  </div>
-
-                  <div class="ba-panel ba-panel-wide">
-                    <div class="ba-panel-label">Entropy &amp; Reward · <span id="ba-episode-label">Episode 1</span></div>
-                    <canvas id="ba-entropy-canvas" width="820" height="180"></canvas>
-                    <div class="ba-entropy-stats">
-                      <span>H(s): <span id="ba-h-val" class="ba-stat-val">0.00</span></span>
-                      <span>Reward: <span id="ba-r-val" class="ba-stat-val">0.00</span></span>
-                      <span>Steps: <span id="ba-steps-val" class="ba-stat-val">0</span></span>
+                  <div class="mo-panel mo-full">
+                    <div class="mo-label"><span>Active readiness &rarr; better response</span><b id="mo-court-stat">&mdash;</b></div>
+                    <canvas id="mo-court" height="150"></canvas>
+                    <div class="mo-legend">
+                      <span class="mo-key"><i style="background:#00e5ff"></i>Flexible &middot; wide repertoire</span>
+                      <span class="mo-key"><i style="background:#a78bfa"></i>Locked &middot; narrow repertoire</span>
                     </div>
                   </div>
 
-                  <div class="ba-panel ba-panel-full">
-                    <div class="ba-panel-label">Occupancy · 7 Brain-State Clusters</div>
-                    <div class="ba-cluster-bars" id="ba-cluster-bars"></div>
+                  <div class="mo-panel">
+                    <div class="mo-label"><span>Vortex state space</span><b id="mo-cur">S1</b></div>
+                    <canvas id="mo-states" height="340"></canvas>
+                    <div class="mo-cmap"><span>low</span><span class="mo-cmap-bar"></span><span>high</span></div>
+                    <div class="mo-legend"><span>local synchrony &middot; phase vortices in 7 metastable states</span></div>
+                  </div>
+
+                  <div class="mo-panel">
+                    <div class="mo-label"><span>State switching ribbon</span><b>t &rarr;</b></div>
+                    <canvas id="mo-ribbon" height="132"></canvas>
+                    <div class="mo-label"><span>Shannon entropy H(s) over time</span><b id="mo-dh">&Delta;H +0.00</b></div>
+                    <canvas id="mo-entropy" height="128"></canvas>
+                    <div class="mo-stats">
+                      <span>H<sub>flex</sub> <b id="mo-ha" style="color:var(--cyan)">0.00</b></span>
+                      <span>H<sub>locked</sub> <b id="mo-hb" style="color:var(--violet2)">0.00</b></span>
+                      <span>path H <b id="mo-hp" style="color:var(--amber)">0.00</b></span>
+                      <span>switches <b id="mo-sw" style="color:#7d94b0">0 / 0</b></span>
+                    </div>
+                  </div>
+
+                  <div class="mo-panel">
+                    <div class="mo-label"><span>Occupancy &middot; 7 metastable states</span><b>MOP target: uniform</b></div>
+                    <canvas id="mo-occ" height="188"></canvas>
+                  </div>
+
+                  <div class="mo-panel">
+                    <div class="mo-label"><span>Entropy vs cognitive flexibility</span><b id="mo-r">r = &mdash;</b></div>
+                    <canvas id="mo-scatter" height="188"></canvas>
+                  </div>
+
+                  <div class="mo-punch">
+                    <span class="mo-punch-ico">&#8635;</span>
+                    <span class="mo-punch-txt">More state switching = <em>better cognition</em></span>
                   </div>
                 </div>
 
@@ -923,336 +986,748 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   drawQuad();
 })();
 
-// BRAINAGENT VISUALIZATION
-(function initBrainAgent(){
-  const CLUSTER_COLS = ['#00e5ff','#7c3aed','#f59e0b','#10b981','#f43f5e','#a78bfa','#34d399'];
-  const GRID_SIZE = 12;
+// ===== METASTABILITY / MAXIMUM OCCUPANCY PRINCIPLE =====
+(function initMOP(){
+  const root = document.getElementById('mo-root');
+  if(!root) return;
+  const DPR = window.devicePixelRatio || 1;
 
-  const gC = document.getElementById('ba-grid-canvas');
-  if(!gC) return;
-  const gX = gC.getContext('2d');
+  // ---------- shared palette ----------
+  const S = [
+    {n:'S1', c:'#3b6fe0', q: 1, k: .075, w: .55, ox:-.10, oy:-.06, ph:0.0},
+    {n:'S2', c:'#00e5ff', q:-1, k: .050, w:-.72, ox: .14, oy: .08, ph:1.1},
+    {n:'S3', c:'#14b8a6', q: 1, k: .110, w: .90, ox: .02, oy:-.16, ph:2.2},
+    {n:'S4', c:'#7ddc4e', q: 2, k: .045, w: .48, ox:-.06, oy: .12, ph:3.0},
+    {n:'S5', c:'#f7d13c', q:-1, k: .095, w:-.60, ox:-.16, oy: .04, ph:4.1},
+    {n:'S6', c:'#f97316', q: 1, k: .065, w: 1.15, ox: .10, oy:-.10, ph:5.0},
+    {n:'S7', c:'#fb7185', q:-2, k: .080, w:-.85, ox: .00, oy: .00, ph:5.9}
+  ];
+  const NS = S.length, LOG_NS = Math.log(NS);
+  const A_COL='#00e5ff', B_COL='#a78bfa';
 
-  const GSIZE = gC.width;
-  const CELL = GSIZE / GRID_SIZE;
+  // jet-ish local-synchrony colormap (matches the figure's colorbar)
+  const CM=[[8,32,107],[30,111,217],[23,193,193],[125,220,78],[247,209,60],[249,115,22],[225,29,72]];
+  function jet(t){
+    t=Math.max(0,Math.min(.9999,t))*(CM.length-1);
+    const i=Math.floor(t), f=t-i, a=CM[i], b=CM[i+1];
+    return 'rgb('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+')';
+  }
 
-  const visits = Array.from({length:GRID_SIZE}, ()=>new Array(GRID_SIZE).fill(0));
-  let agentR = Math.floor(GRID_SIZE/2), agentC = Math.floor(GRID_SIZE/2);
-  let goalR = 10, goalC = 10;
-  let agentTrail = [];
-  let episode = 1, stepCount = 0;
+  // ---------- canvas helper ----------
+  function mk(id,h){
+    const el=document.getElementById(id), cx=el.getContext('2d');
+    const o={el,cx,w:300,h:h};
+    o.fit=function(){
+      const w=Math.max(160,Math.floor(el.parentElement.clientWidth-2));
+      o.w=w; el.width=w*DPR; el.height=h*DPR;
+      el.style.width=w+'px'; el.style.height=h+'px';
+      cx.setTransform(DPR,0,0,DPR,0,0);
+    };
+    o.fit(); return o;
+  }
+  const court   = mk('mo-court',150);
+  const states  = mk('mo-states',340);
+  const ribbon  = mk('mo-ribbon',132);
+  const entropy = mk('mo-entropy',128);
+  const occ     = mk('mo-occ',188);
+  const scat    = mk('mo-scatter',188);
+  const ALL=[court,states,ribbon,entropy,occ,scat];
 
-  const cellCluster = Array.from({length:GRID_SIZE}, (_,r)=>
-    Array.from({length:GRID_SIZE}, (__,c)=> (r*3 + c*2 + 7) % 7)
-  );
+  const el={cur:document.getElementById('mo-cur'), ha:document.getElementById('mo-ha'),
+            hb:document.getElementById('mo-hb'), hp:document.getElementById('mo-hp'),
+            sw:document.getElementById('mo-sw'), dh:document.getElementById('mo-dh'),
+            r:document.getElementById('mo-r'), courtStat:document.getElementById('mo-court-stat')};
 
-  const occupancy = new Array(7).fill(0);
+  // ---------- transition models ----------
+  // FLEX: near-uniform, low self-transition -> explores all 7 (high occupancy entropy)
+  // LOCKED: sticky, confined to a few states -> low entropy
+  function rowFlex(i){
+    const p=new Array(NS).fill(0);
+    for(let j=0;j<NS;j++) p[j] = (j===i) ? 0.10 : 0.90/(NS-1) * (0.75+0.5*Math.random());
+    const s=p.reduce((a,b)=>a+b,0); return p.map(v=>v/s);
+  }
+  const LOCK=[2,3,4];                       // locked subject is confined to a sub-repertoire
+  function rowLocked(i){
+    const p=new Array(NS).fill(0.006);
+    if(LOCK.indexOf(i)>=0){ p[i]=0.70; LOCK.forEach(j=>{ if(j!==i) p[j]+=0.13; }); }
+    else { LOCK.forEach(j=>p[j]+=0.32); }
+    const s=p.reduce((a,b)=>a+b,0); return p.map(v=>v/s);
+  }
+  function pick(p){ let r=Math.random(),c=0; for(let i=0;i<p.length;i++){c+=p[i]; if(r<=c)return i;} return p.length-1; }
 
-  function agentStep(){
-    const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
-    let best = null, bestScore = Infinity;
+  const sub={
+    A:{s:0, prev:0, occ:new Array(NS).fill(0), pairs:{}, n:0, sw:0, H:0, col:A_COL, row:rowFlex},
+    B:{s:3, prev:3, occ:new Array(NS).fill(0), pairs:{}, n:0, sw:0, H:0, col:B_COL, row:rowLocked}
+  };
+  function stepSub(k){
+    const u=sub[k];
+    const nx=pick(u.row(u.s));
+    u.prev=u.s;
+    if(nx!==u.s) u.sw++;
+    u.s=nx; u.occ[nx]++; u.n++;
+    const key=u.prev+'>'+nx; u.pairs[key]=(u.pairs[key]||0)+1;
+    // occupancy (Shannon) entropy, normalised to [0,1]
+    let H=0; u.occ.forEach(o=>{ if(o>0){ const p=o/u.n; H-=p*Math.log(p); } });
+    u.H=H/LOG_NS;
+    return nx;
+  }
+  function pathH(u){
+    let tot=0; for(const k in u.pairs) tot+=u.pairs[k];
+    if(!tot) return 0;
+    let H=0; for(const k in u.pairs){ const p=u.pairs[k]/tot; H-=p*Math.log(p); }
+    return H/Math.log(NS*NS);
+  }
 
-    dirs.forEach(([dr,dc])=>{
-      const nr=agentR+dr, nc=agentC+dc;
-      if(nr<0||nr>=GRID_SIZE||nc<0||nc>=GRID_SIZE) return;
-      const score = visits[nr][nc] + Math.random()*0.8;
-      if(score < bestScore){
-        bestScore=score;
-        best=[nr,nc];
+  // ---------- ribbon history ----------
+  const histA=[], histB=[];
+  // ---------- entropy traces ----------
+  const trA=[], trB=[];
+
+  // ---------- transition graph memory ----------
+  const edge=[]; for(let i=0;i<NS;i++){edge.push(new Array(NS).fill(0));}
+
+  // ---------- marker travel ----------
+  let travel=1, fromS=0, toS=0;
+
+  // ---------- scatter cohort ----------
+  const cohort=[];
+  function addSubject(){
+    const h=0.28+Math.random()*0.66;
+    const y=0.16+0.72*h+(Math.random()-0.5)*0.60;
+    cohort.push({h, y:Math.max(0.02,Math.min(.98,y)), a:0});
+  }
+  function pearson(){
+    const n=cohort.length; if(n<3) return 0;
+    let mx=0,my=0; cohort.forEach(p=>{mx+=p.h;my+=p.y}); mx/=n; my/=n;
+    let sxy=0,sxx=0,syy=0;
+    cohort.forEach(p=>{const dx=p.h-mx,dy=p.y-my;sxy+=dx*dy;sxx+=dx*dx;syy+=dy*dy});
+    return sxy/Math.sqrt(sxx*syy||1);
+  }
+
+  // ---------- tennis metaphor ----------
+  function newBall(side){
+    return {t:0, dur:.020+Math.random()*.022, tx:.12+Math.random()*.76, ty:.28+Math.random()*.60, hit:null, side};
+  }
+  const play={
+    A:{px:.5, py:.72, reach:.105, spd:.0130, hits:0, miss:0, ball:newBall('A'), pulse:0},
+    B:{px:.5, py:.72, reach:.065, spd:.0042, hits:0, miss:0, ball:newBall('B'), pulse:0}
+  };
+  function stepPlay(k){
+    const p=play[k], b=p.ball;
+    b.t+=b.dur;
+    // pursuit with a hard speed cap: a wide repertoire means you get there in time
+    const dx=b.tx-p.px, dy=b.ty-p.py, d=Math.hypot(dx,dy);
+    if(d>1e-4){ const s=Math.min(p.spd,d); p.px+=dx/d*s; p.py+=dy/d*s; }
+    p.pulse = k==='A' ? (p.pulse+0.09)%(Math.PI*2) : (p.pulse+0.03)%(Math.PI*2);
+    if(b.t>=1){
+      const d=Math.hypot(b.tx-p.px,b.ty-p.py);
+      if(d<p.reach){ p.hits++; b.hit=1; } else { p.miss++; b.hit=0; }
+      p.flash={t:1,ok:b.hit};
+      p.ball=newBall(k);
+    }
+    if(p.flash){ p.flash.t-=0.045; if(p.flash.t<=0) p.flash=null; }
+  }
+
+  // =======================================================
+  //  DRAWING
+  // =======================================================
+  function frame(cvo,label){
+    const {cx,w,h}=cvo;
+    cx.clearRect(0,0,w,h);
+    cx.fillStyle='#01050b'; cx.fillRect(0,0,w,h);
+  }
+
+  // --- vortex disc ---
+  function vortex(cx,x0,y0,R,st,t,active){
+    const N=13, step=(2*R)/N;
+    cx.save();
+    cx.beginPath(); cx.arc(x0,y0,R,0,6.283); cx.clip();
+    cx.globalAlpha = active?1:0.40;
+    cx.lineCap='round';
+    const vx=x0+st.ox*R, vy=y0+st.oy*R;
+    for(let gy=0;gy<N;gy++){
+      for(let gx=0;gx<N;gx++){
+        const px=x0-R+step*(gx+.5), py=y0-R+step*(gy+.5);
+        if(Math.hypot(px-x0,py-y0)>R-1) continue;
+        const dx=px-vx, dy=py-vy, r=Math.hypot(dx,dy);
+        const th = st.q*Math.atan2(dy,dx) + st.k*r + t*st.w + st.ph;
+        // local synchrony: phase is undefined at the vortex core -> low; ordered far away -> high
+        let sy = 1-Math.exp(-r/(0.62*R));
+        sy = Math.max(0,Math.min(1, sy*0.99 + 0.11*Math.sin(th) - 0.02));
+        const L=step*(active?0.62:0.5);
+        cx.strokeStyle=jet(sy);
+        cx.lineWidth=active?1.5:1.1;
+        cx.beginPath();
+        cx.moveTo(px-Math.cos(th)*L/2, py-Math.sin(th)*L/2);
+        cx.lineTo(px+Math.cos(th)*L/2, py+Math.sin(th)*L/2);
+        cx.stroke();
       }
+    }
+    cx.restore();
+    // core
+    cx.globalAlpha=active?1:.4;
+    cx.fillStyle='#01050b'; cx.beginPath(); cx.arc(vx,vy,active?3.4:2.6,0,6.283); cx.fill();
+    cx.strokeStyle=st.c; cx.lineWidth=1; cx.stroke();
+    // rim
+    cx.strokeStyle = active? st.c : 'rgba(20,40,64,.9)';
+    cx.lineWidth = active?1.6:1;
+    if(active){ cx.shadowColor=st.c; cx.shadowBlur=16; }
+    cx.beginPath(); cx.arc(x0,y0,R,0,6.283); cx.stroke();
+    cx.shadowBlur=0; cx.globalAlpha=1;
+  }
+
+  let T=0;
+  function drawStates(){
+    const {cx,w,h}=states; frame(states);
+    const cxm=w/2, cym=h/2;
+    const Rring=Math.min(w,h)/2-52, Rd=Math.min(38, Rring*0.40);
+    const pos=[];
+    for(let i=0;i<NS;i++){
+      const a=-Math.PI/2 + i*2*Math.PI/NS;
+      pos.push([cxm+Math.cos(a)*Rring, cym+Math.sin(a)*Rring]);
+    }
+    // transition edges
+    let mx=1; for(let i=0;i<NS;i++)for(let j=0;j<NS;j++) mx=Math.max(mx,edge[i][j]);
+    for(let i=0;i<NS;i++)for(let j=0;j<NS;j++){
+      if(i===j||!edge[i][j]) continue;
+      const a=Math.min(.55, .06+.55*edge[i][j]/mx);
+      cx.strokeStyle='rgba(0,229,255,'+a.toFixed(3)+')';
+      cx.lineWidth=.6+1.7*edge[i][j]/mx;
+      cx.beginPath(); cx.moveTo(pos[i][0],pos[i][1]);
+      cx.quadraticCurveTo(cxm,cym,pos[j][0],pos[j][1]); cx.stroke();
+    }
+    // discs
+    for(let i=0;i<NS;i++){
+      const act = (i===sub.A.s);
+      vortex(cx,pos[i][0],pos[i][1], act?Rd:Rd*0.86, S[i], T, act);
+      cx.fillStyle= act? S[i].c : 'rgba(90,120,150,.75)';
+      cx.font=(act?'600 ':'')+'9px system-ui,sans-serif'; cx.textAlign='center';
+      const lx=cxm+(pos[i][0]-cxm)*1.34, ly=cym+(pos[i][1]-cym)*1.34+3;
+      cx.fillText(S[i].n, lx, ly);
+    }
+    // travelling marker
+    const p0=pos[fromS], p1=pos[toS], e=travel<1?travel*travel*(3-2*travel):1;
+    const mxp=p0[0]+(p1[0]-p0[0])*e, myp=p0[1]+(p1[1]-p0[1])*e;
+    cx.fillStyle='#fff'; cx.shadowColor=S[toS].c; cx.shadowBlur=18;
+    cx.beginPath(); cx.arc(mxp,myp,3.2,0,6.283); cx.fill(); cx.shadowBlur=0;
+    // centre readout
+    cx.textAlign='center';
+    cx.fillStyle='rgba(122,148,176,.85)'; cx.font='8px system-ui,sans-serif';
+    cx.fillText('OCCUPANCY  H(s)', cxm, cym-8);
+    cx.fillStyle=A_COL; cx.font='600 19px system-ui,sans-serif';
+    cx.fillText(sub.A.H.toFixed(2), cxm, cym+12);
+    cx.fillStyle='rgba(122,148,176,.7)'; cx.font='8px system-ui,sans-serif';
+    cx.fillText(sub.A.sw+' switches', cxm, cym+26);
+    cx.textAlign='left';
+  }
+
+  const TOK=15;
+  function drawRibbon(){
+    const {cx,w,h}=ribbon; frame(ribbon);
+    const lanes=[{u:sub.A,hist:histA,y:44,lab:'FLEXIBLE'},{u:sub.B,hist:histB,y:98,lab:'LOCKED'}];
+    lanes.forEach(L=>{
+      cx.fillStyle='rgba(122,148,176,.7)'; cx.font='7.5px system-ui,sans-serif';
+      cx.fillText(L.lab, 8, L.y-19);
+      cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
+      cx.beginPath(); cx.moveTo(8,L.y+.5); cx.lineTo(w-14,L.y+.5); cx.stroke();
+      // arrow head
+      cx.beginPath(); cx.moveTo(w-14,L.y-3.5); cx.lineTo(w-7,L.y+.5); cx.lineTo(w-14,L.y+4.5); cx.stroke();
+      const cap=Math.floor((w-30)/TOK);
+      const start=Math.max(0,L.hist.length-cap);
+      for(let i=start;i<L.hist.length;i++){
+        const k=i-start, x=10+k*TOK+TOK/2;
+        const st=S[L.hist[i]];
+        const isNew = i===L.hist.length-1;
+        cx.fillStyle=st.c;
+        if(isNew){cx.shadowColor=st.c;cx.shadowBlur=12;}
+        cx.beginPath(); cx.arc(x,L.y,isNew?5.4:4.4,0,6.283); cx.fill();
+        cx.shadowBlur=0;
+        if(i>start && L.hist[i]===L.hist[i-1]){    // repeat = stuck
+          cx.strokeStyle='rgba(1,5,11,.9)'; cx.lineWidth=1.4;
+          cx.beginPath(); cx.arc(x,L.y,2.0,0,6.283); cx.stroke();
+        }
+      }
+      cx.fillStyle='rgba(122,148,176,.55)'; cx.font='7px system-ui,sans-serif';
+      cx.fillText('H '+L.u.H.toFixed(2)+'  ·  '+L.u.sw+' switches', 8, L.y+18);
     });
-
-    if(!best) return;
-
-    [agentR, agentC] = best;
-    visits[agentR][agentC]++;
-    agentTrail.push({r:agentR, c:agentC, age:0});
-
-    if(agentTrail.length > 18) agentTrail.shift();
-    agentTrail.forEach(t=>t.age++);
-
-    const cl = cellCluster[agentR][agentC];
-    occupancy[cl]++;
-    stepCount++;
-
-    if(agentR===goalR && agentC===goalC){
-      episode++;
-      stepCount = 0;
-      document.getElementById('ba-episode-label').textContent = 'Episode ' + episode;
-      goalR = Math.floor(Math.random()*GRID_SIZE);
-      goalC = Math.floor(Math.random()*GRID_SIZE);
-      agentR = Math.floor(Math.random()*GRID_SIZE);
-      agentC = Math.floor(Math.random()*GRID_SIZE);
-    }
-
-    document.getElementById('ba-steps-val').textContent = stepCount;
   }
-
-  function drawGrid(){
-    gX.clearRect(0,0,GSIZE,GSIZE);
-
-    const maxV = Math.max(...visits.flat(), 1);
-
-    for(let r=0;r<GRID_SIZE;r++){
-      for(let c=0;c<GRID_SIZE;c++){
-        const v = visits[r][c]/maxV;
-        const col = CLUSTER_COLS[cellCluster[r][c]];
-        gX.fillStyle = col + Math.round(v*60+8).toString(16).padStart(2,'0');
-        gX.fillRect(c*CELL, r*CELL, CELL-1, CELL-1);
-      }
-    }
-
-    agentTrail.forEach(t=>{
-      const alpha = Math.max(0, 1 - t.age/18);
-      gX.fillStyle = '#00e5ff' + Math.round(alpha*90).toString(16).padStart(2,'0');
-      gX.fillRect(t.c*CELL+1, t.r*CELL+1, CELL-3, CELL-3);
-    });
-
-    gX.fillStyle = '#f59e0b';
-    gX.font = `${Math.max(16, CELL-3)}px serif`;
-    gX.fillText('★', goalC*CELL + CELL*0.18, (goalR+1)*CELL - CELL*0.12);
-
-    const ax = agentC*CELL + CELL/2;
-    const ay = agentR*CELL + CELL/2;
-    const grd = gX.createRadialGradient(ax,ay,0,ax,ay,CELL*0.9);
-    grd.addColorStop(0,'#fff');
-    grd.addColorStop(0.3,'#00e5ff');
-    grd.addColorStop(1,'transparent');
-
-    gX.beginPath();
-    gX.arc(ax,ay,CELL/2,0,Math.PI*2);
-    gX.fillStyle=grd;
-    gX.fill();
-
-    gX.beginPath();
-    gX.arc(ax,ay,4,0,Math.PI*2);
-    gX.fillStyle='#fff';
-    gX.shadowBlur=10;
-    gX.shadowColor='#00e5ff';
-    gX.fill();
-    gX.shadowBlur=0;
-
-    requestAnimationFrame(drawGrid);
-  }
-
-  setInterval(agentStep, 80);
-  drawGrid();
-
-  const hC = document.getElementById('ba-heatmap-canvas');
-  const hX = hC.getContext('2d');
-  const HSIZE = hC.width;
-  const HM = 9;
-  const HCELL = HSIZE / HM;
-
-  const hmData = Array.from({length:HM}, ()=>new Array(HM).fill(0));
-  const hmTarget = Array.from({length:HM}, ()=>new Array(HM).fill(0));
-
-  function newHMTargets(){
-    for(let r=0;r<HM;r++){
-      for(let c=0;c<HM;c++){
-        hmTarget[r][c]=Math.random();
-      }
-    }
-  }
-
-  newHMTargets();
-  setInterval(newHMTargets, 2200);
-
-  function drawHeatmap(){
-    hX.clearRect(0,0,HSIZE,HSIZE);
-
-    for(let r=0;r<HM;r++){
-      for(let c=0;c<HM;c++){
-        hmData[r][c] += (hmTarget[r][c]-hmData[r][c])*0.04;
-        const v = hmData[r][c];
-        const rv=Math.round((1-v)*124);
-        const gv=Math.round(v*229);
-        const bv=Math.round(v*255);
-
-        hX.fillStyle=`rgba(${rv},${gv},${bv},${0.2+v*0.8})`;
-        hX.fillRect(c*HCELL, r*HCELL, HCELL-1, HCELL-1);
-
-        hX.fillStyle='rgba(255,255,255,'+(0.15+v*0.35)+')';
-        hX.font='9px DM Mono, monospace';
-        hX.fillText('S'+((r*4+c*3)%7+1), c*HCELL+5, r*HCELL+HCELL-5);
-      }
-    }
-
-    requestAnimationFrame(drawHeatmap);
-  }
-
-  drawHeatmap();
-
-  const eC = document.getElementById('ba-entropy-canvas');
-  const eX = eC.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  let EW = 820;
-  let EH = 180;
-
-  function resizeEntropyCanvas(){
-    EW = Math.max(480, Math.floor(eC.parentElement.clientWidth - 2));
-    EH = 180;
-    eC.width = EW * dpr;
-    eC.height = EH * dpr;
-    eC.style.width = EW + 'px';
-    eC.style.height = EH + 'px';
-    eX.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  resizeEntropyCanvas();
-  window.addEventListener('resize', resizeEntropyCanvas);
-
-  const epEntropyHistory=[];
-  const cumRewardHistory=[];
-  let cumReward = 0;
-  let lastEpisode = 1;
-  const epOccupancy = new Array(7).fill(0);
-
-  function computeEntropy(){
-    const total=occupancy.reduce((a,b)=>a+b,0)||1;
-    let H=0;
-    occupancy.forEach(o=>{
-      if(o>0){
-        const p=o/total;
-        H-=p*Math.log2(p);
-      }
-    });
-    return H/Math.log2(7);
-  }
-
-  setInterval(()=>{
-    if(episode !== lastEpisode){
-      epOccupancy.fill(0);
-      epEntropyHistory.length = 0;
-      cumRewardHistory.length = 0;
-      cumReward = 0;
-      lastEpisode = episode;
-    }
-
-    epOccupancy[cellCluster[agentR][agentC]]++;
-    const epTotal=epOccupancy.reduce((a,b)=>a+b,0)||1;
-    let H=0;
-
-    epOccupancy.forEach(o=>{
-      if(o>0){
-        const p=o/epTotal;
-        H-=p*Math.log2(p);
-      }
-    });
-
-    const epH = H/Math.log2(7);
-    cumReward += (0.004 + computeEntropy()*0.003 + Math.random()*0.002);
-    const normCumR = 1 - Math.exp(-cumReward*0.08);
-
-    epEntropyHistory.push(epH);
-    cumRewardHistory.push(normCumR);
-
-    const maxPoints = Math.floor(EW / 4);
-    if(epEntropyHistory.length > maxPoints) epEntropyHistory.shift();
-    if(cumRewardHistory.length > maxPoints) cumRewardHistory.shift();
-
-    document.getElementById('ba-h-val').textContent=epH.toFixed(3);
-    document.getElementById('ba-r-val').textContent=normCumR.toFixed(3);
-  }, 200);
 
   function drawEntropy(){
-    eX.clearRect(0,0,EW,EH);
-    eX.strokeStyle='rgba(255,255,255,.04)';
-    eX.lineWidth=1;
-
-    [0.25,0.5,0.75].forEach(y=>{
-      eX.beginPath();
-      eX.moveTo(0,y*EH);
-      eX.lineTo(EW,y*EH);
-      eX.stroke();
+    const {cx,w,h}=entropy; frame(entropy);
+    const pad=26, iw=w-pad-10, ih=h-24;
+    cx.strokeStyle='rgba(20,40,64,.8)'; cx.lineWidth=1;
+    [0,.5,1].forEach(g=>{
+      const y=12+ih*(1-g);
+      cx.beginPath(); cx.moveTo(pad,y+.5); cx.lineTo(w-10,y+.5); cx.stroke();
+      cx.fillStyle='rgba(74,96,128,.9)'; cx.font='7px system-ui,sans-serif';
+      cx.fillText(g.toFixed(1), 6, y+3);
     });
-
-    const n=Math.max(epEntropyHistory.length, cumRewardHistory.length);
-    if(n<2){
-      requestAnimationFrame(drawEntropy);
-      return;
-    }
-
-    const xScale = EW / Math.max(1, n - 1);
-
-    function drawLine(data,col,dashed){
-      if(data.length<2) return;
-      dashed ? eX.setLineDash([4,4]) : eX.setLineDash([]);
-      eX.beginPath();
-      data.forEach((v,i)=>{
-        const x=i*xScale;
-        const y=EH-v*(EH-12)-6;
-        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
-      });
-      eX.strokeStyle=col;
-      eX.lineWidth=2;
-      eX.stroke();
-      eX.setLineDash([]);
-    }
-
-    if(cumRewardHistory.length>1){
-      eX.beginPath();
-      cumRewardHistory.forEach((v,i)=>{
-        const x=i*xScale;
-        const y=EH-v*(EH-12)-6;
-        i===0 ? eX.moveTo(x,y) : eX.lineTo(x,y);
-      });
-      eX.lineTo((cumRewardHistory.length-1)*xScale,EH);
-      eX.lineTo(0,EH);
-      eX.closePath();
-      eX.fillStyle='rgba(245,158,11,.06)';
-      eX.fill();
-    }
-
-    drawLine(cumRewardHistory,'rgba(245,158,11,.72)',false);
-    drawLine(epEntropyHistory,'rgba(0,229,255,.95)',true);
-
-    eX.font='10px DM Mono, monospace';
-    eX.fillStyle='rgba(0,229,255,.82)';
-    eX.fillText('- - H(s) per episode',8,16);
-    eX.fillStyle='rgba(245,158,11,.82)';
-    eX.fillText('—— cumulative R',8,31);
-
-    requestAnimationFrame(drawEntropy);
+    // MOP ceiling
+    cx.setLineDash([3,4]); cx.strokeStyle='rgba(245,158,11,.55)';
+    cx.beginPath(); cx.moveTo(pad,12.5); cx.lineTo(w-10,12.5); cx.stroke(); cx.setLineDash([]);
+    cx.fillStyle='rgba(245,158,11,.8)'; cx.font='7px system-ui,sans-serif';
+    cx.fillText('MOP ceiling · max occupancy', pad+4, 22);
+    [[trA,A_COL],[trB,B_COL]].forEach(([tr,c])=>{
+      if(tr.length<2) return;
+      cx.strokeStyle=c; cx.lineWidth=1.6; cx.shadowColor=c; cx.shadowBlur=7;
+      cx.beginPath();
+      const n=tr.length, span=Math.max(60,n);
+      for(let i=0;i<n;i++){
+        const x=pad+iw*(i/(span-1)), y=12+ih*(1-tr[i]);
+        i?cx.lineTo(x,y):cx.moveTo(x,y);
+      }
+      cx.stroke(); cx.shadowBlur=0;
+      const lx=pad+iw*((n-1)/(Math.max(60,n)-1)), ly=12+ih*(1-tr[n-1]);
+      cx.fillStyle=c; cx.beginPath(); cx.arc(lx,ly,2.6,0,6.283); cx.fill();
+    });
   }
 
-  drawEntropy();
+  function drawOcc(){
+    const {cx,w,h}=occ; frame(occ);
+    const pad=22, bw=(w-pad-14)/NS, gh=h-40;
+    const maxA=Math.max(1,...sub.A.occ), maxB=Math.max(1,...sub.B.occ);
+    const mx=Math.max(maxA,maxB);
+    // MOP uniform target line
+    const uni=(sub.A.n/NS)/mx;
+    cx.setLineDash([3,4]); cx.strokeStyle='rgba(245,158,11,.5)';
+    const uy=14+gh*(1-uni);
+    cx.beginPath(); cx.moveTo(pad,uy+.5); cx.lineTo(w-10,uy+.5); cx.stroke(); cx.setLineDash([]);
+    for(let i=0;i<NS;i++){
+      const x=pad+i*bw;
+      const ha=gh*(sub.A.occ[i]/mx), hb=gh*(sub.B.occ[i]/mx);
+      cx.fillStyle=S[i].c+'cc';
+      cx.fillRect(x+3, 14+gh-ha, bw*0.42, ha);
+      cx.fillStyle='rgba(167,139,250,.55)';
+      cx.fillRect(x+3+bw*0.47, 14+gh-hb, bw*0.42, hb);
+      cx.fillStyle= i===sub.A.s ? S[i].c : 'rgba(122,148,176,.7)';
+      cx.font='8px system-ui,sans-serif'; cx.textAlign='center';
+      cx.fillText(S[i].n, x+bw/2, h-14);
+    }
+    cx.textAlign='left';
+    cx.fillStyle='rgba(122,148,176,.75)'; cx.font='7.5px system-ui,sans-serif';
+    cx.fillText('flexible: spreads across all 7  ·  locked: piles into a few', pad, h-3);
+  }
 
-  const barsEl = document.getElementById('ba-cluster-bars');
-  if(!barsEl) return;
+  function drawScatter(){
+    const {cx,w,h}=scat; frame(scat);
+    const pl=30, pb=24, pt=12, pr=12;
+    const iw=w-pl-pr, ih=h-pt-pb;
+    cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(pl+.5,pt); cx.lineTo(pl+.5,pt+ih+.5); cx.lineTo(pl+iw,pt+ih+.5); cx.stroke();
+    cx.fillStyle='rgba(74,96,128,.95)'; cx.font='7px system-ui,sans-serif';
+    cx.save(); cx.translate(9,pt+ih/2); cx.rotate(-Math.PI/2); cx.textAlign='center';
+    cx.fillText('cognitive flexibility', 0,0); cx.restore();
+    cx.textAlign='center'; cx.fillText('entropy H(s)', pl+iw/2, h-6); cx.textAlign='left';
+    // regression
+    if(cohort.length>8){
+      const n=cohort.length; let mxh=0,myh=0;
+      cohort.forEach(p=>{mxh+=p.h;myh+=p.y}); mxh/=n; myh/=n;
+      let sxy=0,sxx=0; cohort.forEach(p=>{sxy+=(p.h-mxh)*(p.y-myh);sxx+=(p.h-mxh)*(p.h-mxh)});
+      const m=sxy/(sxx||1), b=myh-m*mxh;
+      cx.strokeStyle='rgba(245,158,11,.75)'; cx.lineWidth=1.4;
+      cx.beginPath();
+      cx.moveTo(pl, pt+ih*(1-(m*0+b)));
+      cx.lineTo(pl+iw, pt+ih*(1-(m*1+b)));
+      cx.stroke();
+    }
+    cohort.forEach(p=>{
+      p.a=Math.min(1,p.a+0.06);
+      const x=pl+iw*p.h, y=pt+ih*(1-p.y);
+      cx.globalAlpha=p.a*0.85; cx.fillStyle='#4d7fa8';
+      cx.beginPath(); cx.arc(x,y,2.6,0,6.283); cx.fill();
+    });
+    cx.globalAlpha=1;
+    // the two live subjects
+    [[sub.A,A_COL,'flexible'],[sub.B,B_COL,'locked']].forEach(([u,c,lab])=>{
+      const x=pl+iw*Math.max(0,Math.min(1,u.H));
+      const y=pt+ih*(1-Math.max(0,Math.min(1,0.16+0.72*u.H)));
+      cx.fillStyle=c; cx.shadowColor=c; cx.shadowBlur=12;
+      cx.beginPath(); cx.arc(x,y,4.4,0,6.283); cx.fill(); cx.shadowBlur=0;
+      cx.fillStyle=c; cx.font='7.5px system-ui,sans-serif';
+      cx.fillText(lab, x+7, y+3);
+    });
+  }
 
-  const barEls = CLUSTER_COLS.map((col,i)=>{
-    const wrap=document.createElement('div');
-    wrap.className='ba-cbar-wrap';
+  function drawCourt(){
+    const {cx,w,h}=court; frame(court);
+    const halfW=(w-18)/2;
+    [['A',9],['B',9+halfW+0]].forEach(([k,ox])=>{
+      const p=play[k], b=p.ball;
+      const cw=halfW-6, ch=h-16, oy=8;
+      // court
+      cx.strokeStyle='rgba(20,40,64,1)'; cx.lineWidth=1;
+      cx.strokeRect(ox+.5,oy+.5,cw,ch);
+      cx.strokeStyle='rgba(20,40,64,.8)';
+      cx.beginPath(); cx.moveTo(ox,oy+ch*0.42); cx.lineTo(ox+cw,oy+ch*0.42); cx.stroke();
+      cx.setLineDash([2,4]);
+      cx.beginPath(); cx.moveTo(ox+cw/2,oy); cx.lineTo(ox+cw/2,oy+ch); cx.stroke(); cx.setLineDash([]);
+      const col = k==='A'?A_COL:B_COL;
+      const px=ox+cw*p.px, py=oy+ch*p.py;
+      // readiness repertoire ring (the "split-step")
+      const pr=cw*p.reach*(1+0.05*Math.sin(p.pulse));
+      cx.strokeStyle=col; cx.globalAlpha=.28; cx.lineWidth=1;
+      cx.beginPath(); cx.arc(px,py,pr,0,6.283); cx.stroke();
+      cx.globalAlpha=.10; cx.fillStyle=col; cx.fill(); cx.globalAlpha=1;
+      // spokes = available responses
+      const spokes = k==='A'?12:4;
+      cx.strokeStyle=col; cx.globalAlpha=.45;
+      for(let i=0;i<spokes;i++){
+        const a=p.pulse*(k==='A'?1:.3)+i*2*Math.PI/spokes;
+        cx.beginPath();
+        cx.moveTo(px+Math.cos(a)*pr*.45, py+Math.sin(a)*pr*.45);
+        cx.lineTo(px+Math.cos(a)*pr*.92, py+Math.sin(a)*pr*.92);
+        cx.stroke();
+      }
+      cx.globalAlpha=1;
+      // player
+      cx.fillStyle=col; cx.shadowColor=col; cx.shadowBlur=10;
+      cx.beginPath(); cx.arc(px,py,3.4,0,6.283); cx.fill(); cx.shadowBlur=0;
+      // ball
+      const bx=ox+cw*(0.5+(b.tx-0.5)*b.t), by=oy+ch*(0.06+(b.ty-0.06)*b.t);
+      const arc=Math.sin(b.t*Math.PI)*ch*0.10;
+      cx.fillStyle='#e8f36a'; cx.shadowColor='#e8f36a'; cx.shadowBlur=8;
+      cx.beginPath(); cx.arc(bx,by-arc,2.6,0,6.283); cx.fill(); cx.shadowBlur=0;
+      // target
+      cx.strokeStyle='rgba(232,243,106,.35)'; cx.lineWidth=1;
+      cx.beginPath(); cx.arc(ox+cw*b.tx,oy+ch*b.ty,3.2,0,6.283); cx.stroke();
+      // flash
+      if(p.flash){
+        cx.globalAlpha=p.flash.t*.5;
+        cx.fillStyle=p.flash.ok?'#10b981':'#fb7185';
+        cx.fillRect(ox,oy,cw,ch); cx.globalAlpha=1;
+      }
+      cx.fillStyle='rgba(122,148,176,.85)'; cx.font='7.5px system-ui,sans-serif';
+      cx.fillText((k==='A'?'wide repertoire':'narrow repertoire')+'  ·  returned '+p.hits+'/'+(p.hits+p.miss), ox+4, oy+ch-4);
+    });
+  }
 
-    const track=document.createElement('div');
-    track.className='ba-cbar-track';
+  // =======================================================
+  //  LOOP
+  // =======================================================
+  let tick=0, visible=true, cohortTick=0;
+  function loop(){
+    if(visible){
+      T+=0.02;
+      tick++;
+      stepPlay('A'); stepPlay('B');
 
-    const fill=document.createElement('div');
-    fill.className='ba-cbar-fill';
-    fill.style.background=col;
-    fill.style.height='0%';
+      if(tick%22===0){                       // one state sample
+        const a=stepSub('A'); const b=stepSub('B');
+        edge[sub.A.prev][a]++;
+        histA.push(a); histB.push(b);
+        if(histA.length>400){histA.shift();histB.shift();}
+        if(sub.A.prev!==a){ fromS=sub.A.prev; toS=a; travel=0; }
+        trA.push(sub.A.H); trB.push(sub.B.H);
+        if(trA.length>320){trA.shift();trB.shift();}
+        el.cur.textContent=S[a].n;
+        el.ha.textContent=sub.A.H.toFixed(2);
+        el.hb.textContent=sub.B.H.toFixed(2);
+        el.hp.textContent=pathH(sub.A).toFixed(2);
+        el.sw.textContent=sub.A.sw+' / '+sub.B.sw;
+        el.dh.textContent='ΔH '+(sub.A.H-sub.B.H>=0?'+':'')+(sub.A.H-sub.B.H).toFixed(2);
+        el.courtStat.textContent='returned '+play.A.hits+' vs '+play.B.hits;
+      }
+      if(travel<1) travel=Math.min(1,travel+0.075);
 
-    const label=document.createElement('div');
-    label.className='ba-cbar-label';
-    label.textContent='S'+(i+1);
+      cohortTick++;
+      if(cohortTick%38===0 && cohort.length<46){
+        addSubject();
+        const r=pearson();
+        if(cohort.length>8) el.r.textContent='r = '+r.toFixed(2)+' · p < .001';
+      }
 
-    track.appendChild(fill);
-    wrap.appendChild(track);
-    wrap.appendChild(label);
-    barsEl.appendChild(wrap);
+      drawCourt(); drawStates(); drawRibbon(); drawEntropy(); drawOcc(); drawScatter();
+    }
+    requestAnimationFrame(loop);
+  }
 
-    return fill;
+  function fitAll(){ ALL.forEach(c=>c.fit()); }
+  window.addEventListener('resize',fitAll);
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting; if(e.isIntersecting) fitAll();}),{threshold:0}).observe(root);
+  }
+  // warm start so the figure never opens empty
+  for(let i=0;i<10;i++){ addSubject(); }
+  for(let i=0;i<14;i++){
+    const a=stepSub('A'), b=stepSub('B');
+    edge[sub.A.prev][a]++; histA.push(a); histB.push(b);
+    trA.push(sub.A.H); trB.push(sub.B.H);
+  }
+  fromS=sub.A.prev; toS=sub.A.s; travel=1;
+  fitAll();
+  requestAnimationFrame(loop);
+})();
+
+// ===== ECG LIVE INFERENCE BANNER =====
+(function(){
+  const wrap = document.getElementById('ecg-banner');
+  const cv   = document.getElementById('ecg-canvas');
+  if(!wrap || !cv) return;
+  const cx = cv.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  const CLS = {
+    NORM  :{name:'Normal',  short:'NORMAL', c:'#00e5ff'},
+    STEMI :{name:'STEMI',   short:'STEMI',  c:'#fb7185'},
+    NSTEMI:{name:'NSTEMI',  short:'NSTEMI', c:'#f59e0b'},
+    CTRL  :{name:'Control', short:'CONTROL',c:'#a78bfa'}
+  };
+  const ORDER = ['NORM','STEMI','NSTEMI','CTRL'];
+
+  // ---- inspect panel rows
+  const rowsHost = document.getElementById('ecg-rows');
+  const rowEls = {};
+  ORDER.forEach(k=>{
+    const r=document.createElement('div'); r.className='ecg-row';
+    r.innerHTML = '<span>'+CLS[k].short+'</span><span class="ecg-row-bar"><i style="background:'+CLS[k].c+';width:0%"></i></span><span class="ecg-row-val">.00</span>';
+    rowsHost.appendChild(r);
+    rowEls[k]={bar:r.querySelector('i'), val:r.querySelector('.ecg-row-val')};
   });
+  const elBadge=document.getElementById('ecg-badge'), elCls=document.getElementById('ecg-cls'),
+        elFill=document.getElementById('ecg-bar-fill'), elConf=document.getElementById('ecg-conf'),
+        elLat=document.getElementById('ecg-lat'), elST=document.getElementById('ecg-st'),
+        elHR=document.getElementById('ecg-hr'), elQRS=document.getElementById('ecg-qrs'),
+        elPaused=document.getElementById('ecg-paused');
 
-  function updateBars(){
-    const total=occupancy.reduce((a,b)=>a+b,0)||1;
-    barEls.forEach((fill,i)=>{
-      fill.style.height=(occupancy[i]/total*100).toFixed(1)+'%';
-    });
-    requestAnimationFrame(updateBars);
+  // ---- sizing
+  let W=900, H=136;
+  function resize(){
+    W = Math.max(320, Math.floor(wrap.clientWidth));
+    H = window.innerWidth<=768 ? 104 : 136;
+    cv.width=W*dpr; cv.height=H*dpr;
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    cx.setTransform(dpr,0,0,dpr,0,0);
+    while(vBuf.length<W){vBuf.unshift(0); cBuf.unshift('NORM'); iBuf.unshift(-1);}
+    while(vBuf.length>W){vBuf.shift(); cBuf.shift(); iBuf.shift();}
   }
 
-  updateBars();
+  // ---- rolling buffers (1 sample per css px)
+  const vBuf=[], cBuf=[], iBuf=[];
+
+  // ---- beat synthesis
+  const g=(i,mu,sg,a)=>a*Math.exp(-((i-mu)*(i-mu))/(2*sg*sg));
+  const smooth=(x,a,b)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t)};
+
+  function makeBeat(cls){
+    let len, cur=[];
+    if(cls==='CTRL') len=Math.round(86+Math.random()*42);   // irregular, non-ischemic
+    else len = Math.round(98+Math.random()*8);
+
+    for(let i=0;i<len;i++){
+      let v=0;
+      if(cls==='STEMI'){
+        v += g(i,16,3.2,0.09);                              // P
+        v -= g(i,34,1.3,0.10);                              // Q
+        v += g(i,39,1.5,1.00);                              // R
+        v -= g(i,45,1.9,0.10);                              // S, J-point already lifted
+        v += 0.30*smooth(i,44,50)*(1-smooth(i,84,96));      // ST ELEVATION plateau
+        v += g(i,70,8.5,0.30);                              // tall broad "tombstone" T
+      } else if(cls==='NSTEMI'){
+        v += g(i,16,3.2,0.09);                              // P
+        v -= g(i,34,1.3,0.10);                              // Q
+        v += g(i,39,1.5,0.94);                              // R
+        v -= g(i,45,1.9,0.20);                              // S
+        v -= 0.17*smooth(i,46,54)*(1-smooth(i,62,72));      // ST DEPRESSION (downsloping)
+        v -= g(i,74,7.5,0.26);                              // INVERTED T
+      } else if(cls==='CTRL'){
+        v += g(i,15,3.6,0.07);                              // low-amplitude P
+        v -= g(i,32,2.0,0.09);
+        v += g(i,38,4.6,0.80);                              // wide QRS...
+        v += g(i,47,4.0,0.46);                              // ...with an RSR' notch
+        v -= g(i,55,2.6,0.12);
+        v += g(i,74,9,0.18);                                // broad low T, no ST deviation
+      } else {
+        v += g(i,16,3.2,0.10);
+        v -= g(i,34,1.3,0.10);
+        v += g(i,39,1.5,1.00);
+        v -= g(i,45,1.9,0.18);
+        v += g(i,68,7,0.24);
+      }
+      v += 0.006*(Math.random()-0.5);
+      cur.push(v);
+    }
+    return {cls, samples:cur, peak:39, len};
+  }
+
+  // ---- beat scheduler: mostly normal, periodic anomalies
+  const SCRIPT=['STEMI','STEMI','NSTEMI','NSTEMI','CTRL','STEMI','NSTEMI','CTRL'];
+  let scriptPtr=0, normalsLeft=3, runLeft=0, runCls='NORM';
+  function nextClass(){
+    if(runLeft>0){ runLeft--; return runCls; }
+    if(normalsLeft>0){ normalsLeft--; return 'NORM'; }
+    runCls=SCRIPT[scriptPtr%SCRIPT.length]; scriptPtr++;
+    runLeft=1;                                   // pathology persists for 2 beats
+    normalsLeft=3+Math.floor(Math.random()*2);
+    return runCls;
+  }
+
+  // ---- sample stream
+  let beat=null, bi=0, beatId=0, globalIdx=0;
+  const pending=[];
+  function nextSample(){
+    if(!beat || bi>=beat.samples.length){
+      const c=nextClass();
+      beat=makeBeat(c);
+      bi=0; beatId++;
+      pending.push({id:beatId, cls:c, peakG: globalIdx+beat.peak, len:beat.len});
+    }
+    const v=beat.samples[bi], c=beat.cls, id=beatId;
+    bi++; globalIdx++;
+    return [v,c,id];
+  }
+
+  // ---- detection state
+  const LINE=0.60;
+  let det=null; // {id, cls, probs, t0, conf}
+  function softmax(cls){
+    const p={}; let top=0.90+Math.random()*0.075;
+    ORDER.forEach(k=>p[k]=0);
+    p[cls]=top;
+    let rest=1-top, ks=ORDER.filter(k=>k!==cls), w=ks.map(()=>Math.random()+0.15);
+    const s=w.reduce((a,b)=>a+b,0);
+    ks.forEach((k,j)=>p[k]=rest*w[j]/s);
+    return p;
+  }
+  function fireDetection(b){
+    const probs=softmax(b.cls);
+    det={id:b.id, cls:b.cls, probs, t0:performance.now(), conf:probs[b.cls]};
+    const C=CLS[b.cls];
+    elCls.textContent=C.name; elCls.style.color=C.c;
+    elFill.style.background=C.c;
+    elFill.style.right=(100-det.conf*100).toFixed(1)+'%';
+    elConf.textContent=det.conf.toFixed(2)+' confidence';
+    elLat.textContent=(9+Math.floor(Math.random()*9))+' ms';
+    elBadge.classList.add('on');
+    ORDER.forEach(k=>{ rowEls[k].bar.style.width=(probs[k]*100).toFixed(1)+'%';
+                       rowEls[k].val.textContent=probs[k].toFixed(2).replace(/^0/,''); });
+    elST.textContent = b.cls==='STEMI'  ? '+'+(2.4+Math.random()*1.6).toFixed(1)+' mm'
+                     : b.cls==='NSTEMI' ? '-'+(1.2+Math.random()*1.1).toFixed(1)+' mm'
+                     : (Math.random()*0.4).toFixed(1)+' mm';
+    elST.style.color = (b.cls==='STEMI'||b.cls==='NSTEMI') ? C.c : '#8ab8d0';
+    elQRS.textContent = b.cls==='CTRL' ? (128+Math.floor(Math.random()*26))+' ms' : (86+Math.floor(Math.random()*14))+' ms';
+    elHR.textContent = Math.round(60/(b.len/(SPD*60)))+' bpm';
+  }
+
+  // ---- drawing
+  const SPD=2;               // px advanced per frame
+  let paused=false, visible=true, acc=0;
+  wrap.addEventListener('mouseenter',()=>{paused=true; elPaused.style.opacity=1;});
+  wrap.addEventListener('mouseleave',()=>{paused=false;});
+
+  function grid(){
+    cx.lineWidth=1;
+    cx.strokeStyle='rgba(0,229,255,.028)';
+    cx.beginPath();
+    for(let x=W%10;x<W;x+=10){cx.moveTo(x+.5,0);cx.lineTo(x+.5,H)}
+    for(let y=0;y<H;y+=10){cx.moveTo(0,y+.5);cx.lineTo(W,y+.5)}
+    cx.stroke();
+    cx.strokeStyle='rgba(0,229,255,.062)';
+    cx.beginPath();
+    for(let x=W%50;x<W;x+=50){cx.moveTo(x+.5,0);cx.lineTo(x+.5,H)}
+    for(let y=0;y<H;y+=50){cx.moveTo(0,y+.5);cx.lineTo(W,y+.5)}
+    cx.stroke();
+  }
+
+  function draw(){
+    const mid=H*0.66, amp=H*0.36;
+    cx.clearRect(0,0,W,H);
+    cx.fillStyle='#01050b'; cx.fillRect(0,0,W,H);
+    grid();
+
+    // analysis window
+    const lx=Math.round(W*LINE);
+    cx.fillStyle='rgba(0,229,255,.022)'; cx.fillRect(lx,0,W-lx,H);
+    cx.strokeStyle='rgba(0,229,255,.16)'; cx.setLineDash([3,4]);
+    cx.beginPath(); cx.moveTo(lx+.5,0); cx.lineTo(lx+.5,H); cx.stroke();
+    cx.setLineDash([]);
+
+    // detection highlight band
+    if(det){
+      const age0=(performance.now()-det.t0)/1000;
+      if(age0>3.0){ det=null; elBadge.classList.remove('on'); }
+    }
+    if(det){
+      let a=-1,b=-1;
+      for(let i=0;i<W;i++){ if(iBuf[i]===det.id){ if(a<0)a=i; b=i; } }
+      if(a>=0){
+        const C=CLS[det.cls], age=(performance.now()-det.t0)/1000;
+        const fade=Math.max(0,Math.min(1,1-(age-2.0)/0.9));
+        cx.globalAlpha=fade;
+        cx.fillStyle=C.c+'14'; cx.fillRect(a,6,b-a,H-12);
+        cx.strokeStyle=C.c; cx.lineWidth=1; cx.globalAlpha=fade*0.85;
+        const k=7;
+        cx.beginPath();
+        cx.moveTo(a+k,6.5); cx.lineTo(a+.5,6.5); cx.lineTo(a+.5,H-6.5); cx.lineTo(a+k,H-6.5);
+        cx.moveTo(b-k,6.5); cx.lineTo(b-.5,6.5); cx.lineTo(b-.5,H-6.5); cx.lineTo(b-k,H-6.5);
+        cx.stroke();
+        cx.globalAlpha=1;
+      }
+    }
+
+    // trace, segmented by class
+    cx.lineJoin='round'; cx.lineCap='round';
+    let i=0;
+    while(i<W){
+      const c=cBuf[i]; let j=i;
+      while(j<W && cBuf[j]===c) j++;
+      const C=CLS[c]||CLS.NORM;
+      cx.strokeStyle=C.c; cx.lineWidth= c==='NORM'?1.5:1.9;
+      cx.shadowColor=C.c; cx.shadowBlur= c==='NORM'?6:11;
+      cx.beginPath();
+      const s=Math.max(0,i-1);
+      for(let k=s;k<=Math.min(W-1,j);k++){
+        const y=mid-vBuf[k]*amp;
+        k===s?cx.moveTo(k,y):cx.lineTo(k,y);
+      }
+      cx.stroke();
+      i=j;
+    }
+    cx.shadowBlur=0;
+
+    // leading edge
+    const ly=mid-vBuf[W-1]*amp, LC=CLS[cBuf[W-1]]||CLS.NORM;
+    cx.fillStyle=LC.c; cx.shadowColor=LC.c; cx.shadowBlur=14;
+    cx.beginPath(); cx.arc(W-1.5,ly,2.4,0,6.283); cx.fill();
+    cx.shadowBlur=0;
+
+    if(paused){
+      cx.fillStyle='rgba(0,229,255,.55)'; cx.font='9px monospace';
+      cx.fillText('|| PAUSED', W-72, H-10);
+    }
+  }
+
+  function step(){
+    if(visible){
+      if(!paused){
+        for(let n=0;n<SPD;n++){
+          const [v,c,id]=nextSample();
+          vBuf.push(v); cBuf.push(c); iBuf.push(id);
+          vBuf.shift(); cBuf.shift(); iBuf.shift();
+        }
+        // trigger detection when an anomalous R peak crosses the analysis line
+        while(pending.length){
+          const b=pending[0];
+          const x=W-(globalIdx-b.peakG);
+          if(x>W*LINE) break;
+          pending.shift();
+          if(b.cls!=='NORM' && (!det || det.cls!==b.cls || performance.now()-det.t0>1200)) fireDetection(b);
+        }
+        if(pending.length>40) pending.splice(0,pending.length-40);
+      }
+      draw();
+    }
+    requestAnimationFrame(step);
+  }
+
+  resize();
+  window.addEventListener('resize',resize);
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>es.forEach(e=>visible=e.isIntersecting),{threshold:0}).observe(wrap);
+  }
+  // warm up the buffer so it opens mid-rhythm
+  for(let n=0;n<W;n++){ const [v,c,id]=nextSample(); vBuf.push(v);cBuf.push(c);iBuf.push(id); vBuf.shift();cBuf.shift();iBuf.shift(); }
+  pending.length=0;
+  requestAnimationFrame(step);
 })();
 
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
