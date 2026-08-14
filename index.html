@@ -462,48 +462,42 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
                 <div class="mo-grid" id="mo-root">
 
                   <div class="mo-panel mo-full">
-                    <div class="mo-label"><span>Active readiness &rarr; better response</span><b id="mo-court-stat">&mdash;</b></div>
-                    <canvas id="mo-court" height="150"></canvas>
-                    <div class="mo-legend">
-                      <span class="mo-key"><i style="background:#00e5ff"></i>Flexible &middot; wide repertoire</span>
-                      <span class="mo-key"><i style="background:#a78bfa"></i>Locked &middot; narrow repertoire</span>
-                    </div>
+                    <div class="mo-label"><span>1 &middot; Synchronization maps &rarr; a continuous state space</span><b><span id="mo-vol">vol 0</span> &middot; <span id="mo-st">S1</span></b></div>
+                    <canvas id="mo-map" height="252"></canvas>
+                    <div class="mo-cmap"><span>low R</span><span class="mo-cmap-bar"></span><span>high R</span></div>
+                    <div class="mo-legend"><span>182 participants &middot; 7T HCP &middot; 900 volumes &middot; Schaefer 1000&rarr;100 &middot; 50 PCs &middot; k-means K = 7 (pre-specified)</span></div>
+                  </div>
+
+                  <div class="mo-panel mo-full">
+                    <div class="mo-label"><span>2 &middot; Is the sequence more structured than chance?</span><b>H1 &middot; confirmed</b></div>
+                    <canvas id="mo-seq" height="196"></canvas>
                   </div>
 
                   <div class="mo-panel">
-                    <div class="mo-label"><span>Vortex state space</span><b id="mo-cur">S1</b></div>
-                    <canvas id="mo-states" height="340"></canvas>
-                    <div class="mo-cmap"><span>low</span><span class="mo-cmap-bar"></span><span>high</span></div>
-                    <div class="mo-legend"><span>local synchrony &middot; phase vortices in 7 metastable states</span></div>
+                    <div class="mo-label"><span>3 &middot; What routes the switches?</span><b>&tau; = 7.08</b></div>
+                    <canvas id="mo-mat" height="252"></canvas>
                   </div>
 
                   <div class="mo-panel">
-                    <div class="mo-label"><span>State switching ribbon</span><b>t &rarr;</b></div>
-                    <canvas id="mo-ribbon" height="132"></canvas>
-                    <div class="mo-label"><span>Shannon entropy H(s) over time</span><b id="mo-dh">&Delta;H +0.00</b></div>
-                    <canvas id="mo-entropy" height="128"></canvas>
-                    <div class="mo-stats">
-                      <span>H<sub>flex</sub> <b id="mo-ha" style="color:var(--cyan)">0.00</b></span>
-                      <span>H<sub>locked</sub> <b id="mo-hb" style="color:var(--violet2)">0.00</b></span>
-                      <span>path H <b id="mo-hp" style="color:var(--amber)">0.00</b></span>
-                      <span>switches <b id="mo-sw" style="color:#7d94b0">0 / 0</b></span>
-                    </div>
+                    <div class="mo-label"><span>Model comparison</span><b>H2 &middot; H3</b></div>
+                    <canvas id="mo-mod" height="252"></canvas>
                   </div>
 
                   <div class="mo-panel">
-                    <div class="mo-label"><span>Occupancy &middot; 7 metastable states</span><b>MOP target: uniform</b></div>
-                    <canvas id="mo-occ" height="188"></canvas>
+                    <div class="mo-label"><span>4 &middot; Do transitions relate to cognition?</span><b>H4 &middot; exploratory</b></div>
+                    <canvas id="mo-cog" height="236"></canvas>
                   </div>
 
                   <div class="mo-panel">
-                    <div class="mo-label"><span>Entropy vs cognitive flexibility</span><b id="mo-r">r = &mdash;</b></div>
-                    <canvas id="mo-scatter" height="188"></canvas>
+                    <div class="mo-label"><span>Multivariate mapping</span><b>49 features</b></div>
+                    <canvas id="mo-rid" height="236"></canvas>
                   </div>
 
                   <div class="mo-punch">
                     <span class="mo-punch-ico">&#8635;</span>
-                    <span class="mo-punch-txt">More state switching = <em>better cognition</em></span>
+                    <span class="mo-punch-txt">Transitions are <em>strongly structured</em>; geometry routes the switches; cognition effects are <em>small</em>.</span>
                   </div>
+                </div>
                 </div>
 
               </div>
@@ -986,474 +980,407 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   drawQuad();
 })();
 
-// ===== METASTABILITY / MAXIMUM OCCUPANCY PRINCIPLE =====
-(function initMOP(){
-  const root = document.getElementById('mo-root');
-  if(!root) return;
-  const DPR = window.devicePixelRatio || 1;
+// ===== VORTEX-BASED BRAIN-STATE FRAMEWORK · figure driven by thesis values =====
+(function initThesisFig(){
+  const root=document.getElementById('mo-root'); if(!root) return;
+  const DPR=window.devicePixelRatio||1;
 
-  // ---------- shared palette ----------
-  const S = [
-    {n:'S1', c:'#3b6fe0', q: 1, k: .075, w: .55, ox:-.10, oy:-.06, ph:0.0},
-    {n:'S2', c:'#00e5ff', q:-1, k: .050, w:-.72, ox: .14, oy: .08, ph:1.1},
-    {n:'S3', c:'#14b8a6', q: 1, k: .110, w: .90, ox: .02, oy:-.16, ph:2.2},
-    {n:'S4', c:'#7ddc4e', q: 2, k: .045, w: .48, ox:-.06, oy: .12, ph:3.0},
-    {n:'S5', c:'#f7d13c', q:-1, k: .095, w:-.60, ox:-.16, oy: .04, ph:4.1},
-    {n:'S6', c:'#f97316', q: 1, k: .065, w: 1.15, ox: .10, oy:-.10, ph:5.0},
-    {n:'S7', c:'#fb7185', q:-2, k: .080, w:-.85, ox: .00, oy: .00, ph:5.9}
+  // deterministic PRNG, so the schematic is identical on every load
+  let _s=1234; const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296; return _s/4294967296;};
+  const gauss=()=>{let u=0,v=0; while(!u)u=rnd(); while(!v)v=rnd(); return Math.sqrt(-2*Math.log(u))*Math.cos(6.283185*v);};
+
+  // ---------- Table 3.1, seven-state atlas ----------
+  const ATLAS=[
+    {n:'S1',occ:.120,stay:.802,dwell:5.0,R:.64},
+    {n:'S2',occ:.134,stay:.832,dwell:5.9,R:.71},
+    {n:'S3',occ:.134,stay:.798,dwell:4.9,R:.65},
+    {n:'S4',occ:.137,stay:.813,dwell:5.3,R:.68},
+    {n:'S5',occ:.134,stay:.812,dwell:5.3,R:.66},
+    {n:'S6',occ:.149,stay:.852,dwell:6.7,R:.73},
+    {n:'S7',occ:.192,stay:.840,dwell:6.2,R:.78}
   ];
-  const NS = S.length, LOG_NS = Math.log(NS);
-  const A_COL='#00e5ff', B_COL='#a78bfa';
+  const K=7, TAU=7.08, NPARC=100;
+  const SCOL=['#3b6fe0','#00e5ff','#14b8a6','#7ddc4e','#f7d13c','#f97316','#fb7185'];
 
-  // jet-ish local-synchrony colormap (matches the figure's colorbar)
+  // state centroids in the reduced space (schematic 2-D stand-in for the 50-D PCA centroids)
+  const CEN=[[-6.2,3.1],[-2.4,6.4],[3.8,5.2],[7.1,0.4],[4.2,-5.1],[-2.9,-6.2],[-0.4,-0.3]];
+  const D=[]; for(let i=0;i<K;i++){D.push([]); for(let j=0;j<K;j++) D[i].push(Math.hypot(CEN[i][0]-CEN[j][0],CEN[i][1]-CEN[j][1]));}
+
+  // visit frequency of the embedded jump chain implied by Table 3.1 (occupancy = visits x dwell)
+  const VJ=(function(){ const v=ATLAS.map(a=>a.occ*(1-a.stay)), s=v.reduce((a,b)=>a+b,0); return v.map(x=>x/s); })();
+
+  // eq. 12 — graded-geometry routing, restricted to switches. This is the MODEL.
+  const ROUTE=[];
+  for(let i=0;i<K;i++){
+    const r=[]; let s=0;
+    for(let j=0;j<K;j++){ const v = i===j?0:Math.exp(-D[i][j]/TAU); r.push(v); s+=v; }
+    ROUTE.push(r.map(v=>v/s));
+  }
+  // schematic stand-in for the empirical matrix: geometry, a mild occupancy bias and noise,
+  // tuned so the distance law recovers it at the reported off-diagonal r = 0.90 and so the
+  // stationary distribution reproduces the Table 3.1 occupancies.
+  const PRED=[], EMP=[];
+  for(let i=0;i<K;i++){
+    const pr=[], raw=[]; let s=0;
+    for(let j=0;j<K;j++){
+      pr.push(i===j ? ATLAS[i].stay : (1-ATLAS[i].stay)*ROUTE[i][j]);
+      const x = i===j ? 0 : Math.pow(VJ[j],0.2)*Math.exp(-D[i][j]/TAU)*Math.max(.05,1+0.15*gauss());
+      raw.push(x); s+=x;
+    }
+    EMP.push(raw.map((x,j)=> i===j ? ATLAS[i].stay : (1-ATLAS[i].stay)*x/s));
+    PRED.push(pr);
+  }
+  // switch-destination matrices (diagonal removed, rows renormalised)
+  function offNorm(M){
+    return M.map((row,i)=>{ const s=row.reduce((a,b,j)=>j===i?a:a+b,0);
+      return row.map((v,j)=>j===i?NaN:v/s); });
+  }
+  const EMP_O=offNorm(EMP), PRED_O=offNorm(PRED);
+  const PAIRS=[];
+  for(let i=0;i<K;i++)for(let j=0;j<K;j++) if(i!==j) PAIRS.push([PRED_O[i][j],EMP_O[i][j]]);
+  const R_RECON=(function(){
+    const n=PAIRS.length; let mx=0,my=0; PAIRS.forEach(p=>{mx+=p[0];my+=p[1]}); mx/=n; my/=n;
+    let sxy=0,sxx=0,syy=0; PAIRS.forEach(p=>{const a=p[0]-mx,b=p[1]-my;sxy+=a*b;sxx+=a*a;syy+=b*b});
+    return sxy/Math.sqrt(sxx*syy||1);
+  })();
+
+  // full empirical transition matrix -> generator for the observed sequence
+  function nextState(i){ let r=rnd(),c=0; for(let j=0;j<K;j++){c+=EMP[i][j]; if(r<=c) return j;} return K-1; }
+  function pickOcc(){ let r=rnd(),c=0; for(let j=0;j<K;j++){c+=ATLAS[j].occ; if(r<=c) return j;} return K-1; }
+
+  // ---------- spatial patterns: local Kuramoto R(c,t) over 100 parcels ----------
+  const BRAIN=[[.05,.48],[.07,.35],[.13,.24],[.23,.15],[.36,.09],[.50,.07],[.64,.08],[.77,.14],
+               [.87,.24],[.93,.37],[.94,.52],[.90,.64],[.83,.73],[.74,.79],[.63,.81],[.54,.80],
+               [.49,.86],[.40,.91],[.30,.91],[.21,.85],[.13,.75],[.07,.62]];
+  function inPoly(x,y,P){
+    let c=false;
+    for(let i=0,j=P.length-1;i<P.length;j=i++){
+      if(((P[i][1]>y)!==(P[j][1]>y)) && (x<(P[j][0]-P[i][0])*(y-P[i][1])/(P[j][1]-P[i][1])+P[i][0])) c=!c;
+    }
+    return c;
+  }
+  const PARC=[];
+  while(PARC.length<NPARC){
+    const x=rnd(), y=rnd();
+    if(inPoly(x,y,BRAIN)) PARC.push([x,y]);
+  }
+  // one smooth spatial map per state, rescaled so its mean equals the reported centroid R
+  const PATT=[];
+  for(let k=0;k<K;k++){
+    const w=[]; for(let m=0;m<6;m++) w.push([rnd()*13-6.5, rnd()*13-6.5, rnd()*6.283]);
+    let v=PARC.map(p=>{ let s=0; w.forEach(q=>{ s+=Math.sin(q[0]*p[0]+q[1]*p[1]+q[2]); }); return s/w.length; });
+    const mn=Math.min(...v), mxv=Math.max(...v);
+    v=v.map(a=>(a-mn)/(mxv-mn));                      // 0..1
+    const mean=v.reduce((a,b)=>a+b,0)/v.length, tgt=ATLAS[k].R;
+    v=v.map(a=>Math.max(0,Math.min(1, tgt + (a-mean)*0.62 )));
+    PATT.push(v);
+  }
+
+  // ---------- continuous PCA cloud (silhouette 0.025 at K=7: no separated blobs) ----------
+  const CLOUD=[];
+  for(let i=0;i<1500;i++){
+    const k=pickOcc();
+    CLOUD.push([CEN[k][0]+gauss()*3.2, CEN[k][1]+gauss()*3.2]);
+  }
+
+  // ---------- colour maps ----------
   const CM=[[8,32,107],[30,111,217],[23,193,193],[125,220,78],[247,209,60],[249,115,22],[225,29,72]];
   function jet(t){
     t=Math.max(0,Math.min(.9999,t))*(CM.length-1);
     const i=Math.floor(t), f=t-i, a=CM[i], b=CM[i+1];
     return 'rgb('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+')';
   }
+  function heat(t){ // sequential cyan ramp for probability matrices
+    t=Math.max(0,Math.min(1,t));
+    return 'rgba(0,'+Math.round(80+175*t)+','+Math.round(120+135*t)+','+(0.10+0.90*t).toFixed(3)+')';
+  }
 
   // ---------- canvas helper ----------
   function mk(id,h){
-    const el=document.getElementById(id), cx=el.getContext('2d');
-    const o={el,cx,w:300,h:h};
+    const el=document.getElementById(id); if(!el) return null;
+    const cx=el.getContext('2d'), o={el,cx,w:300,h};
     o.fit=function(){
-      const w=Math.max(160,Math.floor(el.parentElement.clientWidth-2));
+      const w=Math.max(200,Math.floor(el.parentElement.clientWidth-2));
       o.w=w; el.width=w*DPR; el.height=h*DPR;
       el.style.width=w+'px'; el.style.height=h+'px';
       cx.setTransform(DPR,0,0,DPR,0,0);
     };
     o.fit(); return o;
   }
-  const court   = mk('mo-court',150);
-  const states  = mk('mo-states',340);
-  const ribbon  = mk('mo-ribbon',132);
-  const entropy = mk('mo-entropy',128);
-  const occ     = mk('mo-occ',188);
-  const scat    = mk('mo-scatter',188);
-  const ALL=[court,states,ribbon,entropy,occ,scat];
+  const cMap=mk('mo-map',252), cSeq=mk('mo-seq',196), cMat=mk('mo-mat',252),
+        cMod=mk('mo-mod',252), cCog=mk('mo-cog',236), cRid=mk('mo-rid',236);
+  const ALL=[cMap,cSeq,cMat,cMod,cCog,cRid].filter(Boolean);
 
-  const el={cur:document.getElementById('mo-cur'), ha:document.getElementById('mo-ha'),
-            hb:document.getElementById('mo-hb'), hp:document.getElementById('mo-hp'),
-            sw:document.getElementById('mo-sw'), dh:document.getElementById('mo-dh'),
-            r:document.getElementById('mo-r'), courtStat:document.getElementById('mo-court-stat')};
+  const out={vol:document.getElementById('mo-vol'), st:document.getElementById('mo-st')};
 
-  // ---------- transition models ----------
-  // FLEX: near-uniform, low self-transition -> explores all 7 (high occupancy entropy)
-  // LOCKED: sticky, confined to a few states -> low entropy
-  function rowFlex(i){
-    const p=new Array(NS).fill(0);
-    for(let j=0;j<NS;j++) p[j] = (j===i) ? 0.10 : 0.90/(NS-1) * (0.75+0.5*Math.random());
-    const s=p.reduce((a,b)=>a+b,0); return p.map(v=>v/s);
-  }
-  const LOCK=[2,3,4];                       // locked subject is confined to a sub-repertoire
-  function rowLocked(i){
-    const p=new Array(NS).fill(0.006);
-    if(LOCK.indexOf(i)>=0){ p[i]=0.70; LOCK.forEach(j=>{ if(j!==i) p[j]+=0.13; }); }
-    else { LOCK.forEach(j=>p[j]+=0.32); }
-    const s=p.reduce((a,b)=>a+b,0); return p.map(v=>v/s);
-  }
-  function pick(p){ let r=Math.random(),c=0; for(let i=0;i<p.length;i++){c+=p[i]; if(r<=c)return i;} return p.length-1; }
+  function bg(o){ const {cx,w,h}=o; cx.clearRect(0,0,w,h); cx.fillStyle='#01050b'; cx.fillRect(0,0,w,h); }
+  function lab(cx,t,x,y,c,sz){ cx.fillStyle=c||'rgba(122,148,176,.85)'; cx.font=(sz||8)+'px system-ui,sans-serif'; cx.fillText(t,x,y); }
 
-  const sub={
-    A:{s:0, prev:0, occ:new Array(NS).fill(0), pairs:{}, n:0, sw:0, H:0, col:A_COL, row:rowFlex},
-    B:{s:3, prev:3, occ:new Array(NS).fill(0), pairs:{}, n:0, sw:0, H:0, col:B_COL, row:rowLocked}
-  };
-  function stepSub(k){
-    const u=sub[k];
-    const nx=pick(u.row(u.s));
-    u.prev=u.s;
-    if(nx!==u.s) u.sw++;
-    u.s=nx; u.occ[nx]++; u.n++;
-    const key=u.prev+'>'+nx; u.pairs[key]=(u.pairs[key]||0)+1;
-    // occupancy (Shannon) entropy, normalised to [0,1]
-    let H=0; u.occ.forEach(o=>{ if(o>0){ const p=o/u.n; H-=p*Math.log(p); } });
-    u.H=H/LOG_NS;
-    return nx;
-  }
-  function pathH(u){
-    let tot=0; for(const k in u.pairs) tot+=u.pairs[k];
-    if(!tot) return 0;
-    let H=0; for(const k in u.pairs){ const p=u.pairs[k]/tot; H-=p*Math.log(p); }
-    return H/Math.log(NS*NS);
-  }
-
-  // ---------- ribbon history ----------
-  const histA=[], histB=[];
-  // ---------- entropy traces ----------
-  const trA=[], trB=[];
-
-  // ---------- transition graph memory ----------
-  const edge=[]; for(let i=0;i<NS;i++){edge.push(new Array(NS).fill(0));}
-
-  // ---------- marker travel ----------
-  let travel=1, fromS=0, toS=0;
-
-  // ---------- scatter cohort ----------
-  const cohort=[];
-  function addSubject(){
-    const h=0.28+Math.random()*0.66;
-    const y=0.16+0.72*h+(Math.random()-0.5)*0.60;
-    cohort.push({h, y:Math.max(0.02,Math.min(.98,y)), a:0});
-  }
-  function pearson(){
-    const n=cohort.length; if(n<3) return 0;
-    let mx=0,my=0; cohort.forEach(p=>{mx+=p.h;my+=p.y}); mx/=n; my/=n;
-    let sxy=0,sxx=0,syy=0;
-    cohort.forEach(p=>{const dx=p.h-mx,dy=p.y-my;sxy+=dx*dy;sxx+=dx*dx;syy+=dy*dy});
-    return sxy/Math.sqrt(sxx*syy||1);
-  }
-
-  // ---------- tennis metaphor ----------
-  function newBall(side){
-    return {t:0, dur:.020+Math.random()*.022, tx:.12+Math.random()*.76, ty:.28+Math.random()*.60, hit:null, side};
-  }
-  const play={
-    A:{px:.5, py:.72, reach:.105, spd:.0130, hits:0, miss:0, ball:newBall('A'), pulse:0},
-    B:{px:.5, py:.72, reach:.065, spd:.0042, hits:0, miss:0, ball:newBall('B'), pulse:0}
-  };
-  function stepPlay(k){
-    const p=play[k], b=p.ball;
-    b.t+=b.dur;
-    // pursuit with a hard speed cap: a wide repertoire means you get there in time
-    const dx=b.tx-p.px, dy=b.ty-p.py, d=Math.hypot(dx,dy);
-    if(d>1e-4){ const s=Math.min(p.spd,d); p.px+=dx/d*s; p.py+=dy/d*s; }
-    p.pulse = k==='A' ? (p.pulse+0.09)%(Math.PI*2) : (p.pulse+0.03)%(Math.PI*2);
-    if(b.t>=1){
-      const d=Math.hypot(b.tx-p.px,b.ty-p.py);
-      if(d<p.reach){ p.hits++; b.hit=1; } else { p.miss++; b.hit=0; }
-      p.flash={t:1,ok:b.hit};
-      p.ball=newBall(k);
+  // =======================================================
+  //  simulation state
+  // =======================================================
+  let cur=6, prev=6, vol=0, blend=1;
+  const seqObs=[], seqOcc=[], seqDwell=[];
+  let dwellRun=0, dwellState=pickOcc();
+  function advance(){
+    prev=cur; cur=nextState(cur); blend=0; vol++;
+    seqObs.push(cur);
+    seqOcc.push(pickOcc());                                   // occupancy-preserving null
+    if(dwellRun<=0){                                          // dwell-preserving null
+      let ns=pickOcc(), g=0; while(ns===dwellState && g++<20) ns=pickOcc();
+      dwellState=ns;
+      dwellRun=Math.max(1,Math.round(ATLAS[dwellState].dwell+gauss()*1.6));
     }
-    if(p.flash){ p.flash.t-=0.045; if(p.flash.t<=0) p.flash=null; }
+    seqDwell.push(dwellState); dwellRun--;
+    [seqObs,seqOcc,seqDwell].forEach(a=>{ if(a.length>400) a.shift(); });
   }
 
   // =======================================================
-  //  DRAWING
+  //  PANEL 1 — synchrony map -> continuous state space
   // =======================================================
-  function frame(cvo,label){
-    const {cx,w,h}=cvo;
-    cx.clearRect(0,0,w,h);
-    cx.fillStyle='#01050b'; cx.fillRect(0,0,w,h);
-  }
-
-  // --- vortex disc ---
-  function vortex(cx,x0,y0,R,st,t,active){
-    const N=13, step=(2*R)/N;
-    cx.save();
-    cx.beginPath(); cx.arc(x0,y0,R,0,6.283); cx.clip();
-    cx.globalAlpha = active?1:0.40;
-    cx.lineCap='round';
-    const vx=x0+st.ox*R, vy=y0+st.oy*R;
-    for(let gy=0;gy<N;gy++){
-      for(let gx=0;gx<N;gx++){
-        const px=x0-R+step*(gx+.5), py=y0-R+step*(gy+.5);
-        if(Math.hypot(px-x0,py-y0)>R-1) continue;
-        const dx=px-vx, dy=py-vy, r=Math.hypot(dx,dy);
-        const th = st.q*Math.atan2(dy,dx) + st.k*r + t*st.w + st.ph;
-        // local synchrony: phase is undefined at the vortex core -> low; ordered far away -> high
-        let sy = 1-Math.exp(-r/(0.62*R));
-        sy = Math.max(0,Math.min(1, sy*0.99 + 0.11*Math.sin(th) - 0.02));
-        const L=step*(active?0.62:0.5);
-        cx.strokeStyle=jet(sy);
-        cx.lineWidth=active?1.5:1.1;
-        cx.beginPath();
-        cx.moveTo(px-Math.cos(th)*L/2, py-Math.sin(th)*L/2);
-        cx.lineTo(px+Math.cos(th)*L/2, py+Math.sin(th)*L/2);
-        cx.stroke();
-      }
+  function drawMap(){
+    const {cx,w,h}=cMap; bg(cMap);
+    const split=Math.min(w*0.46, 300);
+    // ---- left: 100 parcels coloured by R(c,t)
+    const bw=split-24, bh=h-46, bx=14, by=30;
+    cx.strokeStyle='rgba(20,40,64,.95)'; cx.lineWidth=1;
+    cx.beginPath();
+    for(let i=0;i<BRAIN.length;i++){
+      const p=BRAIN[i], q=BRAIN[(i+1)%BRAIN.length];
+      const x=bx+p[0]*bw, y=by+p[1]*bh, mx=bx+(p[0]+q[0])/2*bw, my=by+(p[1]+q[1])/2*bh;
+      i?cx.quadraticCurveTo(x,y,mx,my):cx.moveTo(mx,my);
     }
-    cx.restore();
-    // core
-    cx.globalAlpha=active?1:.4;
-    cx.fillStyle='#01050b'; cx.beginPath(); cx.arc(vx,vy,active?3.4:2.6,0,6.283); cx.fill();
-    cx.strokeStyle=st.c; cx.lineWidth=1; cx.stroke();
-    // rim
-    cx.strokeStyle = active? st.c : 'rgba(20,40,64,.9)';
-    cx.lineWidth = active?1.6:1;
-    if(active){ cx.shadowColor=st.c; cx.shadowBlur=16; }
-    cx.beginPath(); cx.arc(x0,y0,R,0,6.283); cx.stroke();
-    cx.shadowBlur=0; cx.globalAlpha=1;
-  }
-
-  let T=0;
-  function drawStates(){
-    const {cx,w,h}=states; frame(states);
-    const cxm=w/2, cym=h/2;
-    const Rring=Math.min(w,h)/2-52, Rd=Math.min(38, Rring*0.40);
-    const pos=[];
-    for(let i=0;i<NS;i++){
-      const a=-Math.PI/2 + i*2*Math.PI/NS;
-      pos.push([cxm+Math.cos(a)*Rring, cym+Math.sin(a)*Rring]);
+    cx.closePath(); cx.stroke();
+    const e=blend<1?blend*blend*(3-2*blend):1;
+    for(let c=0;c<NPARC;c++){
+      const v=PATT[prev][c]*(1-e)+PATT[cur][c]*e + 0.012*Math.sin(vol*0.7+c);
+      cx.fillStyle=jet((v-0.35)/0.55);
+      cx.beginPath(); cx.arc(bx+PARC[c][0]*bw, by+PARC[c][1]*bh, 3.1, 0, 6.283); cx.fill();
     }
-    // transition edges
-    let mx=1; for(let i=0;i<NS;i++)for(let j=0;j<NS;j++) mx=Math.max(mx,edge[i][j]);
-    for(let i=0;i<NS;i++)for(let j=0;j<NS;j++){
-      if(i===j||!edge[i][j]) continue;
-      const a=Math.min(.55, .06+.55*edge[i][j]/mx);
-      cx.strokeStyle='rgba(0,229,255,'+a.toFixed(3)+')';
-      cx.lineWidth=.6+1.7*edge[i][j]/mx;
-      cx.beginPath(); cx.moveTo(pos[i][0],pos[i][1]);
-      cx.quadraticCurveTo(cxm,cym,pos[j][0],pos[j][1]); cx.stroke();
+    lab(cx,'100 coarse Schaefer parcels · local Kuramoto R(c,t)',14,16);
+    lab(cx,'volume '+vol+' / 900 · TR 1 s',14,h-8,'rgba(74,96,128,.9)',7.5);
+
+    // ---- right: reduced state space
+    const ox=split+8, ow=w-split-22, oh=h-58, oy=30;
+    const cxm=ox+ow/2, cym=oy+oh/2, SX=(ow/2)/15, SY=(oh/2)/15;
+    const X=p=>cxm+p[0]*SX, Y=p=>cym+p[1]*SY;
+    cx.strokeStyle='rgba(20,40,64,.8)';
+    cx.strokeRect(ox+.5,oy+.5,ow,oh);
+    cx.fillStyle='rgba(77,127,168,.24)';
+    CLOUD.forEach(p=>{ const x=X(p),y=Y(p);
+      if(x>ox&&x<ox+ow&&y>oy&&y<oy+oh){ cx.beginPath(); cx.arc(x,y,1.5,0,6.283); cx.fill(); } });
+    for(let k=0;k<K;k++){
+      const x=X(CEN[k]),y=Y(CEN[k]), on=(k===cur);
+      cx.strokeStyle=SCOL[k]; cx.lineWidth=on?2:1.1;
+      if(on){cx.shadowColor=SCOL[k];cx.shadowBlur=14;}
+      cx.beginPath(); cx.arc(x,y,on?7.5:5,0,6.283); cx.stroke(); cx.shadowBlur=0;
+      cx.fillStyle='#01050b'; cx.fill();
+      lab(cx,ATLAS[k].n,x+8,y+3,on?SCOL[k]:'rgba(122,148,176,.75)',on?8.5:7.5);
     }
-    // discs
-    for(let i=0;i<NS;i++){
-      const act = (i===sub.A.s);
-      vortex(cx,pos[i][0],pos[i][1], act?Rd:Rd*0.86, S[i], T, act);
-      cx.fillStyle= act? S[i].c : 'rgba(90,120,150,.75)';
-      cx.font=(act?'600 ':'')+'9px system-ui,sans-serif'; cx.textAlign='center';
-      const lx=cxm+(pos[i][0]-cxm)*1.34, ly=cym+(pos[i][1]-cym)*1.34+3;
-      cx.fillText(S[i].n, lx, ly);
-    }
-    // travelling marker
-    const p0=pos[fromS], p1=pos[toS], e=travel<1?travel*travel*(3-2*travel):1;
-    const mxp=p0[0]+(p1[0]-p0[0])*e, myp=p0[1]+(p1[1]-p0[1])*e;
-    cx.fillStyle='#fff'; cx.shadowColor=S[toS].c; cx.shadowBlur=18;
-    cx.beginPath(); cx.arc(mxp,myp,3.2,0,6.283); cx.fill(); cx.shadowBlur=0;
-    // centre readout
-    cx.textAlign='center';
-    cx.fillStyle='rgba(122,148,176,.85)'; cx.font='8px system-ui,sans-serif';
-    cx.fillText('OCCUPANCY  H(s)', cxm, cym-8);
-    cx.fillStyle=A_COL; cx.font='600 19px system-ui,sans-serif';
-    cx.fillText(sub.A.H.toFixed(2), cxm, cym+12);
-    cx.fillStyle='rgba(122,148,176,.7)'; cx.font='8px system-ui,sans-serif';
-    cx.fillText(sub.A.sw+' switches', cxm, cym+26);
-    cx.textAlign='left';
+    // current volume drifting inside the cloud
+    const jx=X([CEN[cur][0]+Math.sin(vol*1.7)*2.6,0]), jy=Y([0,CEN[cur][1]+Math.cos(vol*1.3)*2.6]);
+    cx.fillStyle='#fff'; cx.shadowColor=SCOL[cur]; cx.shadowBlur=12;
+    cx.beginPath(); cx.arc(jx,jy,2.8,0,6.283); cx.fill(); cx.shadowBlur=0;
+    lab(cx,'50-PC state space · 73.9% variance',ox,16);
+    lab(cx,'continuous, not 7 separated clusters · silhouette 0.025 at K=7 (0.107 at K=2)',ox,h-20,'rgba(245,158,11,.85)',7.5);
+    lab(cx,'ARI 0.82 time-point split · 0.64 participant split',ox,h-8,'rgba(74,96,128,.9)',7.5);
   }
 
-  const TOK=15;
-  function drawRibbon(){
-    const {cx,w,h}=ribbon; frame(ribbon);
-    const lanes=[{u:sub.A,hist:histA,y:44,lab:'FLEXIBLE'},{u:sub.B,hist:histB,y:98,lab:'LOCKED'}];
-    lanes.forEach(L=>{
-      cx.fillStyle='rgba(122,148,176,.7)'; cx.font='7.5px system-ui,sans-serif';
-      cx.fillText(L.lab, 8, L.y-19);
-      cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
-      cx.beginPath(); cx.moveTo(8,L.y+.5); cx.lineTo(w-14,L.y+.5); cx.stroke();
-      // arrow head
-      cx.beginPath(); cx.moveTo(w-14,L.y-3.5); cx.lineTo(w-7,L.y+.5); cx.lineTo(w-14,L.y+4.5); cx.stroke();
-      const cap=Math.floor((w-30)/TOK);
-      const start=Math.max(0,L.hist.length-cap);
-      for(let i=start;i<L.hist.length;i++){
-        const k=i-start, x=10+k*TOK+TOK/2;
-        const st=S[L.hist[i]];
-        const isNew = i===L.hist.length-1;
-        cx.fillStyle=st.c;
-        if(isNew){cx.shadowColor=st.c;cx.shadowBlur=12;}
-        cx.beginPath(); cx.arc(x,L.y,isNew?5.4:4.4,0,6.283); cx.fill();
-        cx.shadowBlur=0;
-        if(i>start && L.hist[i]===L.hist[i-1]){    // repeat = stuck
-          cx.strokeStyle='rgba(1,5,11,.9)'; cx.lineWidth=1.4;
-          cx.beginPath(); cx.arc(x,L.y,2.0,0,6.283); cx.stroke();
-        }
-      }
-      cx.fillStyle='rgba(122,148,176,.55)'; cx.font='7px system-ui,sans-serif';
-      cx.fillText('H '+L.u.H.toFixed(2)+'  ·  '+L.u.sw+' switches', 8, L.y+18);
-    });
-  }
-
-  function drawEntropy(){
-    const {cx,w,h}=entropy; frame(entropy);
-    const pad=26, iw=w-pad-10, ih=h-24;
-    cx.strokeStyle='rgba(20,40,64,.8)'; cx.lineWidth=1;
-    [0,.5,1].forEach(g=>{
-      const y=12+ih*(1-g);
-      cx.beginPath(); cx.moveTo(pad,y+.5); cx.lineTo(w-10,y+.5); cx.stroke();
-      cx.fillStyle='rgba(74,96,128,.9)'; cx.font='7px system-ui,sans-serif';
-      cx.fillText(g.toFixed(1), 6, y+3);
-    });
-    // MOP ceiling
-    cx.setLineDash([3,4]); cx.strokeStyle='rgba(245,158,11,.55)';
-    cx.beginPath(); cx.moveTo(pad,12.5); cx.lineTo(w-10,12.5); cx.stroke(); cx.setLineDash([]);
-    cx.fillStyle='rgba(245,158,11,.8)'; cx.font='7px system-ui,sans-serif';
-    cx.fillText('MOP ceiling · max occupancy', pad+4, 22);
-    [[trA,A_COL],[trB,B_COL]].forEach(([tr,c])=>{
-      if(tr.length<2) return;
-      cx.strokeStyle=c; cx.lineWidth=1.6; cx.shadowColor=c; cx.shadowBlur=7;
-      cx.beginPath();
-      const n=tr.length, span=Math.max(60,n);
-      for(let i=0;i<n;i++){
-        const x=pad+iw*(i/(span-1)), y=12+ih*(1-tr[i]);
-        i?cx.lineTo(x,y):cx.moveTo(x,y);
-      }
-      cx.stroke(); cx.shadowBlur=0;
-      const lx=pad+iw*((n-1)/(Math.max(60,n)-1)), ly=12+ih*(1-tr[n-1]);
-      cx.fillStyle=c; cx.beginPath(); cx.arc(lx,ly,2.6,0,6.283); cx.fill();
-    });
-  }
-
-  function drawOcc(){
-    const {cx,w,h}=occ; frame(occ);
-    const pad=22, bw=(w-pad-14)/NS, gh=h-40;
-    const maxA=Math.max(1,...sub.A.occ), maxB=Math.max(1,...sub.B.occ);
-    const mx=Math.max(maxA,maxB);
-    // MOP uniform target line
-    const uni=(sub.A.n/NS)/mx;
-    cx.setLineDash([3,4]); cx.strokeStyle='rgba(245,158,11,.5)';
-    const uy=14+gh*(1-uni);
-    cx.beginPath(); cx.moveTo(pad,uy+.5); cx.lineTo(w-10,uy+.5); cx.stroke(); cx.setLineDash([]);
-    for(let i=0;i<NS;i++){
-      const x=pad+i*bw;
-      const ha=gh*(sub.A.occ[i]/mx), hb=gh*(sub.B.occ[i]/mx);
-      cx.fillStyle=S[i].c+'cc';
-      cx.fillRect(x+3, 14+gh-ha, bw*0.42, ha);
-      cx.fillStyle='rgba(167,139,250,.55)';
-      cx.fillRect(x+3+bw*0.47, 14+gh-hb, bw*0.42, hb);
-      cx.fillStyle= i===sub.A.s ? S[i].c : 'rgba(122,148,176,.7)';
-      cx.font='8px system-ui,sans-serif'; cx.textAlign='center';
-      cx.fillText(S[i].n, x+bw/2, h-14);
-    }
-    cx.textAlign='left';
-    cx.fillStyle='rgba(122,148,176,.75)'; cx.font='7.5px system-ui,sans-serif';
-    cx.fillText('flexible: spreads across all 7  ·  locked: piles into a few', pad, h-3);
-  }
-
-  function drawScatter(){
-    const {cx,w,h}=scat; frame(scat);
-    const pl=30, pb=24, pt=12, pr=12;
-    const iw=w-pl-pr, ih=h-pt-pb;
-    cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
-    cx.beginPath(); cx.moveTo(pl+.5,pt); cx.lineTo(pl+.5,pt+ih+.5); cx.lineTo(pl+iw,pt+ih+.5); cx.stroke();
-    cx.fillStyle='rgba(74,96,128,.95)'; cx.font='7px system-ui,sans-serif';
-    cx.save(); cx.translate(9,pt+ih/2); cx.rotate(-Math.PI/2); cx.textAlign='center';
-    cx.fillText('cognitive flexibility', 0,0); cx.restore();
-    cx.textAlign='center'; cx.fillText('entropy H(s)', pl+iw/2, h-6); cx.textAlign='left';
-    // regression
-    if(cohort.length>8){
-      const n=cohort.length; let mxh=0,myh=0;
-      cohort.forEach(p=>{mxh+=p.h;myh+=p.y}); mxh/=n; myh/=n;
-      let sxy=0,sxx=0; cohort.forEach(p=>{sxy+=(p.h-mxh)*(p.y-myh);sxx+=(p.h-mxh)*(p.h-mxh)});
-      const m=sxy/(sxx||1), b=myh-m*mxh;
-      cx.strokeStyle='rgba(245,158,11,.75)'; cx.lineWidth=1.4;
-      cx.beginPath();
-      cx.moveTo(pl, pt+ih*(1-(m*0+b)));
-      cx.lineTo(pl+iw, pt+ih*(1-(m*1+b)));
-      cx.stroke();
-    }
-    cohort.forEach(p=>{
-      p.a=Math.min(1,p.a+0.06);
-      const x=pl+iw*p.h, y=pt+ih*(1-p.y);
-      cx.globalAlpha=p.a*0.85; cx.fillStyle='#4d7fa8';
-      cx.beginPath(); cx.arc(x,y,2.6,0,6.283); cx.fill();
-    });
-    cx.globalAlpha=1;
-    // the two live subjects
-    [[sub.A,A_COL,'flexible'],[sub.B,B_COL,'locked']].forEach(([u,c,lab])=>{
-      const x=pl+iw*Math.max(0,Math.min(1,u.H));
-      const y=pt+ih*(1-Math.max(0,Math.min(1,0.16+0.72*u.H)));
-      cx.fillStyle=c; cx.shadowColor=c; cx.shadowBlur=12;
-      cx.beginPath(); cx.arc(x,y,4.4,0,6.283); cx.fill(); cx.shadowBlur=0;
-      cx.fillStyle=c; cx.font='7.5px system-ui,sans-serif';
-      cx.fillText(lab, x+7, y+3);
-    });
-  }
-
-  function drawCourt(){
-    const {cx,w,h}=court; frame(court);
-    const halfW=(w-18)/2;
-    [['A',9],['B',9+halfW+0]].forEach(([k,ox])=>{
-      const p=play[k], b=p.ball;
-      const cw=halfW-6, ch=h-16, oy=8;
-      // court
-      cx.strokeStyle='rgba(20,40,64,1)'; cx.lineWidth=1;
-      cx.strokeRect(ox+.5,oy+.5,cw,ch);
-      cx.strokeStyle='rgba(20,40,64,.8)';
-      cx.beginPath(); cx.moveTo(ox,oy+ch*0.42); cx.lineTo(ox+cw,oy+ch*0.42); cx.stroke();
-      cx.setLineDash([2,4]);
-      cx.beginPath(); cx.moveTo(ox+cw/2,oy); cx.lineTo(ox+cw/2,oy+ch); cx.stroke(); cx.setLineDash([]);
-      const col = k==='A'?A_COL:B_COL;
-      const px=ox+cw*p.px, py=oy+ch*p.py;
-      // readiness repertoire ring (the "split-step")
-      const pr=cw*p.reach*(1+0.05*Math.sin(p.pulse));
-      cx.strokeStyle=col; cx.globalAlpha=.28; cx.lineWidth=1;
-      cx.beginPath(); cx.arc(px,py,pr,0,6.283); cx.stroke();
-      cx.globalAlpha=.10; cx.fillStyle=col; cx.fill(); cx.globalAlpha=1;
-      // spokes = available responses
-      const spokes = k==='A'?12:4;
-      cx.strokeStyle=col; cx.globalAlpha=.45;
-      for(let i=0;i<spokes;i++){
-        const a=p.pulse*(k==='A'?1:.3)+i*2*Math.PI/spokes;
-        cx.beginPath();
-        cx.moveTo(px+Math.cos(a)*pr*.45, py+Math.sin(a)*pr*.45);
-        cx.lineTo(px+Math.cos(a)*pr*.92, py+Math.sin(a)*pr*.92);
-        cx.stroke();
+  // =======================================================
+  //  PANEL 2 — observed sequence vs the two surrogate nulls
+  // =======================================================
+  const LANES=[
+    {k:'obs',  arr:seqObs,   t:'OBSERVED',                  h2:'1.03', note:'mean dwell 4.9–6.7 volumes · switch rate 0.177'},
+    {k:'occ',  arr:seqOcc,   t:'OCCUPANCY-PRESERVING NULL', h2:'2.55', note:'ΔH₂ = −1.5218  [−1.5405, −1.5021] · 182/182 participants below'},
+    {k:'dwl',  arr:seqDwell, t:'DWELL-PRESERVING NULL',     h2:'1.06', note:'ΔH₂ = −0.02947 [−0.03175, −0.02720] · 174/182 below, 154 significant'}
+  ];
+  function drawSeq(){
+    const {cx,w,h}=cSeq; bg(cSeq);
+    const left=178, bw=w-left-12, lh=40;
+    LANES.forEach((L,li)=>{
+      const y=26+li*54;
+      lab(cx,L.t,12,y-8,li?'rgba(122,148,176,.8)':'#00e5ff',7.5);
+      lab(cx,'H₂ = '+L.h2+' bits',12,y+9,li?'rgba(122,148,176,.6)':'rgba(0,229,255,.75)',9);
+      lab(cx,L.note,12,y+23,'rgba(74,96,128,.95)',6.5);
+      const cap=Math.min(L.arr.length, Math.floor(bw/4.2));
+      const cw=bw/cap, st=L.arr.length-cap;
+      for(let i=0;i<cap;i++){
+        const s=L.arr[st+i];
+        cx.fillStyle=SCOL[s];
+        cx.globalAlpha=li?0.62:1;
+        cx.fillRect(left+i*cw, y-10, Math.ceil(cw)+.5, lh-14);
       }
       cx.globalAlpha=1;
-      // player
-      cx.fillStyle=col; cx.shadowColor=col; cx.shadowBlur=10;
-      cx.beginPath(); cx.arc(px,py,3.4,0,6.283); cx.fill(); cx.shadowBlur=0;
-      // ball
-      const bx=ox+cw*(0.5+(b.tx-0.5)*b.t), by=oy+ch*(0.06+(b.ty-0.06)*b.t);
-      const arc=Math.sin(b.t*Math.PI)*ch*0.10;
-      cx.fillStyle='#e8f36a'; cx.shadowColor='#e8f36a'; cx.shadowBlur=8;
-      cx.beginPath(); cx.arc(bx,by-arc,2.6,0,6.283); cx.fill(); cx.shadowBlur=0;
-      // target
-      cx.strokeStyle='rgba(232,243,106,.35)'; cx.lineWidth=1;
-      cx.beginPath(); cx.arc(ox+cw*b.tx,oy+ch*b.ty,3.2,0,6.283); cx.stroke();
-      // flash
-      if(p.flash){
-        cx.globalAlpha=p.flash.t*.5;
-        cx.fillStyle=p.flash.ok?'#10b981':'#fb7185';
-        cx.fillRect(ox,oy,cw,ch); cx.globalAlpha=1;
-      }
-      cx.fillStyle='rgba(122,148,176,.85)'; cx.font='7.5px system-ui,sans-serif';
-      cx.fillText((k==='A'?'wide repertoire':'narrow repertoire')+'  ·  returned '+p.hits+'/'+(p.hits+p.miss), ox+4, oy+ch-4);
+      cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
+      cx.strokeRect(left+.5,y-10.5,bw,lh-14);
     });
+    lab(cx,'the observed run structure survives both nulls: sequences are ordered beyond occupancy and beyond dwell length',12,h-6,'rgba(122,148,176,.7)',7);
+  }
+
+  // =======================================================
+  //  PANEL 3 — switch routing: empirical vs distance law
+  // =======================================================
+  function grid(cx,M,x0,y0,cell,title,sub){
+    lab(cx,title,x0,y0-14,'rgba(122,148,176,.9)',7.5);
+    if(sub) lab(cx,sub,x0,y0-4,'rgba(74,96,128,.95)',6.5);
+    let mx=0; M.forEach((r,i)=>r.forEach((v,j)=>{ if(i!==j) mx=Math.max(mx,v); }));
+    for(let i=0;i<K;i++)for(let j=0;j<K;j++){
+      const x=x0+j*cell, y=y0+i*cell;
+      if(i===j){ cx.fillStyle='rgba(14,31,53,.75)'; cx.fillRect(x,y,cell-1,cell-1);
+                 cx.strokeStyle='rgba(30,55,85,.9)'; cx.lineWidth=.5; cx.strokeRect(x+.5,y+.5,cell-2,cell-2); }
+      else { cx.fillStyle=heat(M[i][j]/mx); cx.fillRect(x,y,cell-1,cell-1); }
+    }
+    for(let i=0;i<K;i++){
+      lab(cx,String(i+1),x0+i*cell+cell/2-2.5,y0-1.5,'rgba(74,96,128,.9)',6);
+      lab(cx,String(i+1),x0-7,y0+i*cell+cell/2+2,'rgba(74,96,128,.9)',6);
+    }
+  }
+  function drawMat(){
+    const {cx,w,h}=cMat; bg(cMat);
+    const cell=Math.min(19, (w-96)/(2*K+1));
+    const gx=26, gx2=gx+K*cell+40, gy=44;
+    grid(cx,EMP_O,gx,gy,cell,'EMPIRICAL SWITCH DESTINATIONS','row-normalised, diagonal removed');
+    grid(cx,PRED_O,gx2,gy,cell,'DISTANCE LAW  exp(−D/τ)','τ = 7.08, the single free parameter');
+    const sy=gy+K*cell+30;
+    lab(cx,'DIAGONAL · self-transition probability (Table 3.1)',26,sy-8,'rgba(122,148,176,.9)',7.5);
+    for(let i=0;i<K;i++){
+      const x=26+i*cell*1.5, t=(ATLAS[i].stay-0.79)/0.07;
+      cx.fillStyle=heat(t); cx.fillRect(x,sy,cell*1.3,13);
+      lab(cx,ATLAS[i].stay.toFixed(3),x+1,sy+22,'rgba(74,96,128,.95)',6);
+    }
+    lab(cx,'persistence is state-specific and is NOT explained by geometry (full-sample diagonal r = −0.10)',26,h-8,'rgba(245,158,11,.8)',7);
+  }
+  function drawMod(){
+    const {cx,w,h}=cMod; bg(cMod);
+    // scatter: distance-law prediction vs empirical, off-diagonal only
+    const px=34, py=26, pw=Math.min(150,w*0.42), ph=112;
+    cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(px+.5,py); cx.lineTo(px+.5,py+ph+.5); cx.lineTo(px+pw,py+ph+.5); cx.stroke();
+    let mx=0; PAIRS.forEach(p=>{mx=Math.max(mx,p[0],p[1])});
+    cx.strokeStyle='rgba(245,158,11,.45)'; cx.setLineDash([3,3]);
+    cx.beginPath(); cx.moveTo(px,py+ph); cx.lineTo(px+pw,py); cx.stroke(); cx.setLineDash([]);
+    PAIRS.forEach(p=>{
+      cx.fillStyle='rgba(0,229,255,.6)';
+      cx.beginPath(); cx.arc(px+pw*p[0]/mx, py+ph*(1-p[1]/mx), 2.4, 0, 6.283); cx.fill();
+    });
+    lab(cx,'PREDICTED vs EMPIRICAL · 42 off-diagonal entries',px-20,16,'rgba(122,148,176,.9)',7.5);
+    lab(cx,'predicted',px+pw/2-16,py+ph+13,'rgba(74,96,128,.95)',6.5);
+    cx.save(); cx.translate(px-14,py+ph/2+18); cx.rotate(-Math.PI/2);
+    lab(cx,'empirical',0,0,'rgba(74,96,128,.95)',6.5); cx.restore();
+    lab(cx,'reported: r = 0.90 full sample',px+4,py+14,'#00e5ff',7.5);
+    lab(cx,'exact label null p = 1/5040',px+4,py+25,'rgba(122,148,176,.85)',6.5);
+
+    // model comparison bars: held-out off-diagonal correlation
+    const bx=px+pw+42, bw2=w-bx-14;
+    lab(cx,'HELD-OUT OFF-DIAGONAL r  (LOOCV)',bx,16,'rgba(122,148,176,.9)',7.5);
+    const MODELS=[
+      {t:'Graded geometry (distance law)', v:0.54,   c:'#00e5ff', s:'τ retuned per fold · stable 0.54–0.56'},
+      {t:'MOP + destination dispersion',   v:0.0716, c:'#f59e0b', s:'ΔNLL 0.002184, q = 0.0289 on switch routing'},
+      {t:'Pure binary topology',           v:null,   c:'#4a6080', s:'support saturated → uniform, r undefined'}
+    ];
+    MODELS.forEach((m,i)=>{
+      const y=36+i*38;
+      lab(cx,m.t,bx,y,'#8ab8d0',7.5);
+      cx.fillStyle='rgba(20,40,64,.9)'; cx.fillRect(bx,y+5,bw2,7);
+      if(m.v!==null){
+        cx.fillStyle=m.c; cx.fillRect(bx,y+5,bw2*m.v,7);
+        lab(cx,m.v.toFixed(2).replace(/^0/,'.'),bx+bw2*m.v+5,y+12,m.c,7.5);
+      } else {
+        cx.strokeStyle='rgba(74,96,128,.8)'; cx.lineWidth=1;
+        for(let d=0;d<bw2;d+=5){ cx.beginPath(); cx.moveTo(bx+d,y+12); cx.lineTo(bx+d+4,y+5); cx.stroke(); }
+        lab(cx,'undefined',bx+4,y+21,'rgba(74,96,128,.95)',6.5);
+      }
+      lab(cx,m.s,bx,y+21,'rgba(74,96,128,.95)',6.5);
+    });
+    lab(cx,'geometry routes the switches · MOP adds a small, real, but minor improvement',bx,h-8,'rgba(122,148,176,.75)',7);
+  }
+
+  // =======================================================
+  //  PANEL 4 — cognition, reported honestly
+  // =======================================================
+  const COG=[
+    {t:'H₁ · general factor g',        r:0.2038, q:'q = 0.0701', p:'perm p = 0.00596'},
+    {t:'H₁ · List Sorting',            r:0.1986, q:'', p:''},
+    {t:'H₂ · List Sorting',            r:0.1958, q:'', p:''},
+    {t:'H₂off · general factor g',     r:0.1386, q:'q = 0.1577', p:'perm p = 0.0620'},
+    {t:'H₂off · Penn Matrix Reasoning',r:0.1081, q:'q = 0.2704', p:'perm p = 0.1448'},
+    {t:'H₂off · List Sorting',         r:0.0883, q:'q = 0.3462', p:'perm p = 0.2349'}
+  ];
+  function drawCog(){
+    const {cx,w,h}=cCog; bg(cCog);
+    const lx=Math.min(150,w*0.42), ax=lx+8, aw=w-ax-40;
+    const rmin=-0.05, rmax=0.30, X=r=>ax+aw*(r-rmin)/(rmax-rmin);
+    lab(cx,'ENTROPY × COGNITION · reported associations',12,15,'rgba(122,148,176,.9)',7.5);
+    cx.strokeStyle='rgba(20,40,64,.9)'; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(X(0)+.5,26); cx.lineTo(X(0)+.5,h-30); cx.stroke();
+    [0,.1,.2,.3].forEach(t=>{ lab(cx,t.toFixed(1),X(t)-6,h-18,'rgba(74,96,128,.95)',6.5); });
+    COG.forEach((c,i)=>{
+      const y=40+i*26;
+      lab(cx,c.t,12,y+3,'#8ab8d0',7.5);
+      cx.strokeStyle='rgba(30,55,85,.9)';
+      cx.beginPath(); cx.moveTo(X(0),y); cx.lineTo(X(c.r),y); cx.stroke();
+      cx.fillStyle=i===0?'#f59e0b':'#4d7fa8'; cx.shadowColor=i===0?'#f59e0b':'transparent'; cx.shadowBlur=i===0?10:0;
+      cx.beginPath(); cx.arc(X(c.r),y,3.6,0,6.283); cx.fill(); cx.shadowBlur=0;
+      lab(cx,c.r.toFixed(4),X(c.r)+7,y+3,'rgba(122,148,176,.9)',6.5);
+      if(c.q) lab(cx,c.q,X(c.r)+7,y+12,'rgba(74,96,128,.95)',6);
+    });
+    lab(cx,'26 of 28 pairs positive · none survived FDR correction · smallest q = 0.0701',12,h-6,'rgba(245,158,11,.9)',7.5);
+  }
+  const RIDGE=[
+    {t:'Card Sorting',           v:0.28958},
+    {t:'List Sorting',           v:0.27145},
+    {t:'Penn Matrix Reasoning',  v:0.26627},
+    {t:'General factor g',       v:0.26539},
+    {t:'Flanker',                v:0.23590}
+  ];
+  function drawRid(){
+    const {cx,w,h}=cRid; bg(cRid);
+    lab(cx,'TRANSITION MATRIX → COGNITION · ridge-dominant elastic net',12,15,'rgba(122,148,176,.9)',7.5);
+    lab(cx,'49 transition features · mean cross-validated r',12,26,'rgba(74,96,128,.95)',6.5);
+    const bx=Math.min(132,w*0.38), bw=w-bx-46;
+    RIDGE.forEach((m,i)=>{
+      const y=44+i*22;
+      lab(cx,m.t,12,y+7,'#8ab8d0',7.5);
+      cx.fillStyle='rgba(20,40,64,.9)'; cx.fillRect(bx,y,bw,8);
+      cx.fillStyle='#00e5ff'; cx.fillRect(bx,y,bw*(m.v/0.35),8);
+      lab(cx,m.v.toFixed(3),bx+bw*(m.v/0.35)+5,y+7,'#00e5ff',7);
+    });
+    const ay=44+RIDGE.length*22+14;
+    cx.strokeStyle='rgba(20,40,64,.9)'; cx.beginPath(); cx.moveTo(12,ay-8); cx.lineTo(w-12,ay-8); cx.stroke();
+    lab(cx,'AFTER CONTROLLING FOR SWITCH RATE, MAX OCCUPANCY, GLOBAL SYNCHRONY, METASTABILITY',12,ay+3,'rgba(245,158,11,.9)',6.5);
+    [['H₁ × g','0.2038','0.1085'],['H₁ × List Sorting','0.1986','−0.0273'],['H₂ × List Sorting','0.1958','0.0083']]
+      .forEach((r,i)=>{
+        const y=ay+17+i*13;
+        lab(cx,r[0],12,y,'#8ab8d0',7);
+        lab(cx,r[1],bx,y,'rgba(122,148,176,.9)',7);
+        lab(cx,'→',bx+34,y,'rgba(74,96,128,.95)',7);
+        lab(cx,r[2],bx+48,y,'#fb7185',7);
+      });
+    lab(cx,'explanatory, conditional on a full-sample feature mask · not unbiased prediction',12,h-6,'rgba(122,148,176,.7)',7);
   }
 
   // =======================================================
   //  LOOP
   // =======================================================
-  let tick=0, visible=true, cohortTick=0;
+  let f=0, visible=true;
   function loop(){
     if(visible){
-      T+=0.02;
-      tick++;
-      stepPlay('A'); stepPlay('B');
-
-      if(tick%22===0){                       // one state sample
-        const a=stepSub('A'); const b=stepSub('B');
-        edge[sub.A.prev][a]++;
-        histA.push(a); histB.push(b);
-        if(histA.length>400){histA.shift();histB.shift();}
-        if(sub.A.prev!==a){ fromS=sub.A.prev; toS=a; travel=0; }
-        trA.push(sub.A.H); trB.push(sub.B.H);
-        if(trA.length>320){trA.shift();trB.shift();}
-        el.cur.textContent=S[a].n;
-        el.ha.textContent=sub.A.H.toFixed(2);
-        el.hb.textContent=sub.B.H.toFixed(2);
-        el.hp.textContent=pathH(sub.A).toFixed(2);
-        el.sw.textContent=sub.A.sw+' / '+sub.B.sw;
-        el.dh.textContent='ΔH '+(sub.A.H-sub.B.H>=0?'+':'')+(sub.A.H-sub.B.H).toFixed(2);
-        el.courtStat.textContent='returned '+play.A.hits+' vs '+play.B.hits;
-      }
-      if(travel<1) travel=Math.min(1,travel+0.075);
-
-      cohortTick++;
-      if(cohortTick%38===0 && cohort.length<46){
-        addSubject();
-        const r=pearson();
-        if(cohort.length>8) el.r.textContent='r = '+r.toFixed(2)+' · p < .001';
-      }
-
-      drawCourt(); drawStates(); drawRibbon(); drawEntropy(); drawOcc(); drawScatter();
+      f++;
+      if(f%7===0) advance();
+      if(blend<1) blend=Math.min(1,blend+0.10);
+      if(out.vol) out.vol.textContent='vol '+vol;
+      if(out.st)  out.st.textContent=ATLAS[cur].n;
+      drawMap(); drawSeq(); drawMat(); drawMod(); drawCog(); drawRid();
     }
     requestAnimationFrame(loop);
   }
-
   function fitAll(){ ALL.forEach(c=>c.fit()); }
   window.addEventListener('resize',fitAll);
   if('IntersectionObserver' in window){
     new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting; if(e.isIntersecting) fitAll();}),{threshold:0}).observe(root);
   }
-  // warm start so the figure never opens empty
-  for(let i=0;i<10;i++){ addSubject(); }
-  for(let i=0;i<14;i++){
-    const a=stepSub('A'), b=stepSub('B');
-    edge[sub.A.prev][a]++; histA.push(a); histB.push(b);
-    trA.push(sub.A.H); trB.push(sub.B.H);
-  }
-  fromS=sub.A.prev; toS=sub.A.s; travel=1;
+  for(let i=0;i<160;i++) advance();
+  blend=1;
   fitAll();
   requestAnimationFrame(loop);
 })();
