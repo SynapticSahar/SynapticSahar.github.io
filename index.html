@@ -127,6 +127,12 @@ section{position:relative;z-index:1}
 .ga-img{display:block;width:100%;height:auto}
 .ga-layer{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
 .ga-cap{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);line-height:1.7}
+.ko-block{margin-top:1.3rem;padding-top:1.2rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.6rem}
+.ko-head{font-size:.56rem;letter-spacing:.19em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.ko-head b{font-weight:400;color:var(--cyan);letter-spacing:.04em;text-transform:none;font-size:.75rem}
+#ko-canvas{display:block;width:100%;border:1px solid var(--border);background:#01050b}
+.ko-foot{font-size:.62rem;color:var(--muted);line-height:1.85;letter-spacing:.02em}
+.ko-foot em{font-style:normal;color:var(--cyan)}
 
 #projects{padding:9rem 0;background:var(--bg2)}
 .projects-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
@@ -444,6 +450,12 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
                   </div>
                   <figcaption class="ga-cap">Resting-state 7T fMRI &middot; 182 HCP participants &middot; 100 cortical parcels &middot; local Kuramoto synchrony &middot; k-means K = 7</figcaption>
                 </figure>
+
+                <div class="ko-block">
+                  <div class="ko-head"><span>Kuramoto order parameter per state</span><b>R = |&lang;e<sup>i&phi;</sup>&rang;|</b></div>
+                  <canvas id="ko-canvas"></canvas>
+                  <div class="ko-foot">Each dial is the phase circle for one state: one spoke per cortical parcel, and the resultant vector whose <em>length</em> is the order parameter R, with the shaded wedge spanning one circular standard deviation. Each arrow sits at its own angle, but direction is arbitrary here: a state's mean phase carries no information, so only length is meaningful and the axis below compares the seven values. Parcels drift on their own slow cycles while the ensemble tightens and loosens together, so R fluctuates about its mean and the gauge under each dial marks where it sits this instant. That temporal variability in the order parameter is <em>metastability</em>.</div>
+                </div>
 
               </div>
             </div>
@@ -1200,8 +1212,13 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
 })();
 
 // ===== graphical abstract · animated overlay =====
-// Coordinates are in the source image's own pixel space (1672 x 941) and are
-// measured from the artwork, so the overlay stays registered at any width.
+// Coordinates are in the source image's own pixel space (1672 x 941), measured
+// from the artwork, so the overlay stays registered at any display width.
+// The state sequence is read OUT of the artwork: each dot in the "More switching"
+// row is binned by hue, so runs of one colour are dwells and colour changes are
+// switches. The artwork already gets busier to the right (6 runs averaging 4.0
+// dots on the left half, 10 runs averaging 2.7 on the right), so the accumulating
+// tick marks below get visibly denser as the playhead advances.
 (function initGA(){
   const stage=document.getElementById('ga-stage'),
         img=document.getElementById('ga-img'),
@@ -1209,43 +1226,20 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   if(!stage||!img||!cv) return;
   const cx=cv.getContext('2d'), DPR=window.devicePixelRatio||1;
   const IW=1672, IH=941;
-  const NAVY='#12376e', NAVY_S='rgba(18,55,110,';
+  const NAVY='#12376e', NS='rgba(18,55,110,';
 
-  // seven state maps
   const BX=[423,584.5,747.5,909.5,1069.5,1229,1391], BY=596, BHW=73, BHH=76;
-  // the "more switching" dot row
   const DOTY=763.5;
   const DOTX=[383,400,418,437,455,474,492,510,545,562,579,597,615,634,650,668,685,705,722,741,760,779,797,814,836,853,872,888,906,925,942,961,978,997,1016,1034,1056,1077,1095,1117,1136,1156,1178,1197,1215,1234,1254,1274,1291,1311,1331,1355,1375,1400,1422];
   const DOTC=["#910d0e","#85090a","#920b0c","#960a0b","#97090d","#c80a0e","#e34f0e","#e55e14","#dc6619","#e76f1a","#e26312","#ebe451","#eee448","#e7e14b","#5ea960","#4d9e61","#3b956e","#2a988a","#2299ad","#209bac","#1367be","#0f3ba3","#0f3daa","#1242af","#8b349c","#90339b","#9237a0","#8a319b","#a30b0d","#950a0d","#e16015","#df6213","#dd6113","#e76a13","#e76212","#e05f15","#7fb95a","#78af4e","#7cb652","#4ba5cd","#4cadd7","#3d9eda","#802d9b","#792c93","#722990","#782d97","#eddd44","#e8d73c","#ecdf40","#dace46","#6ca65c","#219bb1","#1c90b0","#227dbf","#216fb9"];
+  // hue bin of each dot = which of the seven states that volume sits in
+  const BIN=[0,0,0,0,0,0,1,1,1,1,1,2,2,2,3,3,4,4,4,4,5,5,5,5,6,6,6,6,0,0,1,1,1,1,1,1,3,3,3,4,4,5,6,6,6,6,2,2,2,2,3,4,4,5,5];
   const ND=DOTX.length;
-  const COG={x:1560,y:600,r:64};          // "better cognition" icon
-  const REST={x:146,y:600,rx:88,ry:86};   // resting brain
+  const COG={x:1560,y:600,r:64};
 
-  // ---- state sequence from the thesis transition structure ----
-  const ATLAS=[{occ:.120,stay:.802},{occ:.134,stay:.832},{occ:.134,stay:.798},{occ:.137,stay:.813},
-               {occ:.134,stay:.812},{occ:.149,stay:.852},{occ:.192,stay:.840}];
-  const K=7, TAU=7.08;
-  const CEN=[[-6.2,3.1],[-2.4,6.4],[3.8,5.2],[7.1,0.4],[4.2,-5.1],[-2.9,-6.2],[-0.4,-0.3]];
-  let _s=1234; const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296;return _s/4294967296};
-  const VJ=(()=>{const v=ATLAS.map(a=>a.occ*(1-a.stay)),t=v.reduce((a,b)=>a+b,0);return v.map(x=>x/t)})();
-  const P=[];
-  for(let i=0;i<K;i++){
-    const raw=[]; let t=0;
-    for(let j=0;j<K;j++){
-      const d=Math.hypot(CEN[i][0]-CEN[j][0],CEN[i][1]-CEN[j][1]);
-      const x=i===j?0:Math.pow(VJ[j],0.2)*Math.exp(-d/TAU); raw.push(x); t+=x;
-    }
-    P.push(raw.map((x,j)=> i===j?ATLAS[i].stay:(1-ATLAS[i].stay)*x/t));
-  }
-  // one state per dot, so the row IS the state sequence
-  const SEQ=[]; let c=6;
-  for(let i=0;i<ND;i++){
-    let r=rnd(),a=0,n=K-1;
-    for(let j=0;j<K;j++){a+=P[c][j]; if(r<=a){n=j;break}}
-    c=n; SEQ.push(c);
-  }
+  const SW=[]; for(let i=1;i<ND;i++) if(BIN[i]!==BIN[i-1]) SW.push(i);
+  const RUNS=[]; {let s=0; for(let i=1;i<=ND;i++){ if(i===ND||BIN[i]!==BIN[s]){ RUNS.push([s,i-1]); s=i; } }}
 
-  // ---- sizing ----
   let SC=1;
   function fit(){
     const w=stage.clientWidth||IW, h=Math.round(w*IH/IW);
@@ -1254,60 +1248,84 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     cv.width=Math.round(w*DPR); cv.height=Math.round(h*DPR);
     cx.setTransform(DPR*SC,0,0,DPR*SC,0,0);
   }
-
   function rr(x,y,w,h,r){
     cx.beginPath();
-    if(cx.roundRect) cx.roundRect(x,y,w,h,r);
-    else cx.rect(x,y,w,h);
+    if(cx.roundRect) cx.roundRect(x,y,w,h,r); else cx.rect(x,y,w,h);
   }
 
-  // ---- animation ----
-  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let head=0, t0=null, visible=true;
-  const PER=190;                          // ms per dot
+  const PER=230;
 
   function draw(now){
     fit();
     cx.clearRect(0,0,IW,IH);
-    const idx=Math.min(ND-1,Math.floor(head));
-    const frac=head-Math.floor(head);
-    const st=SEQ[idx];
+    const idx=Math.min(ND-1,Math.floor(head)), frac=head-Math.floor(head);
+    const st=BIN[idx];
+    const pulse=0.5+0.5*Math.sin(now/380);
 
-    // 1. dots not yet reached fade back; the traced part stays vivid
-    for(let i=0;i<ND;i++){
-      if(i>idx){
-        cx.fillStyle='rgba(255,255,255,.66)';
-        cx.beginPath(); cx.arc(DOTX[i],DOTY,9,0,6.283); cx.fill();
-      }
+    // --- dots not yet reached fade back
+    for(let i=idx+1;i<ND;i++){
+      cx.fillStyle='rgba(255,255,255,.70)';
+      cx.beginPath(); cx.arc(DOTX[i],DOTY,9,0,6.283); cx.fill();
     }
-    // 2. playhead
+
+    // --- dwell bars above the row: long on the left, short on the right
+    cx.lineCap='round';
+    RUNS.forEach(([s,e])=>{
+      if(s>idx) return;
+      const to=Math.min(e,idx);
+      cx.strokeStyle=NS+'.45)'; cx.lineWidth=3;
+      cx.beginPath(); cx.moveTo(DOTX[s]-6,746); cx.lineTo(DOTX[to]+6,746); cx.stroke();
+    });
+
+    // --- one tick per switch, accumulating: the density IS "more switching"
+    let nsw=0, lastX=null;
+    SW.forEach(i=>{
+      if(i>idx) return;
+      nsw++;
+      const x=(DOTX[i-1]+DOTX[i])/2;
+      const fresh=(idx-i)<1.4;
+      cx.strokeStyle=NS+(fresh?'1)':'.8)'); cx.lineWidth=fresh?2.6:1.6;
+      if(fresh){cx.shadowColor=NAVY;cx.shadowBlur=10;}
+      cx.beginPath(); cx.moveTo(x,750); cx.lineTo(x,777); cx.stroke();
+      cx.shadowBlur=0;
+      lastX=x;
+    });
+
+    // --- playhead
     const px=DOTX[idx]+(idx<ND-1?(DOTX[idx+1]-DOTX[idx])*frac:0);
     cx.save();
     cx.shadowColor=DOTC[idx]; cx.shadowBlur=14;
     cx.strokeStyle=NAVY; cx.lineWidth=2.2;
     cx.beginPath(); cx.arc(px,DOTY,10.5,0,6.283); cx.stroke();
     cx.restore();
-    cx.fillStyle=NAVY;
-    cx.beginPath();
-    cx.moveTo(px,DOTY-15); cx.lineTo(px-5,DOTY-23); cx.lineTo(px+5,DOTY-23);
-    cx.closePath(); cx.fill();
 
-    // 3. the seven maps: veil the inactive ones, ring the occupied one
-    for(let k=0;k<K;k++){
+    // --- running tally
+    cx.fillStyle=NAVY; cx.textAlign='right';
+    cx.font='600 17px system-ui,-apple-system,sans-serif';
+    cx.fillText(nsw+(nsw===1?' switch':' switches'),1500,784);
+    cx.font='13px system-ui,-apple-system,sans-serif';
+    cx.fillStyle=NS+'.62)';
+    cx.fillText('in '+(idx+1)+' volumes',1500,800);
+    cx.textAlign='left';
+
+    // --- the seven maps
+    for(let k=0;k<7;k++){
       if(k===st) continue;
-      cx.fillStyle=NAVY_S+'.055)';
+      cx.fillStyle=NS+'.055)';
       rr(BX[k]-BHW,BY-BHH,BHW*2,BHH*2,12); cx.fill();
     }
-    const pulse=0.5+0.5*Math.sin(now/380);
+    const justSwitched=SW.some(i=>i<=idx&&(idx-i)<1.4);
     cx.save();
-    cx.shadowColor=NAVY_S+'.55)'; cx.shadowBlur=16+8*pulse;
-    cx.strokeStyle=NAVY; cx.lineWidth=2.6;
+    cx.shadowColor=NS+'.55)'; cx.shadowBlur=(justSwitched?30:16)+8*pulse;
+    cx.strokeStyle=NAVY; cx.lineWidth=justSwitched?3.4:2.6;
     rr(BX[st]-BHW,BY-BHH,BHW*2,BHH*2,12); cx.stroke();
     cx.restore();
 
-    // 4. the cognition icon answers each completed sweep
+    // --- cognition icon answers the completed sweep
     const done=head/(ND-1);
-    cx.strokeStyle=NAVY_S+(0.10+0.55*done*done).toFixed(3)+')';
+    cx.strokeStyle=NS+(0.10+0.55*done*done).toFixed(3)+')';
     cx.lineWidth=2.4;
     cx.beginPath(); cx.arc(COG.x,COG.y,COG.r+4*pulse*done,0,6.283); cx.stroke();
   }
@@ -1315,13 +1333,12 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   function loop(now){
     if(visible){
       if(t0===null) t0=now;
-      const total=(ND-1)+9;                       // sweep, then hold before looping
-      head=Math.min(ND-1, ((now-t0)/PER)%total);
+      const total=(ND-1)+11;
+      head=Math.min(ND-1,((now-t0)/PER)%total);
       draw(now);
     }
     requestAnimationFrame(loop);
   }
-
   function start(){
     fit();
     if(reduce){ head=ND-1; draw(0); return; }
@@ -1332,6 +1349,251 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   if('IntersectionObserver' in window)
     new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting}),{threshold:0}).observe(stage);
   if(img.complete) start(); else img.addEventListener('load',start);
+})();
+
+// ===== Kuramoto order parameter across the seven states =====
+// Each dial is the phase circle: one point per parcel, and the resultant vector
+// whose LENGTH is the order parameter R. Phase spreads are solved so that each
+// dial's resultant equals the centroid R reported for that state in the atlas.
+(function initKO(){
+  const cv=document.getElementById('ko-canvas'); if(!cv) return;
+  const cx=cv.getContext('2d'), DPR=window.devicePixelRatio||1;
+
+  const ST=[{n:'S1',R:.64},{n:'S2',R:.71},{n:'S3',R:.65},{n:'S4',R:.68},
+            {n:'S5',R:.66},{n:'S6',R:.73},{n:'S7',R:.78}];
+  const K=ST.length, NP=100;
+
+  // --- inverse normal CDF (Acklam) ---
+  function probit(p){
+    const a=[-3.969683028665376e+01,2.209460984245205e+02,-2.759285104469687e+02,1.383577518672690e+02,-3.066479806614716e+01,2.506628277459239e+00],
+          b=[-5.447609879822406e+01,1.615858368580409e+02,-1.556989798598866e+02,6.680131188771972e+01,-1.328068155288572e+01],
+          c=[-7.784894002430293e-03,-3.223964580411365e-01,-2.400758277161838e+00,-2.549732539343734e+00,4.374664141464968e+00,2.938163982698783e+00],
+          d=[7.784695709041462e-03,3.224671290700398e-01,2.445134137142996e+00,3.754408661907416e+00];
+    const pl=0.02425;
+    let q,r;
+    if(p<pl){ q=Math.sqrt(-2*Math.log(p));
+      return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    if(p>1-pl){ q=Math.sqrt(-2*Math.log(1-p));
+      return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    q=p-0.5; r=q*q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+  const Z=[]; for(let i=0;i<NP;i++) Z.push(probit((i+0.5)/NP));
+  const Rof=s=>{let t=0; for(let i=0;i<NP;i++) t+=Math.cos(s*Z[i]); return t/NP;};
+  function solve(target){
+    let lo=0.01,hi=3;
+    for(let i=0;i<70;i++){ const m=(lo+hi)/2; if(Rof(m)>target) lo=m; else hi=m; }
+    return (lo+hi)/2;
+  }
+  // Each parcel drifts on its own slow cycle, so phases slide relative to one another
+  // and the fan breathes. Sinusoidal drift of amplitude A adds A^2/2 to the phase
+  // variance, so the base spread is reduced to compensate and the time-averaged
+  // resultant still lands on the state's reported centroid R.
+  // Two motions, each meaning something.
+  //  - AMP: every parcel drifts on its own slow cycle, so phases slide past each other.
+  //  - BR:  a SHARED breathing of the spread, so the ensemble tightens and loosens
+  //         together. That collective fluctuation in R is metastability; independent
+  //         per-parcel wobble alone averages out and leaves R flat.
+  const AMP=0.30, BR=0.085, NB=32;
+  const ampFac=Math.exp(-AMP*AMP/4);
+  function avgR(spread){                       // time-average of R over one breath
+    let tot=0;
+    for(let m=0;m<NB;m++){
+      const br=1+BR*Math.sin(2*Math.PI*m/NB);
+      let sx=0;
+      for(let i=0;i<NP;i++) sx+=Math.cos(Z[i]*spread*br);
+      tot+=Math.abs(sx/NP);
+    }
+    return tot/NB*ampFac;
+  }
+  ST.forEach((s,k)=>{
+    let lo=0.01,hi=3;                          // calibrate so the average R hits the atlas value
+    for(let it=0;it<70;it++){ const m=(lo+hi)/2; if(avgR(m)>s.R) lo=m; else hi=m; }
+    s.spread=(lo+hi)/2;
+    s.phase=Z.map(z=>z*s.spread);
+    s.nu=[]; s.psi=[];
+    for(let q=0;q<NP;q++){ s.nu.push(0.45+1.75*((q*37+k*11)%100)/100); s.psi.push(((q*53+k*29)%100)/100*6.283); }
+    s.bph=k*0.8;                               // stagger the breaths across states
+    s.dir=Math.PI+k*2*Math.PI/K;               // own mean direction; arbitrary. S1 faces left
+                                               // so its annotation leaders stay clear of the dial
+    s.live=s.R;
+  });
+
+  const CM=[[8,32,107],[30,111,217],[23,193,193],[125,220,78],[247,209,60],[249,115,22],[225,29,72]];
+  function jet(t){
+    t=Math.max(0,Math.min(.9999,t))*(CM.length-1);
+    const i=Math.floor(t),f=t-i,a=CM[i],b=CM[i+1];
+    return 'rgb('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+')';
+  }
+  const RLO=0.60, RHI=0.80, tint=R=>jet((R-RLO)/(RHI-RLO));
+
+  let W=800,H=250,GUT=0;
+  const perRow=w=>w<440?3:(w<680?4:7);
+  function hFor(w){
+    const pr=perRow(w), rows=Math.ceil(K/pr), g=w>=620?Math.min(124,w*0.17):0;
+    const cell=(w-24-g)/pr, r=Math.min(46,cell*0.34);
+    return Math.round(rows*(2*r+62)+78+(g?0:34));
+  }
+  function fit(){
+    const w=Math.max(240,Math.round(cv.clientWidth||cv.parentElement.clientWidth-2));
+    const h=hFor(w);
+    if(w===W&&h===H&&cv.width) return;
+    W=w;H=h;
+    GUT=w>=620?Math.min(124,w*0.17):0;
+    cv.width=Math.round(w*DPR); cv.height=Math.round(h*DPR);
+    cv.style.height=h+'px';
+    cx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  function lab(t,x,y,c,sz,align,maxW){
+    let s=sz||8; cx.fillStyle=c||'rgba(122,148,176,.85)';
+    cx.font=s+'px system-ui,-apple-system,sans-serif'; cx.textAlign=align||'left';
+    if(maxW>0) while(cx.measureText(t).width>maxW&&s>5.5){s-=0.5;cx.font=s+'px system-ui,-apple-system,sans-serif';}
+    cx.fillText(t,x,y); cx.textAlign='left';
+  }
+
+  function dial(x0,y0,r,s,now){
+    const col=tint(s.R), rgba=al=>col.replace('rgb(','rgba(').replace(')',','+al+')');
+
+    // where the phases are right now: own-cycle drift plus a shared breath
+    const br=1+BR*Math.sin(now*0.00019+s.bph);
+    let sx=0, sy=0; const ang=[];
+    for(let i=0;i<NP;i++){
+      const a=s.phase[i]*br+AMP*Math.sin(now*0.00055*s.nu[i]+s.psi[i]);
+      ang.push(a); sx+=Math.cos(a); sy+=Math.sin(a);
+    }
+    sx/=NP; sy/=NP;
+    const mean=Math.atan2(sy,sx), Rl=Math.hypot(sx,sy);
+    s.live=Rl;
+    // put the fan on this state's own mean direction (direction is arbitrary; only R means anything)
+    for(let i=0;i<NP;i++) ang[i]+=s.dir-mean;
+    const sd=Math.sqrt(Math.max(0.01,-2*Math.log(Math.min(0.999,Rl))));
+
+    cx.strokeStyle='rgba(20,40,64,1)'; cx.lineWidth=1;
+    cx.beginPath(); cx.arc(x0,y0,r,0,6.283); cx.stroke();
+    cx.strokeStyle='rgba(20,40,64,.5)';
+    cx.beginPath(); cx.moveTo(x0-r,y0); cx.lineTo(x0+r,y0); cx.moveTo(x0,y0-r); cx.lineTo(x0,y0+r); cx.stroke();
+
+    // wedge at +/- one circular SD = sqrt(-2 ln R); it breathes with the fan
+    cx.fillStyle=rgba('.15');
+    cx.beginPath(); cx.moveTo(x0,y0); cx.arc(x0,y0,r,s.dir-sd,s.dir+sd); cx.closePath(); cx.fill();
+    cx.strokeStyle=rgba('.38'); cx.lineWidth=1; cx.setLineDash([2,3]);
+    [s.dir-sd,s.dir+sd].forEach(a=>{ cx.beginPath(); cx.moveTo(x0,y0);
+      cx.lineTo(x0+Math.cos(a)*r,y0+Math.sin(a)*r); cx.stroke(); });
+    cx.setLineDash([]);
+
+    cx.strokeStyle='rgba(150,195,235,.13)'; cx.lineWidth=1;
+    ang.forEach(a=>{ cx.beginPath(); cx.moveTo(x0,y0);
+      cx.lineTo(x0+Math.cos(a)*r,y0+Math.sin(a)*r); cx.stroke(); });
+    cx.fillStyle='rgba(185,215,240,.85)';
+    ang.forEach(a=>{ cx.beginPath();
+      cx.arc(x0+Math.cos(a)*r,y0+Math.sin(a)*r,1.35,0,6.283); cx.fill(); });
+
+    // resultant: length IS R. Direction is this state's own mean phase and means nothing.
+    cx.save();
+    cx.strokeStyle=col; cx.lineWidth=2.8; cx.shadowColor=col; cx.shadowBlur=11;
+    const ca=Math.cos(s.dir), sa=Math.sin(s.dir);
+    const hx=x0+Rl*r*ca, hy=y0+Rl*r*sa;
+    cx.beginPath(); cx.moveTo(x0,y0); cx.lineTo(hx,hy); cx.stroke();
+    cx.beginPath();
+    cx.moveTo(hx+5*ca,hy+5*sa);
+    cx.lineTo(hx-4*ca-4.5*sa,hy-4*sa+4.5*ca);
+    cx.lineTo(hx-4*ca+4.5*sa,hy-4*sa-4.5*ca);
+    cx.closePath(); cx.fillStyle=col; cx.fill();
+    cx.restore();
+    cx.fillStyle='#01050b'; cx.beginPath(); cx.arc(x0,y0,2.6,0,6.283); cx.fill();
+    cx.strokeStyle=col; cx.lineWidth=1.2; cx.stroke();
+
+    lab(s.n,x0,y0-r-10,'#8ab8d0',9.5,'center');
+    lab('R = '+s.R.toFixed(2),x0,y0+r+15,col,9.5,'center');
+    // small gauge: mean R from the atlas, tick = where R sits this instant
+    const bw=r*1.3, bx0=x0-bw/2, by=y0+r+25, lo=s.R-0.09, hi=s.R+0.09;
+    cx.strokeStyle='rgba(20,40,64,1)'; cx.lineWidth=2.5; cx.lineCap='round';
+    cx.beginPath(); cx.moveTo(bx0,by); cx.lineTo(bx0+bw,by); cx.stroke();
+    cx.strokeStyle=rgba('.5'); cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(x0,by-3.5); cx.lineTo(x0,by+3.5); cx.stroke();
+    const mx=bx0+bw*Math.max(0,Math.min(1,(Rl-lo)/(hi-lo)));
+    cx.fillStyle=col; cx.beginPath(); cx.arc(mx,by,2.8,0,6.283); cx.fill();
+  }
+
+  function annotate(x0,y0,r,s){
+    const dir=s.dir, sd=Math.sqrt(Math.max(0.01,-2*Math.log(Math.min(0.999,s.live))));
+    const gx=GUT-12;                                    // labels right-aligned to the gutter edge
+    const items=[
+      {t:'one parcel’s phase', ly:y0-r*0.80, a:dir+sd+0.50, rad:r},
+      {t:'R = resultant',      ly:y0+r*0.02, a:dir,         rad:r*s.live*0.55},
+      {t:'±1 SD spread',       ly:y0+r*0.84, a:dir-sd*0.98, rad:r*0.88}
+    ].map(o=>({t:o.t,ly:o.ly,tx:x0+Math.cos(o.a)*o.rad,ty:y0+Math.sin(o.a)*o.rad}));
+    items.forEach(it=>{
+      cx.strokeStyle='rgba(122,148,176,.45)'; cx.lineWidth=1;
+      cx.beginPath();
+      cx.moveTo(gx+4,it.ly); cx.lineTo(gx+14,it.ly); cx.lineTo(it.tx,it.ty);
+      cx.stroke();
+      cx.fillStyle='rgba(122,148,176,.9)';
+      cx.beginPath(); cx.arc(it.tx,it.ty,1.9,0,6.283); cx.fill();
+      lab(it.t,gx,it.ly+3,'rgba(138,184,208,.95)',7.5,'right',GUT-18);
+    });
+  }
+
+  function draw(now){
+    fit();
+    cx.clearRect(0,0,W,H); cx.fillStyle='#01050b'; cx.fillRect(0,0,W,H);
+    const pr=perRow(W), rows=Math.ceil(K/pr);
+    const cell=(W-24-GUT)/pr, r=Math.min(46,cell*0.34);
+    let s1=null;
+    for(let k=0;k<K;k++){
+      const ri=Math.floor(k/pr), ci=k%pr;
+      const inRow=Math.min(pr,K-ri*pr), rowW=inRow*cell;
+      const x0=GUT+(W-GUT-rowW)/2+ci*cell+cell/2, y0=22+r+ri*(2*r+62);
+      dial(x0,y0,r,ST[k],now);
+      if(k===0) s1={x0,y0,r};
+    }
+    if(GUT>0 && s1) annotate(s1.x0,s1.y0,s1.r,ST[0]);
+
+    // --- zoomed ranking axis
+    const ay=rows*(2*r+62)+44, ax=40, aw=W-80;
+    cx.strokeStyle='rgba(20,40,64,1)'; cx.lineWidth=1;
+    cx.beginPath(); cx.moveTo(ax,ay); cx.lineTo(ax+aw,ay); cx.stroke();
+    for(let v=60;v<=80;v+=5){
+      const x=ax+aw*(v/100-RLO)/(RHI-RLO);
+      cx.beginPath(); cx.moveTo(x,ay-3); cx.lineTo(x,ay+3); cx.stroke();
+      lab((v/100).toFixed(2),x,ay+15,'rgba(74,96,128,.95)',7,'center');
+    }
+    const sorted=ST.map((s,i)=>({s,i})).sort((a,b)=>a.s.R-b.s.R);
+    sorted.forEach(({s},j)=>{
+      const x=ax+aw*(s.R-RLO)/(RHI-RLO), col=tint(s.R);
+      const yy=ay-(j%2?18:9);
+      cx.strokeStyle='rgba(20,40,64,.9)';
+      cx.beginPath(); cx.moveTo(x,ay); cx.lineTo(x,yy); cx.stroke();
+      cx.fillStyle=col; cx.beginPath(); cx.arc(x,yy,3.2,0,6.283); cx.fill();
+      lab(s.n,x,yy-6,col,7.5,'center');
+    });
+    lab('centroid order parameter, least to most synchronised',ax,ay+28,'rgba(122,148,176,.7)',7,null,aw*0.62);
+    lab('global R = 0.581 ± 0.097',ax+aw,ay+28,'rgba(245,158,11,.85)',7,'right');
+
+    // compact legend when there is no room for leader lines
+    if(GUT===0){
+      const ly=ay+44;
+      let lx=ax;
+      const leg=[['dot','one parcel’s phase'],['wedge','±1 SD spread'],['arrow','R = resultant']];
+      leg.forEach(([kind,txt])=>{
+        cx.fillStyle='rgba(185,215,240,.85)'; cx.strokeStyle='rgba(122,148,176,.8)'; cx.lineWidth=1.6;
+        if(kind==='dot'){ cx.beginPath(); cx.arc(lx+4,ly-3,2,0,6.283); cx.fill(); }
+        else if(kind==='wedge'){ cx.fillStyle='rgba(30,111,217,.35)';
+          cx.beginPath(); cx.moveTo(lx,ly+1); cx.lineTo(lx+9,ly-6); cx.lineTo(lx+9,ly+1); cx.closePath(); cx.fill(); }
+        else { cx.strokeStyle='#00e5ff'; cx.beginPath(); cx.moveTo(lx,ly-3); cx.lineTo(lx+10,ly-3); cx.stroke(); }
+        lab(txt,lx+14,ly,'rgba(122,148,176,.85)',6.5);
+        lx+=Math.max(74,(aw-10)/3);
+      });
+    }
+  }
+
+  let visible=true;
+  function loop(now){ if(visible) draw(now); requestAnimationFrame(loop); }
+  window.addEventListener('resize',()=>{W=-1;fit();});
+  if('ResizeObserver' in window) new ResizeObserver(()=>{W=-1;fit();}).observe(cv.parentElement);
+  if('IntersectionObserver' in window)
+    new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting}),{threshold:0}).observe(cv);
+  fit(); requestAnimationFrame(loop);
 })();
 
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60));
