@@ -35,6 +35,8 @@ nav.scrolled{background:rgba(2,4,8,.93);backdrop-filter:blur(24px);border-bottom
 .hero-eyebrow{display:flex;align-items:center;gap:1rem;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:2rem;opacity:0;animation:fsup .8s .2s forwards}
 .eyebrow-line{width:40px;height:1px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
 .hero-name{font-family:'Bebas Neue',sans-serif;line-height:.92;letter-spacing:.04em;margin-bottom:1.5rem;opacity:0;animation:fsup .8s .4s forwards}
+.hero-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1.5rem;opacity:0;animation:fsup .8s .6s forwards}
+.hero-tags .etag{border-color:rgba(0,229,255,.22);color:#7fa8bd}
 .hero-actions{display:flex;gap:1.2rem;flex-wrap:wrap;opacity:0;animation:fsup .8s .8s forwards}
 .btn-p{position:relative;padding:.9rem 2.2rem;background:transparent;border:1px solid var(--cyan);color:var(--cyan);font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;overflow:hidden;transition:color .3s;cursor:none}
 .btn-p::before{content:'';position:absolute;inset:0;background:var(--cyan);transform:translateX(-101%);transition:transform .3s;z-index:-1}
@@ -290,6 +292,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   <div class="nav-logo">Sahar Hosseinzadeh</div>
   <div class="nav-links">
     <a href="#about">About</a>
+    <a href="#education">Education</a>
     <a href="#experience">Experience</a>
     <a href="#projects">Projects</a>
     <a href="#skills">Skills</a>
@@ -302,9 +305,12 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="hero-photo-wrap">
       <img class="hero-photo" src="https://raw.githubusercontent.com/SynapticSahar/SynapticSahar.github.io/main/photo.jpeg" alt="Sahar"/>
     </div>
-    <div class="hero-eyebrow"><div class="eyebrow-line"></div>Computational Neuroscientist</div>
+    <div class="hero-eyebrow"><div class="eyebrow-line"></div>Medical AI · Digital Health · Computational Neuroscience</div>
     <div class="hero-name">
-      <div class="l1" style="font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.5vw,3rem);line-height:1.25;letter-spacing:-.01em;color:var(--text)">AI for <span style="color:var(--cyan)">neuroscience</span>, <span style="color:var(--amber)">medical applications</span> &amp; <span style="color:var(--violet2)">industry</span>.</div>
+      <div class="l1" style="font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.5vw,3rem);line-height:1.25;letter-spacing:-.01em;color:var(--text)">AI for <span style="color:var(--amber)">medical applications</span>, <span style="color:var(--cyan)">digital health</span> &amp; <span style="color:var(--violet2)">neuroscience</span>.</div>
+    </div>
+    <div class="hero-tags">
+      <span class="etag">Medical AI</span><span class="etag">Digital Health</span><span class="etag">Computational Neuroscience</span><span class="etag">Computational Modeling for Clinical Applications</span><span class="etag">Biomedical Signal Processing</span><span class="etag">Deep Learning</span>
     </div>
     <div class="hero-actions">
       <a href="#projects" class="btn-p">View Projects</a>
@@ -332,20 +338,93 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="about-panel-wrap">
       <div class="thesis-panel reveal d1">
         <div class="thesis-body about-body">
-          <p>I'm a <span class="about-accent-cyan">machine learning engineer</span> with a research background in <span class="about-accent-violet">computational neuroscience</span>, currently completing my master's in <strong>Brain and Cognition</strong> at <strong>Pompeu Fabra University</strong>.</p>
+          <p>I'm a <span class="about-accent-cyan">machine learning engineer</span> working on <span class="about-accent-amber">medical AI</span> and <span class="about-accent-amber">digital health</span>, with a research background in <span class="about-accent-violet">computational neuroscience</span>. I hold an <strong>MSc in Brain and Cognition</strong> from <strong>Pompeu Fabra University</strong>.</p>
 
-          <p>My thesis, supervised by <a class="about-link" href="https://www.upf.edu/web/cns" target="_blank" rel="noopener noreferrer"><strong>Prof. Gustavo Deco</strong></a> and <a class="about-link" href="https://www.upf.edu/web/tcn" target="_blank" rel="noopener noreferrer"><strong>Dr. Rubén Moreno-Bote</strong></a>, focuses on measuring <span class="about-accent-violet">whole-brain metastability</span> from fMRI using a novel <span class="about-accent-violet">vortex-space approach</span>, connecting it to the <strong>Maximum Occupancy Principle</strong>, and investigating its relationship with <span class="about-accent-amber">human cognitive flexibility</span>.</p>
+          <p>I'm currently an <span class="about-accent-cyan">AI Research Engineer Intern</span> in the <span class="about-accent-violet">Digital Health Unit</span> at the <a class="about-link" href="https://www.digitalhealthbsc.org/" target="_blank" rel="noopener noreferrer"><strong>Barcelona Supercomputing Center</strong></a>, developing <span class="about-accent-amber">ECG foundation models</span> for <span class="about-accent-amber">myocardial infarction detection</span>. I test whether ECGFounder outperforms CNNs trained from scratch on a private Hospital Sant Pau cohort of <strong>10,491 12-lead recordings</strong>, under a shared evaluation protocol on BSC HPC.</p>
+
+          <p>I apply <span class="about-accent-cyan">deep learning</span> to large-scale neural and cardiac datasets, and I have worked with <span class="about-accent-violet">fMRI</span>, <span class="about-accent-violet">EEG</span>, <span class="about-accent-violet">ECG</span>, <span class="about-accent-violet">EMG</span> and <span class="about-accent-violet">LFP</span> data across the full research pipeline: literature review, method selection, data auditing and preprocessing, model development and evaluation, and deployment as usable services.</p>
+
+          <p>My master's thesis, supervised by <a class="about-link" href="https://www.upf.edu/web/cns" target="_blank" rel="noopener noreferrer"><strong>Prof. Gustavo Deco</strong></a> and <a class="about-link" href="https://www.upf.edu/web/tcn" target="_blank" rel="noopener noreferrer"><strong>Prof. Rubén Moreno-Bote</strong></a>, measured <span class="about-accent-violet">whole-brain metastability</span> from 7T fMRI in <span class="about-accent-violet">vortex space</span> across 182 Human Connectome Project participants, and tested its relationship to <span class="about-accent-amber">cognitive flexibility</span> against the <strong>Maximum Occupancy Principle</strong>.</p>
+
+          <p>I also have experience in <span class="about-accent-cyan">full-stack development</span> and production deployment of deep learning solutions and <span class="about-accent-cyan">LLM-based agentic AI systems</span> using <span class="about-accent-amber">FastAPI</span>, <span class="about-accent-amber">Streamlit</span>, <span class="about-accent-amber">Docker</span>, <span class="about-accent-amber">AWS</span>, and <span class="about-accent-amber">LangChain</span>.</p>
 
           <p>Prior to my master's, I completed a <span class="about-accent-cyan">Bachelor's degree in Industrial Engineering</span> at <strong>Sharif University of Technology</strong>, where I focused on the application of <span class="about-accent-cyan">reinforcement learning</span> for <span class="about-accent-amber">inventory optimization</span>.</p>
-
-          <p>I have strong experience developing <span class="about-accent-cyan">biomedical signal processing</span> and <span class="about-accent-cyan">machine learning</span> solutions for <span class="about-accent-violet">computational neuroscience</span> and <span class="about-accent-amber">healthcare applications</span>, using modalities such as <span class="about-accent-violet">EEG</span>, <span class="about-accent-violet">EMG</span>, <span class="about-accent-violet">fMRI</span>, and <span class="about-accent-violet">medical imaging data</span>. I also have experience in <span class="about-accent-cyan">full-stack development</span> and production deployment of deep learning solutions and <span class="about-accent-cyan">LLM-based agentic AI systems</span> using <span class="about-accent-amber">FastAPI</span>, <span class="about-accent-amber">Streamlit</span>, <span class="about-accent-amber">Docker</span>, <span class="about-accent-amber">AWS</span>, and <span class="about-accent-amber">LangChain</span>.</p>
-
-          <p>From July to September 2026, I will join the <span class="about-accent-violet">Digital Health Unit</span> at the <span class="about-accent-violet">Barcelona Supercomputing Center</span> as an <span class="about-accent-cyan">ML Engineering Intern</span>, contributing to deep-learning-based detection and classification of <span class="about-accent-amber">cardiac events</span>.</p>
 
 
           <p style="margin-top:2rem;font-size:.75rem;letter-spacing:.12em;color:var(--muted)">📍 Barcelona, Spain &nbsp;·&nbsp; 🇬🇧 English fluent</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="container">
+    <div class="sec-label">Education</div>
+    <h2 class="sec-title reveal">Degrees &amp; Honours</h2>
+    <div class="exp-grid">
+
+      <div class="exp-card reveal d1">
+        <div class="exp-inner">
+          <div class="exp-side">
+            <span class="exp-type research">M.Sc.</span>
+            <div class="exp-year">2026</div>
+            <div class="exp-org">Pompeu Fabra<br/><span>University &middot; Barcelona</span></div>
+          </div>
+          <div class="exp-main">
+            <div class="exp-title">M.Sc., Computational Neuroscience (Brain and Cognition)</div>
+            <div class="exp-date">2025 &ndash; July 2026 &nbsp;&middot;&nbsp; GPA 8.38 / 10</div>
+            <ul class="exp-points">
+              <li>Thesis: &ldquo;Brain States in Vortex Space&rdquo;, supervised by Prof. Gustavo Deco and Prof. Rub&eacute;n Moreno-Bote at the Center for Brain and Cognition.</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="etag">Computational Neuroscience</span><span class="etag">Whole-Brain Modeling</span><span class="etag">fMRI</span><span class="etag">Cognition</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal d2">
+        <div class="exp-inner">
+          <div class="exp-side">
+            <span class="exp-type research">B.Sc.</span>
+            <div class="exp-year">2017</div>
+            <div class="exp-org">Sharif University<br/><span>of Technology &middot; Tehran</span></div>
+          </div>
+          <div class="exp-main">
+            <div class="exp-title">B.Sc., Industrial Engineering</div>
+            <div class="exp-date">2017 &ndash; 2023</div>
+            <ul class="exp-points">
+              <li>Teaching Assistant, Linear Algebra (40+ undergraduates).</li>
+              <li>Thesis on deep reinforcement learning for the Beer Game, a four-stage supply chain in which each agent sees only local information, cannot communicate, and shares a single objective with the other three.</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="etag">Reinforcement Learning</span><span class="etag">Optimization</span><span class="etag">Teaching</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal d3">
+        <div class="exp-inner">
+          <div class="exp-side">
+            <span class="exp-type internship">Honours</span>
+            <div class="exp-year">2017</div>
+            <div class="exp-org"><span>National Ranking</span></div>
+          </div>
+          <div class="exp-main">
+            <div class="exp-title">National Ranking &middot; Iranian Nationwide University Entrance Examination</div>
+            <div class="exp-date">Konkur 2017 &middot; Mathematics and Physics group</div>
+            <ul class="exp-points">
+              <li>Ranked 200th nationally among approximately 150,000 candidates.</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="etag">Mathematics</span><span class="etag">Physics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -359,7 +438,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
       <div class="exp-card bsc-card reveal d1">
         <div class="exp-inner">
           <div class="exp-side">
-            <span class="exp-type industry">Industry</span>
+            <span class="exp-type research">Research</span>
             <div class="exp-year">2026</div>
             <div class="exp-org compact">
               <span class="org-muted">Barcelona Supercomputing Center</span>
@@ -368,13 +447,21 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             
           </div>
           <div class="exp-main">
-            <div class="exp-title">Incoming ML Engineering Intern - Barcelona Supercomputing Center</div>
-            <div class="exp-date">Jul 16 - Sep 30, 2026</div>
+            <div class="exp-title">AI Research Engineer Intern - ECG Foundation Model for STEMI/NSTEMI Detection</div>
+            <div class="exp-date">May 2026 &ndash; Present</div>
             <ul class="exp-points">
-              <li>Joining the Digital Health Unit at Barcelona Supercomputing Center for a summer internship under supervision of Paula Petrone.</li>
+              <li>Testing whether ECGFounder outperforms machine learning models and CNN-based architectures trained from scratch for detecting STEMI and NSTEMI, under a shared evaluation protocol on BSC HPC. The distinction matters clinically: STEMI can often be identified from the ECG and trigger urgent reperfusion, whereas NSTEMI diagnosis usually requires additional clinical assessment and cardiac troponin evidence.</li>
+              <li>Selected methods through a comprehensive literature review, then audited and preprocessed a private Hospital Sant Pau cohort of 10,491 12-lead ECG recordings.</li>
+              <li>Assessed candidate architectures on licensing and commercial-use terms alongside performance, so the selected model can be deployed and developed further at the hospital rather than restricted to research use.</li>
+              <li>Evaluating performance using AUROC, AUPRC and sensitivity at fixed specificity, including subgroup analyses, and developing a documented, reproducible pipeline for further clinical development at the hospital.</li>
             </ul>
+            <div class="research-extra">
+              <div class="research-meta">
+                <span style="color:var(--amber)">Supervised by Dr. Paula Petrone &middot; Digital Health Unit, BSC</span>
+              </div>
+            </div>
             <div class="exp-stack">
-              <span class="etag">Clinical AI</span><span class="etag">Machine Learning</span><span class="etag">ECG</span><span class="etag">Deep Learning</span>
+              <span class="etag">Clinical AI</span><span class="etag">ECGFounder</span><span class="etag">12-Lead ECG</span><span class="etag">Foundation Models</span><span class="etag">Deep Learning</span><span class="etag">HPC</span><span class="etag">AUROC/AUPRC</span>
             </div>
           </div>
         </div>
@@ -409,21 +496,27 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-org">CNS Lab<br/><span>UPF · Barcelona</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">Researcher - Brain Metastability &amp; Maximum Occupancy Principle </div>
-            <div class="exp-date">Sep 2025 – Jul 2026</div>
+            <div class="exp-title">Master's Thesis - Brain States in Vortex Space</div>
+            <div class="exp-date">Dec 2025 &ndash; Jul 2026</div>
             <ul class="exp-points">
-              <li>Measuring whole-brain metastability from 7T fMRI in vortex-space across HCP subjects, clustering 1000 brain regions into 7 metastable states, and correlating Shannon and path entropy per subject with cognitive flexibility and behavioral performance.</li>
-              <li>Implementing MOP and assessing its performance by comparing model predictions against empirical ones.</li>
+              <li>Tested whether a richer, more flexible brain-state repertoire in vortex space is associated with better cognition and better modelled state transitions, using 7T resting-state fMRI from 182 Human Connectome Project participants (900 volumes each; TR 1 s; Schaefer parcellation coarsened to 100 cortical regions).</li>
+              <li>Built a seven-state synchronization atlas in MATLAB using a local Kuramoto order parameter, 50 principal components (73.9% variance) and k-means over 163,800 pooled volumes; adjusted Rand index reached 0.82 across resampled time points and 0.64 across independent participant halves.</li>
+              <li>Implemented and evaluated Maximum Occupancy Principle models testing whether transitions favour states that preserve access to more future states.</li>
             </ul>
 
             <div class="research-extra">
-              <div class="research-kicker">Core Hypothesis</div>
+              <div class="research-kicker">Key Findings</div>
               <div class="research-core">
-                    Brain state transitions correlates with individual differences in cognitive flexibility and decision-making performance.
-                    High-performing brains behave more consistently with MOP-predicted transition dynamics.              
+                    Across 28 planned tests of seven cognitive outcomes, transition and occupancy entropy associations were positive in 26 of 28 tests, strongest for occupancy entropy with the general factor (<strong>r = 0.20</strong>, p<sub>perm</sub> = 0.006).
+                    A novel exponential distance model reproduced the off-diagonal group transition matrix at <strong>r = 0.90</strong>, beat all 5,040 exact state-label permutations, and generalized at <strong>r = 0.54</strong> under leave-one-participant-out cross-validation.
                   </div>
               <div class="research-meta">
-                <span style="color:var(--amber)">Supervised by Prof. Gustavo Deco &amp; Dr. Ruben Moreno-Bote · UPF</span>
+                <span style="color:var(--amber)">Supervised by Prof. Gustavo Deco &amp; Prof. Rub&eacute;n Moreno-Bote &middot; UPF</span>
+              </div>
+              <div class="research-meta">
+                <a class="about-link" href="https://github.com/SynapticSahar/vortex-brain-states/blob/main/thesis.pdf" target="_blank" rel="noopener noreferrer">Thesis PDF</a>
+                <a class="about-link" href="https://github.com/SynapticSahar/vortex-brain-states" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+                <a class="about-link" href="https://canva.link/8nboaerjixwd0pb" target="_blank" rel="noopener noreferrer">Presentation Slides</a>
               </div>
             </div>
 
@@ -431,7 +524,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
               <span class="etag">fMRI</span><span class="etag">Vortex Space</span><span class="etag">MOP</span>
               <span class="etag">Entropy</span><span class="etag">HCP Dataset</span><span class="etag">Clustering</span>
               <span class="etag">MATLAB</span><span class="etag">Python</span><span class="etag">k-means</span>
-              <span class="etag">Ridge Regression</span><span class="etag">RL</span>
+              <span class="etag">Ridge Regression</span><span class="etag">Kuramoto</span><span class="etag">PCA</span><span class="etag">Elastic Net</span><span class="etag">Permutation Testing</span><span class="etag">RL</span>
             </div>
 
             <div class="research-entropy-wrap">
@@ -455,21 +548,21 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
       <div class="exp-card reveal d2">
         <div class="exp-inner">
           <div class="exp-side">
-            <span class="exp-type research">Research assistant</span>
+            <span class="exp-type research">Research collaborator</span>
             <div class="exp-year">2025</div>
             <div class="exp-org">CMC Lab<br/><span>Dr. Shervin Safavi</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">ML Researcher - Sharp Wave Ripple Detection from LFP</div>
-            <div class="exp-date">Apr 2025 – Feb 2026</div>
+            <div class="exp-title">Research Collaborator - Sharp Wave Ripple Detection from Hippocampal LFP</div>
+            <div class="exp-date">Mar 2025 &ndash; Jun 2026</div>
             <ul class="exp-points">
-              <li>Built the first threshold-free SWR detection pipeline: NMF extracts spectral patterns directly from raw LFP, eliminating manual parameter tuning entirely.</li>
-              <li>Designed end-to-end pipeline: NMF feature extraction → candidate generation → transformer classifier → session-stable evaluation.</li>
-              <li>Result: strong generalization across sessions without recalibration, the core unsolved problem in SWR detection.</li>
+              <li>Developed an end-to-end feature pipeline for cross-session sharp wave ripple detection. A short-time Fourier transform converted hippocampal LFP into spectrograms, and non-negative matrix factorization extracted recurring spectral components and their time-varying activations.</li>
+              <li>Evaluated on the four-session 4-uLED dataset released with rippl-AI, containing four mice, 86.7 minutes of recording and 3,069 expert-annotated ripple events.</li>
+              <li>Reproduced the rippl-AI reference models on raw LFP as controlled baselines and benchmarked SVM, dense, Informer, CNN1D, InceptionTime and temporal convolutional networks on factorization-derived features using identical data splits and event-level evaluation criteria; all feature-based models outperformed the strongest reproduced raw-LFP baseline.</li>
             </ul>
             <div class="exp-stack">
-              <span class="etag">PyTorch</span><span class="etag">Transformers</span><span class="etag">NMF</span>
-              <span class="etag">LFP</span><span class="etag">scikit-learn</span><span class="etag">NumPy</span>
+              <span class="etag">PyTorch</span><span class="etag">NMF</span><span class="etag">STFT</span><span class="etag">LFP</span>
+              <span class="etag">Informer</span><span class="etag">InceptionTime</span><span class="etag">TCN</span><span class="etag">rippl-AI</span><span class="etag">scikit-learn</span>
             </div>
           </div>
         </div>
@@ -479,43 +572,22 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
         <div class="exp-inner">
           <div class="exp-side">
             <span class="exp-type industry">Industry</span>
-            <div class="exp-year">2024</div>
-            <div class="exp-org">Myant Inc.<br/><span>Canada</span></div>
-          </div>
-          <div class="exp-main">
-            <div class="exp-title">ML Engineer - Wearable BCI / EEG·EMG Modeling</div>
-            <div class="exp-date">Jan 2024 – Jan 2025</div>
-            <ul class="exp-points">
-              <li>Preprocessed EEG/EMG from textile-based wearable prototypes; engineered artifact removal pipelines for noisy on-skin sensor data from headband and glove devices.</li>
-              <li>Built sleep staging and real-time eye-tracking models from headband EEG; delivered working training + evaluation pipelines used directly in prototype testing.</li>
-              <li>Developed sequential RNN for EMG-based AR/VR movement steering using textile glove data, real-time inference pipeline validated on device.</li>
-            </ul>
-            <div class="exp-stack">
-              <span class="etag">EEG · EMG</span><span class="etag">RNN</span><span class="etag">Sleep Staging</span>
-              <span class="etag">Eye Tracking</span><span class="etag">AR/VR</span><span class="etag">PyTorch</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-card reveal d4">
-        <div class="exp-inner">
-          <div class="exp-side">
-            <span class="exp-type industry">Industry</span>
             <div class="exp-year">2025</div>
-            <div class="exp-org">Imam Khomeini<br/><span>Hospital · Clinical Lab</span></div>
+            <div class="exp-org">IKHC<br/><span>Clinical Lab &middot; Tehran</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">ML Engineer - Real-Time EEG Emotion Recognition</div>
-            <div class="exp-date">Mar 2025 – Aug 2025</div>
+            <div class="exp-title">AI Research Engineer - EEG-Based Affective State Decoding</div>
+            <div class="exp-date">Jan 2025 &ndash; Jul 2025</div>
             <ul class="exp-points">
-              <li>Built full EEG emotion recognition pipeline end-to-end: bandpass filtering, ICA artifact removal, and epoching on clinical EEG recordings using MNE-Python.</li>
-              <li>Extracted frequency band power features (theta, alpha, beta, gamma) and trained EEGNet classifier for 4-class emotion detection (valence/arousal quadrants).</li>
-              <li>Deployed real-time inference system: FastAPI backend serving the model, Streamlit frontend for live EEG upload and emotion prediction with confidence charts. Dockerized on AWS EC2.</li>
+              <li>Developed an EEG-based affective-state decoder to read shopper responses to product presentations using a wearable g.tec EEG system paired with eye-tracking glasses. Gaze fixation linked each EEG segment to a product, while pupil diameter provided an arousal measure when self-report ratings were unavailable.</li>
+              <li>Built the EEG pipeline end to end using bandpass filtering, ICA-based artifact removal and epoching in MNE-Python, followed by theta, alpha, beta and gamma band-power features.</li>
+              <li>Trained EEGNet for four-class valence-arousal classification on DEAP under a leave-one-participant-out protocol. Mean accuracy reached 58.0% against a 35.8% majority-class baseline, with mean macro F<sub>1</sub> of 0.54 across 32 folds.</li>
+              <li>Characterized the domain shift between laboratory EEG and the wearable deployment setting, including fewer channels, a different montage, ambulatory motion artifacts and pupil-derived arousal.</li>
+              <li>Deployed the trained model as a real-time inference service: a FastAPI backend, a Streamlit frontend, containerized with Docker on AWS EC2.</li>
             </ul>
             <div class="exp-stack">
-              <span class="etag">EEG</span><span class="etag">MNE-Python</span><span class="etag">EEGNet</span>
-              <span class="etag">PyTorch</span><span class="etag">FastAPI</span><span class="etag">Streamlit</span><span class="etag">Docker</span><span class="etag">AWS EC2</span>
+              <span class="etag">EEG</span><span class="etag">MNE-Python</span><span class="etag">EEGNet</span><span class="etag">DEAP</span>
+              <span class="etag">g.tec</span><span class="etag">Eye Tracking</span><span class="etag">PyTorch</span><span class="etag">FastAPI</span><span class="etag">Streamlit</span><span class="etag">Docker</span><span class="etag">AWS EC2</span>
             </div>
 
             <div class="eeg-viz-wrap">
@@ -546,20 +618,51 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
         </div>
       </div>
 
+      <div class="exp-card reveal d4">
+        <div class="exp-inner">
+          <div class="exp-side">
+            <span class="exp-type industry">Industry</span>
+            <div class="exp-year">2024</div>
+            <div class="exp-org">Myant Inc.<br/><span>Canada</span></div>
+          </div>
+          <div class="exp-main">
+            <div class="exp-title">AI Research Engineer - Deep Learning on EEG and EMG for Wearable BCI</div>
+            <div class="exp-date">Mar 2024 &ndash; Sep 2024</div>
+            <ul class="exp-points">
+              <li>Built the preprocessing stack for EEG and EMG streamed live from sensor-integrated garments, addressing movement artifacts caused by electrode displacement and slow contact-impedance drift that fixed filter settings cannot follow.</li>
+              <li>Developed an eye-movement tracking model using headband signals that achieved 91.6% accuracy.</li>
+              <li>Built a recurrent neural network that mapped forearm EMG from glove hardware to continuous movement commands for AR/VR control, with R<sup>2</sup> = 0.75.</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="etag">EEG · EMG</span><span class="etag">RNN</span><span class="etag">Artifact Removal</span>
+              <span class="etag">Wearables</span><span class="etag">Eye Tracking</span><span class="etag">AR/VR</span><span class="etag">PyTorch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="exp-card reveal d5">
         <div class="exp-inner">
           <div class="exp-side">
-            <span class="exp-type internship">Internship</span>
+            <span class="exp-type internship">Training</span>
             <div class="exp-year">2024</div>
             <div class="exp-org"><span>Neuromatch Academy</span></div>
           </div>
           <div class="exp-main">
-            <div class="exp-title">Computational Neuroscience Internship</div>
+            <div class="exp-title">Computational Neuroscience Summer School</div>
             <div class="exp-date">July 2024</div>
             <ul class="exp-points">
               <li>Tested whether Shannon entropy features predict 0-back vs 2-back cognitive load better than raw BOLD on Human Connectome Project data.</li>
-              <li>Trained GRU with cross-subject transfer learning; entropy features consistently outperformed raw BOLD across all runs.</li>
+              <li>Computed the Shannon entropy of the BOLD time series for each brain region and fed those values to a Gated Recurrent Unit network that predicted which task the participant was performing.</li>
+              <li>Tested by transfer across people, training on one group and testing on participants the model had never seen. Entropy features outperformed the raw signal on every run.</li>
             </ul>
+            <div class="research-extra">
+              <div class="research-meta">
+                <a class="about-link" href="https://github.com/SerendipitySynapses/brain-decoding-project" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="about-link" href="https://bit.ly/PsbJ" target="_blank" rel="noopener noreferrer">Presentation</a>
+                <a class="about-link" href="https://bit.ly/YfoG" target="_blank" rel="noopener noreferrer">Certificate</a>
+              </div>
+            </div>
             <div class="exp-stack">
               <span class="etag">PyTorch</span><span class="etag">GRU</span><span class="etag">fMRI · HCP</span>
               <span class="etag">Transfer Learning</span><span class="etag">Shannon Entropy</span>
@@ -602,42 +705,50 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 
       <div class="proj-card c1 reveal d1">
         <div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">01</div><span class="proj-badge thesis">Bachelor's thesis</span></div>
-        <div class="proj-title">Deep Q-Network for the Beer Game</div>
-        <div class="proj-desc">Extended DQN for multi-agent inventory control in the Beer Game; tested under varying demand conditions</div>
-        <div class="proj-tags"><span class="ptag key">PyTorch</span><span class="ptag key">DQN</span><span class="ptag key">Multi-agent RL</span><span class="ptag">Inventory Control</span></div>
+        <div class="proj-top"><div class="proj-num">01</div><span class="proj-badge clinical">Clinical LLM</span></div>
+        <div class="proj-title">Agentic ECG Decision Support</div>
+        <div class="proj-desc">Grounded an LLM in a calibrated ECG classifier and clinical guidelines to cut unsupported claims versus retrieval alone. Fine-tuned ECGFounder on PTB-XL (21,799 12-lead ECGs from 18,869 patients) and registered it as an LLM tool, fusing classifier output, FHIR records and ESC and ACC/AHA guidelines into schema-validated reports with missing-data flags and confidence-based abstention. Benchmarked against no retrieval, standard RAG, reranked RAG and a tool-using agent on adversarial PTB-XL and Synthea data.</div>
+        <div class="proj-tags"><span class="ptag key">ECGFounder</span><span class="ptag key">PTB-XL</span><span class="ptag key">RAG</span><span class="ptag">LangChain</span><span class="ptag">FHIR</span><span class="ptag">LLM Tool Use</span><span class="ptag">Abstention</span></div>
       </div>
 
       <div class="proj-card c2 reveal d1">
         <div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">02</div><span class="proj-badge hot">LLM × Neuro</span></div>
-        <div class="proj-title">EEG → Image Decoding via CLIP</div>
-        <div class="proj-desc">Transformer encoder aligns EEG responses to CLIP image embeddings via contrastive loss (THINGS-EEG2 dataset). At inference: retrieves top-3 image categories the brain saw with confidence scores. GPT-4o narrates the decoded perception in natural language.</div>
-        <div class="proj-tags"><span class="ptag key">CLIP</span><span class="ptag key">Transformers</span><span class="ptag key">Contrastive</span><span class="ptag">MNE-Python</span><span class="ptag">HuggingFace</span><span class="ptag">OpenAI API</span></div>
+        <div class="proj-top"><div class="proj-num">02</div><span class="proj-badge clinical">Clinical ML</span></div>
+        <div class="proj-title">Seizure Detection - Foundation Model</div>
+        <div class="proj-desc">Fine-tuned PatchTST for seizure detection, scored by sensitivity and false alarms per hour rather than accuracy: seizures occupy well under one percent of a long EEG recording, so a model that never predicts one is still almost always right. Trained and tested on CHB-MIT Scalp EEG from PhysioNet: 23 pediatric cases, roughly 969 hours of recording containing 198 seizures at 256 Hz across 23 channels. Deployed as a working service with FastAPI and Streamlit on AWS SageMaker.</div>
+        <div class="proj-tags"><span class="ptag key">PatchTST</span><span class="ptag key">Foundation Model</span><span class="ptag">HuggingFace</span><span class="ptag">AWS SageMaker</span><span class="ptag">FastAPI</span><span class="ptag">Clinical EEG</span></div>
       </div>
 
       <div class="proj-card c3 reveal d2">
         <div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">03</div><span class="proj-badge clinical">Clinical ML</span></div>
-        <div class="proj-title">Seizure Detection - Foundation Model</div>
-        <div class="proj-desc">Fine-tuned PatchTST on CHB-MIT Scalp EEG (PhysioNet) for binary seizure detection. Per-patient evaluation benchmarked against clinical sensitivity/specificity baselines. Deployed with FastAPI and live demo.</div>
-        <div class="proj-tags"><span class="ptag key">PatchTST</span><span class="ptag key">Foundation Model</span><span class="ptag">HuggingFace</span><span class="ptag">AWS SageMaker</span><span class="ptag">Clinical EEG</span></div>
+        <div class="proj-top"><div class="proj-num">03</div><span class="proj-badge clinical">Medical Imaging</span></div>
+        <div class="proj-title">3D U-Net for Brain Tumor Segmentation</div>
+        <div class="proj-desc">Developed and trained a 3D U-Net for volumetric brain tumor segmentation using MRI scans from the BraTS2020 dataset. Three-dimensional convolutions learn spatial features across adjacent MRI slices rather than processing each slice independently. Optimized voxel-level overlap between predicted and ground-truth tumor regions using Dice loss, and applied data augmentation and learning-rate scheduling during training to improve generalization and stabilize optimization.</div>
+        <div class="proj-tags"><span class="ptag key">3D U-Net</span><span class="ptag key">BraTS2020</span><span class="ptag key">MRI</span><span class="ptag">Dice Loss</span><span class="ptag">Segmentation</span><span class="ptag">PyTorch</span></div>
       </div>
 
       <div class="proj-card c4 reveal d3">
         <div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">04</div><span class="proj-badge">Neuro Sim</span></div>
+        <div class="proj-top"><div class="proj-num">04</div><span class="proj-badge hot">LLM &times; Neuro</span></div>
+        <div class="proj-title">EEG &rarr; Image Decoding via CLIP</div>
+        <div class="proj-desc">Asked whether the category of a picture someone is looking at can be read from their EEG. A Transformer encoder maps each EEG segment onto the CLIP embedding of the image that produced it, trained with an NT-Xent contrastive loss. Retrieves the three most likely image categories on THINGS-EEG2, and GPT-4o turns them into a description of what the person appeared to be seeing.</div>
+        <div class="proj-tags"><span class="ptag key">CLIP</span><span class="ptag key">Transformers</span><span class="ptag key">Contrastive</span><span class="ptag">THINGS-EEG2</span><span class="ptag">MNE-Python</span><span class="ptag">HuggingFace</span><span class="ptag">OpenAI API</span></div>
+      </div>
+
+      <div class="proj-card c5 reveal d4">
+        <div class="proj-glow"></div>
+        <div class="proj-top"><div class="proj-num">05</div><span class="proj-badge">Neuro Sim</span></div>
         <div class="proj-title">Synaptic Plasticity in Mouse V1</div>
-        <div class="proj-desc">Simulated reward-modulated STDP in spiking neural networks. Studied VIP/SST/excitatory neuron interactions under rewarded vs passive conditions using Allen Institute Ophys dataset.</div>
+        <div class="proj-desc">Asked whether reward controls learning in visual cortex indirectly, through VIP interneurons inhibiting SST interneurons and releasing the excitatory cells from inhibition. Built spiking neural network models in Brian2 using spike-timing-dependent plasticity whose learning rate is scaled by a reward signal. Used Allen Brain Observatory two-photon recordings from mouse V1 to compare neural activity during rewarded and passive viewing.</div>
         <div class="proj-tags"><span class="ptag key">Brian2</span><span class="ptag key">SNNs</span><span class="ptag">STDP</span><span class="ptag">Allen SDK</span></div>
       </div>
 
-      <div class="proj-card c5 reveal d5">
+      <div class="proj-card c6 reveal d5">
         <div class="proj-glow"></div>
-        <div class="proj-top"><div class="proj-num">05</div><span class="proj-badge">fMRI · HCP</span></div>
-        <div class="proj-title">Shannon Entropy for fMRI Prediction</div>
-        <div class="proj-desc">Showed entropy features outperform raw BOLD for n-back task prediction. GRU with cross-subject transfer learning on Human Connectome Project. Entropy gain consistent across all runs.</div>
-        <div class="proj-tags"><span class="ptag key">GRU</span><span class="ptag key">Transfer Learning</span><span class="ptag">PyTorch</span><span class="ptag">fMRI</span><span class="ptag">HCP</span></div>
+        <div class="proj-top"><div class="proj-num">06</div><span class="proj-badge thesis">Bachelor's thesis</span></div>
+        <div class="proj-title">Deep Q-Network for the Beer Game</div>
+        <div class="proj-desc">Reproduced <a class="about-link" href="https://arxiv.org/abs/1708.05924" target="_blank" rel="noopener noreferrer">Oroojlooyjadid et al.</a> on the Beer Game, a four-stage supply chain where each agent sees only local information, cannot communicate, and shares one objective with the other three. Implemented the paper's reward shaping: at episode end every stored reward is adjusted by the gap between the chain's average cost and the agent's own, so the agent still acts locally but learns to lower total cost. Evaluated SRDQN against Sterman agents over 50 held-out 100-period games, benchmarked against a base-stock policy. <a class="about-link" href="https://github.com/SerendipitySynapses/deep-q-network-beergame" target="_blank" rel="noopener noreferrer">Code on GitHub</a></div>
+        <div class="proj-tags"><span class="ptag key">PyTorch</span><span class="ptag key">DQN</span><span class="ptag key">Multi-agent RL</span><span class="ptag">Reward Shaping</span><span class="ptag">Inventory Control</span></div>
       </div>
 
     </div>
@@ -649,12 +760,12 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="sec-label">Skills</div>
     <h2 class="sec-title reveal">Technical Stack</h2>
     <div class="skills-layout">
-      <div class="skill-card reveal d1"><div class="skill-card-title">Languages &amp; Scripting</div><div class="skill-pills"><span class="spill star">Python</span><span class="spill star">MATLAB</span><span class="spill">Java</span><span class="spill">C/C++</span><span class="spill">JavaScript</span><span class="spill">R</span><span class="spill">Shell</span><span class="spill">LaTeX</span></div></div>
+      <div class="skill-card reveal d1"><div class="skill-card-title">Languages &amp; Scripting</div><div class="skill-pills"><span class="spill star">Python</span><span class="spill star">MATLAB</span><span class="spill">Java</span><span class="spill">C/C++</span><span class="spill">JavaScript</span><span class="spill">R</span><span class="spill">Shell</span><span class="spill">LaTeX</span><span class="spill">SciPy</span></div></div>
       <div class="skill-card reveal d2"><div class="skill-card-title">ML / Deep Learning</div><div class="skill-pills"><span class="spill star">PyTorch</span><span class="spill">TensorFlow</span><span class="spill star">HuggingFace</span><span class="spill">scikit-learn</span><span class="spill">PEFT/LoRA</span><span class="spill">Keras</span></div></div>
-      <div class="skill-card reveal d3"><div class="skill-card-title">Architectures</div><div class="skill-pills"><span class="spill star">Transformers</span><span class="spill">CNNs</span><span class="spill">RNN/GRU</span><span class="spill star">SNNs</span><span class="spill">DQN/RL</span><span class="spill">Contrastive Learning</span></div></div>
+      <div class="skill-card reveal d3"><div class="skill-card-title">Architectures</div><div class="skill-pills"><span class="spill star">Transformers</span><span class="spill">CNNs</span><span class="spill">RNN/GRU</span><span class="spill star">SNNs</span><span class="spill star">Foundation Models</span><span class="spill">DQN/RL</span><span class="spill">Contrastive Learning</span></div></div>
       <div class="skill-card reveal d4"><div class="skill-card-title">Neuro &amp; Signal Processing</div><div class="skill-pills"><span class="spill star">EEG</span><span class="spill star">fMRI</span><span class="spill star">LFP</span><span class="spill">EMG</span><span class="spill">MNE-Python</span><span class="spill">FieldTrip</span><span class="spill">Brian2</span><span class="spill">Allen SDK</span><span class="spill">NEURON</span></div></div>
-      <div class="skill-card reveal d5"><div class="skill-card-title">LLMs &amp; GenAI</div><div class="skill-pills"><span class="spill star">LangChain</span><span class="spill">OpenAI API</span><span class="spill">RAG</span><span class="spill">Agents</span><span class="spill">Prompt Engineering</span></div></div>
-      <div class="skill-card reveal d6"><div class="skill-card-title">MLOps &amp; Cloud</div><div class="skill-pills"><span class="spill star">Docker</span><span class="spill star">FastAPI</span><span class="spill">AWS EC2</span><span class="spill">SageMaker</span><span class="spill">CI/CD</span><span class="spill">WebSockets</span><span class="spill">Git</span></div></div>
+      <div class="skill-card reveal d5"><div class="skill-card-title">LLMs &amp; GenAI</div><div class="skill-pills"><span class="spill star">LangChain</span><span class="spill">OpenAI API</span><span class="spill">RAG</span><span class="spill">Agents</span><span class="spill">Prompt Engineering</span><span class="spill">LLM Tracing</span></div></div>
+      <div class="skill-card reveal d6"><div class="skill-card-title">MLOps &amp; Cloud</div><div class="skill-pills"><span class="spill star">Docker</span><span class="spill star">FastAPI</span><span class="spill">AWS EC2</span><span class="spill">SageMaker</span><span class="spill">AWS Lambda</span><span class="spill star">BSC HPC Cluster</span><span class="spill">Linux</span><span class="spill">CI/CD</span><span class="spill">WebSockets</span><span class="spill">Git</span></div></div>
       <div class="skill-card reveal d1" style="grid-column:1/-1"><div class="skill-card-title">Software Practices</div><div class="skill-pills"><span class="spill star">Clean Code</span><span class="spill star">OOP</span><span class="spill">Design Patterns</span><span class="spill">SOLID</span><span class="spill">DRY</span><span class="spill">KISS</span><span class="spill">YAGNI</span><span class="spill">Git</span><span class="spill">REST APIs</span><span class="spill">CI/CD</span><span class="spill">Docker</span><span class="spill">Agile/Scrum</span></div></div>
     </div>
   </div>
@@ -665,8 +776,8 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="contact-wrap">
       <div class="sec-label" style="justify-content:center">Contact</div>
       <h2 class="sec-title reveal" style="text-align:center">Let's Build Something</h2>
-      <div class="avail-pill reveal"><div class="status-dot"></div>BSC Digital Health Unit intern · Jul-Sep 2026</div>
-      <p class="contact-tagline reveal">Machine learning &amp; neuroscience expertise + production software skills.</p>
+      <div class="avail-pill reveal"><div class="status-dot"></div>AI Research Engineer Intern &middot; BSC Digital Health Unit</div>
+      <p class="contact-tagline reveal">Medical AI and neuroscience research, with production deployment experience.</p>
       <div class="contact-links reveal">
         <a href="mailto:sahar.hosseinzadeh.1999@gmail.com" class="clink"><span>✉</span> Email</a>
         <a href="https://github.com/SynapticSahar?tab=repositories" class="clink" target="_blank"><span>⌥</span> GitHub</a>
@@ -678,7 +789,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 
 <footer>
   <span>Sahar Hosseinzadeh · Barcelona</span>
-  <span>Computational Neuroscience × ML Engineering</span>
+  <span>Medical AI × Computational Neuroscience</span>
 </footer>
 
 <script>
