@@ -15,7 +15,7 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#020408;--bg2:#040810;--card:#070d18;--border:#0e1f35;--border2:#142840;--cyan:#00e5ff;--violet:#7c3aed;--violet2:#a78bfa;--amber:#f59e0b;--rose:#fb7185;--green:#10b981;--text:#e2e8f0;--muted:#4a6080;--muted2:#1a2f4a;--content-title:#f1e7d0;--content-body:#b8c5d2;--content-tag:#80d9c5;--content-tag-border:#2a6b5f;--content-tag-bg:rgba(16,185,129,.04)}
+:root{--bg:#020408;--bg2:#040810;--card:#070d18;--border:#0e1f35;--border2:#142840;--cyan:#00e5ff;--violet:#7c3aed;--violet2:#a78bfa;--amber:#f59e0b;--rose:#fb7185;--green:#10b981;--text:#e2e8f0;--muted:#4a6080;--muted2:#1a2f4a;--content-title:#d6a067;--content-body:#b8c5d2;--content-tag:#80d9c5;--content-tag-border:#2a6b5f;--content-tag-bg:rgba(16,185,129,.04)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;overflow-x:hidden;cursor:none}
@@ -285,6 +285,31 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .ecg-badge{width:142px;top:30px;right:8px;padding:.4rem .5rem .5rem}
   .ecg-badge-cls{font-size:.72rem}
 }
+
+/* ===== SWR pipeline banner (CMC Lab card) ===== */
+.swr-banner{position:relative;border-top:1px solid var(--border);background:#01050b;overflow:hidden;cursor:none}
+.swr-head{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:.7rem;padding:.55rem .95rem;z-index:3;pointer-events:none;font-size:.55rem;letter-spacing:.19em;text-transform:uppercase;font-family:inherit}
+.swr-live{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:ecgPulse 1.5s ease-in-out infinite;flex:none}
+.swr-title{color:#8ab8d0}
+.swr-meta{color:var(--muted)}
+.swr-legend{margin-left:auto;display:flex;gap:.75rem;align-items:center;font-size:.5rem;letter-spacing:.12em;color:var(--muted)}
+.swr-legend i{display:inline-block;width:7px;height:2px;margin-right:.3rem;vertical-align:middle}
+.swr-canvas{display:block;width:100%}
+.swr-badge{position:absolute;z-index:4;top:34px;right:14px;width:196px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
+.swr-badge.on{opacity:1;transform:none}
+.swr-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.swr-badge-cls{font-size:.82rem;letter-spacing:.04em;font-weight:500;line-height:1.1;margin-bottom:.4rem}
+.swr-bar{height:3px;background:var(--muted2);position:relative;overflow:hidden}
+.swr-bar i{position:absolute;inset:0 100% 0 0;display:block;transition:right .5s cubic-bezier(.2,.8,.3,1)}
+.swr-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted)}
+.swr-badge-why{margin-top:.32rem;padding-top:.32rem;border-top:1px solid var(--border);font-size:.5rem;letter-spacing:.09em;color:#6f8aa8;line-height:1.45}
+@media(max-width:900px){.swr-legend{display:none}}
+@media(max-width:640px){.swr-meta{display:none}}
+@media(max-width:768px){
+  .swr-badge{width:150px;top:30px;right:8px;padding:.4rem .5rem .5rem}
+  .swr-badge-cls{font-size:.7rem}
+  .swr-badge-why{display:none}
+}
 </style>
 </head>
 <body>
@@ -529,6 +554,28 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             </div>
           </div>
         </div>
+        <div class="swr-banner" id="swr-banner">
+          <div class="swr-head">
+            <span class="swr-live"></span>
+            <span class="swr-title">STFT &rarr; NMF &rarr; sequence model</span>
+            <span class="swr-meta">CA1 LFP &middot; 1250 Hz &middot; simulated trace &middot; ~0.2&times; speed</span>
+            <span class="swr-legend">
+              <span><i style="background:#00e5ff"></i>H&#8321; ripple</span>
+              <span><i style="background:#a78bfa"></i>H&#8322; sharp wave</span>
+              <span><i style="background:#f59e0b"></i>H&#8323; gamma</span>
+              <span><i style="background:#fb7185"></i>H&#8324; broadband</span>
+            </span>
+          </div>
+          <canvas class="swr-canvas" id="swr-canvas"></canvas>
+          <div class="swr-badge" id="swr-badge">
+            <div class="swr-badge-top"><span>event decision</span><span id="swr-lat">102 ms</span></div>
+            <div class="swr-badge-cls" id="swr-cls">&mdash;</div>
+            <div class="swr-bar"><i id="swr-bar-fill"></i></div>
+            <div class="swr-badge-conf" id="swr-conf">0.00 confidence</div>
+            <div class="swr-badge-why" id="swr-why"></div>
+          </div>
+        </div>
+
       </div>
 
       <div class="exp-card reveal d3">
@@ -1258,6 +1305,418 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
 // SCROLL REVEAL
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+
+// ===== SHARP-WAVE RIPPLE PIPELINE BANNER (CMC Lab card) =====
+// Simulated CA1 LFP -> STFT -> NMF activations (H) -> event decision.
+// Every lane is computed live from the same synthetic trace: the spectrogram is
+// a real short-time Fourier transform of it, H comes from Lee & Seung
+// multiplicative updates against a fixed spectral dictionary W, and the
+// decision is a function of H only. Nothing is scripted except the signal.
+(function(){
+  const wrap=document.getElementById('swr-banner');
+  const cv=document.getElementById('swr-canvas');
+  if(!wrap||!cv) return;
+  const cx=cv.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+
+  // ---------- analysis constants ----------
+  const FS=1250, NB=26, BINHZ=12, NFFT=128, K=4, HALF=NFFT>>1;
+  const SPD=4;            // display px (= signal samples) advanced per frame
+  const HMAX=9;           // display ceiling for H
+  const LINE=0.62;        // analysis-window boundary, fraction of width
+
+  // ---------- STFT tables ----------
+  const wf=new Float32Array(NFFT);
+  for(let n=0;n<NFFT;n++) wf[n]=0.5-0.5*Math.cos(2*Math.PI*n/(NFFT-1));
+  const cosT=[],sinT=[];
+  for(let b=0;b<NB;b++){
+    const f=(b+0.5)*BINHZ,c=new Float32Array(NFFT),s=new Float32Array(NFFT);
+    for(let n=0;n<NFFT;n++){const a=2*Math.PI*f*n/FS;c[n]=Math.cos(a)*wf[n];s[n]=Math.sin(a)*wf[n];}
+    cosT.push(c);sinT.push(s);
+  }
+  const RING=2048, ring=new Float32Array(RING);
+  let wp=0, gi=0;
+  const spec=new Float32Array(NB), specN=new Float32Array(NB), specB=new Float32Array(NB).fill(0.02);
+  function stft(){
+    for(let b=0;b<NB;b++){
+      let re=0,im=0;const c=cosT[b],s=sinT[b];
+      for(let n=0;n<NFFT;n++){const v=ring[(wp-NFFT+n+RING)%RING];re+=v*c[n];im-=v*s[n];}
+      spec[b]=2*Math.sqrt(re*re+im*im)/NFFT;
+    }
+    // per-bin background normalisation: LFP power is ~1/f, so the raw spectrogram
+    // is dominated by low frequencies. Divide each bin by a slowly tracked
+    // baseline and rectify -> relative deviation from the ongoing background.
+    for(let b=0;b<NB;b++){
+      specB[b]+=0.00025*(Math.min(spec[b],specB[b]*2.5)-specB[b]);
+      specN[b]=Math.max(0,spec[b]/(specB[b]+1e-9)-1);
+    }
+  }
+
+  // ---------- NMF dictionary W (NB x K) ----------
+  // H1 ripple 100-250 Hz | H2 sharp wave 5-35 Hz | H3 gamma 30-90 Hz | H4 broadband
+  const gs=(f,mu,sg)=>Math.exp(-((f-mu)*(f-mu))/(2*sg*sg));
+  const Wm=[];
+  for(let b=0;b<NB;b++){const f=(b+0.5)*BINHZ;
+    Wm.push([gs(f,165,42),gs(f,16,12),gs(f,62,20),0.75+0.25*Math.min(1,f/260)]);}
+  for(let k=0;k<K;k++){let s=0;for(let b=0;b<NB;b++)s+=Wm[b][k]*Wm[b][k];s=Math.sqrt(s);
+    for(let b=0;b<NB;b++)Wm[b][k]/=s;}
+  const WtW=[];
+  for(let i=0;i<K;i++){WtW.push([]);for(let j=0;j<K;j++){let s=0;
+    for(let b=0;b<NB;b++)s+=Wm[b][i]*Wm[b][j];WtW[i].push(s);}}
+  const H=new Float64Array(K).fill(0.05), Wtx=new Float64Array(K);
+  function updateH(x){                       // Lee & Seung, W held fixed
+    for(let k=0;k<K;k++){let s=0;for(let b=0;b<NB;b++)s+=Wm[b][k]*x[b];Wtx[k]=s;}
+    for(let it=0;it<6;it++)for(let k=0;k<K;k++){
+      let d=1e-9;for(let j=0;j<K;j++)d+=WtW[k][j]*H[j];
+      H[k]=Math.max(1e-6,H[k]*Math.max(0,Wtx[k])/d);
+    }
+  }
+
+  // ---------- class logits over H ----------
+  // The ripple rule is a conjunction: ripple-band energy AND a concurrent
+  // low-frequency sharp wave, penalised by the broadband component. That is
+  // what separates a true SWR from a movement artifact of equal raw amplitude.
+  const ORDER=['SWR','THETA','GAMMA','ARTIFACT','BASE'];
+  // theta is a brain state, not an event class: the event-level head decides
+  // between ripple, gamma burst, artifact and nothing.
+  const EVT=['SWR','GAMMA','ARTIFACT','BASE'];
+  function logits(h){return{
+    SWR:2.20*Math.sqrt(h[0]*(h[1]+0.15))-0.55*h[3]-2.50,
+    THETA:1.30*h[1]-0.75*h[0]-0.50*h[3]-1.55,
+    GAMMA:1.45*h[2]-0.55*h[3]-0.55*h[0]-1.80,
+    ARTIFACT:0.65*h[3]-0.20*h[1]-3.00,
+    BASE:0};}
+  function pOf(l,k,set){const O=set||ORDER;let m=-1e9;O.forEach(c=>{if(l[c]>m)m=l[c];});
+    let S=0;O.forEach(c=>{S+=Math.exp(l[c]-m);});return Math.exp(l[k]-m)/S;}
+
+  const CLS={
+    SWR     :{n:'Sharp-wave ripple', c:'#00e5ff', why:'H1 ripple 100-250 Hz + H2 sharp wave, concurrent'},
+    THETA   :{n:'Theta state',       c:'#a78bfa', why:'sustained H2 near 8 Hz, no ripple-band activation'},
+    GAMMA   :{n:'Gamma burst',       c:'#f59e0b', why:'H3 only, 40-90 Hz - rejected, not a ripple'},
+    ARTIFACT:{n:'Broadband artifact',c:'#fb7185', why:'H4 flat across bands, no sharp wave - rejected'},
+    BASE    :{n:'Background',        c:'#4a6080', why:'no component above background'}
+  };
+
+  // ---------- synthetic CA1 LFP ----------
+  let q0=0,q1=0,q2=0,q3=0,q4=0,q5=0,q6=0;
+  function pink(){
+    const w=Math.random()*2-1;
+    q0=0.99886*q0+w*0.0555179;q1=0.99332*q1+w*0.0750759;q2=0.96900*q2+w*0.1538520;
+    q3=0.86650*q3+w*0.3104856;q4=0.55000*q4+w*0.5329522;q5=-0.7616*q5-w*0.0168980;
+    const o=q0+q1+q2+q3+q4+q5+q6+w*0.5362;q6=w*0.115926;return o*0.11;
+  }
+  // acquisition high-pass (~2 Hz one-pole), as in a real LFP recording chain:
+  // removes slow drift so the sharp wave and theta are not buried in 1/f wander
+  let hpS=0;
+  const hp=v=>{hpS+=0.010*(v-hpS);return v-hpS;};
+  const ms=t=>Math.round(t*FS/1000);
+  const SCRIPT=['BASE','SWR','BASE','SWR','GAP','SWR','BASE','THETA','BASE','ARTIFACT','BASE','SWR','BASE','GAMMA','BASE'];
+  let sPtr=0, segId=0;
+  function makeSeg(){
+    const kind=SCRIPT[sPtr%SCRIPT.length];sPtr++;segId++;
+    let n,out,cls,peak=0;
+    if(kind==='BASE'){n=ms(430+Math.random()*380);out=new Float32Array(n);cls='BASE';}
+    else if(kind==='GAP'){n=ms(80+Math.random()*40);out=new Float32Array(n);cls='BASE';}
+    else if(kind==='SWR'){
+      n=ms(190);out=new Float32Array(n);cls='SWR';
+      const c=n/2,f0=130+Math.random()*55,ph=Math.random()*6.28;
+      const sw=ms(24),rp=ms(15),a=0.26+Math.random()*0.10;
+      for(let i=0;i<n;i++){const t=(i-c)/FS;
+        out[i]-=0.52*Math.exp(-((i-c)*(i-c))/(2*sw*sw));
+        out[i]+=a*Math.exp(-((i-c)*(i-c))/(2*rp*rp))*Math.sin(2*Math.PI*f0*t+ph);}
+      peak=Math.round(c);
+    }
+    else if(kind==='THETA'){
+      n=ms(950+Math.random()*350);out=new Float32Array(n);cls='THETA';
+      const f=7.5+Math.random()*1.5,ph=Math.random()*6.28;
+      for(let i=0;i<n;i++){const t=i/FS,th=Math.sin(2*Math.PI*f*t+ph);
+        const e=Math.min(1,i/ms(120))*Math.min(1,(n-i)/ms(120));
+        out[i]+=e*(0.62*th+0.05*(0.5+0.5*Math.sin(2*Math.PI*f*t+ph-1.57))*Math.sin(2*Math.PI*68*t));}
+      peak=Math.round(n/2);
+    }
+    else if(kind==='GAMMA'){
+      n=ms(200);out=new Float32Array(n);cls='GAMMA';const f=55+Math.random()*18;
+      for(let i=0;i<n;i++){const e=0.5-0.5*Math.cos(2*Math.PI*i/(n-1));
+        out[i]+=0.30*e*Math.sin(2*Math.PI*f*i/FS);}
+      peak=Math.round(n/2);
+    }
+    else{                                   // broadband transient, ripple-like amplitude
+      n=ms(140);out=new Float32Array(n);cls='ARTIFACT';
+      const c=Math.round(n/2),sg=ms(11);
+      for(let i=0;i<n;i++){out[i]+=Math.exp(-((i-c)*(i-c))/(2*sg*sg))*(Math.random()*2-1)*0.85;}
+      peak=c;
+    }
+    return{kind,cls,samples:out,peak,id:segId};
+  }
+
+  // ---------- rolling display buffers ----------
+  let W=900,Hh=252,GUT=48,narrow=false,badgeW=196;
+  let lfpY,lfpH,spY,spH,hY,hH,pY,pH;
+  const vB=[],cB=[],eB=[],h0=[],h1=[],h2=[],h3=[],pB=[],gtB=[];
+  let sc=null,scx=null;                      // offscreen spectrogram
+  function layout(){
+    narrow=window.innerWidth<=768;
+    badgeW=narrow?150:196;
+    GUT=narrow?34:48;
+    Hh=narrow?206:256;
+    const top=narrow?24:28;
+    lfpH=narrow?60:80; spH=narrow?46:58; hH=narrow?36:46; pH=narrow?24:30;
+    lfpY=top; spY=lfpY+lfpH+4; hY=spY+spH+4; pY=hY+hH+4;
+    Hh=pY+pH+9;
+  }
+  function resize(){
+    W=Math.max(360,Math.floor(wrap.clientWidth));
+    layout();
+    cv.width=W*dpr;cv.height=Hh*dpr;cv.style.width=W+'px';cv.style.height=Hh+'px';
+    cx.setTransform(dpr,0,0,dpr,0,0);
+    const arrs=[vB,cB,eB,h0,h1,h2,h3,pB,gtB];
+    arrs.forEach(a=>{while(a.length<W)a.unshift(a===cB?'BASE':0);while(a.length>W)a.shift();});
+    sc=document.createElement('canvas');sc.width=W;sc.height=NB;
+    scx=sc.getContext('2d');scx.fillStyle='#01050b';scx.fillRect(0,0,W,NB);
+  }
+
+  // ---------- spectrogram colour ramp ----------
+  const STOPS=[[0,[1,5,11]],[0.18,[7,28,48]],[0.38,[10,64,98]],[0.58,[0,190,222]],[0.80,[167,139,250]],[1,[245,158,11]]];
+  const PAL=[];
+  for(let i=0;i<192;i++){
+    const t=i/191;let a=STOPS[0],b=STOPS[STOPS.length-1];
+    for(let s=0;s<STOPS.length-1;s++){if(t>=STOPS[s][0]&&t<=STOPS[s+1][0]){a=STOPS[s];b=STOPS[s+1];break;}}
+    const u=(t-a[0])/((b[0]-a[0])||1);
+    PAL.push('rgb('+Math.round(a[1][0]+u*(b[1][0]-a[1][0]))+','+Math.round(a[1][1]+u*(b[1][1]-a[1][1]))+','+Math.round(a[1][2]+u*(b[1][2]-a[1][2]))+')');
+  }
+  const DEN=Math.log1p(10/0.35);
+  const palIdx=v=>Math.max(0,Math.min(191,Math.round(Math.log1p(Math.max(0,v)/0.35)/DEN*191)));
+
+  // ---------- stream + event-level decision ----------
+  const elBadge=document.getElementById('swr-badge'),elCls=document.getElementById('swr-cls'),
+        elFill=document.getElementById('swr-bar-fill'),elConf=document.getElementById('swr-conf'),
+        elWhy=document.getElementById('swr-why');
+  let seg=null,si=0,pSm=0,det=null;
+  const pending=[],armed=[];
+
+  function fire(ev){
+    let best='BASE',m=-1e9;
+    EVT.forEach(c=>{if(ev.acc[c]>m){m=ev.acc[c];best=c;}});
+    if(best==='BASE')return;          // a miss produces no detection, as it should
+    const conf=pOf(ev.acc,best,EVT),C=CLS[best];
+    det={id:ev.id,cls:best,t0:performance.now()};
+    elCls.textContent=C.n;elCls.style.color=C.c;
+    elFill.style.background=C.c;elFill.style.right=(100-conf*100).toFixed(1)+'%';
+    elConf.textContent=conf.toFixed(2)+' confidence';
+    elWhy.textContent=C.why;
+    elBadge.classList.add('on');
+  }
+
+  function step(colX){
+    if(!seg||si>=seg.samples.length){
+      seg=makeSeg();si=0;
+      if(seg.cls!=='BASE')pending.push({id:seg.id,cls:seg.cls,at:gi+seg.peak,acc:null});
+    }
+    ring[wp]=hp(pink()+seg.samples[si]);
+    let cls='BASE',eid=-1,gt=0;
+    if(seg.cls==='THETA'){cls='THETA';eid=seg.id;}
+    else if(seg.cls!=='BASE'){
+      const span=seg.cls==='GAMMA'?ms(90):ms(50);
+      if(Math.abs(si-seg.peak)<=span){cls=seg.cls;eid=seg.id;}
+    }
+    if(seg.cls==='SWR'&&si===seg.peak)gt=1;
+    const v=ring[wp];
+    si++;wp=(wp+1)%RING;gi++;
+
+    stft();updateH(specN);
+    const L=logits(H);
+    pSm=pSm*0.72+pOf(L,'SWR')*0.28;
+
+    const centre=gi-HALF;
+    if(pending.length){
+      const ev=pending[0];
+      if(Math.abs(centre-ev.at)<=45){
+        if(!ev.acc){ev.acc={};ORDER.forEach(c=>{ev.acc[c]=-1e9;});}
+        ORDER.forEach(c=>{if(L[c]>ev.acc[c])ev.acc[c]=L[c];});
+      } else if(centre>ev.at+45){
+        pending.shift();
+        if(ev.acc&&ev.cls!=='THETA')armed.push(ev);
+      }
+    }
+
+    vB.push(v);vB.shift();cB.push(cls);cB.shift();eB.push(eid);eB.shift();
+    h0.push(H[0]);h0.shift();h1.push(H[1]);h1.shift();h2.push(H[2]);h2.shift();h3.push(H[3]);h3.shift();
+    pB.push(pSm);pB.shift();gtB.push(gt);gtB.shift();
+    if(colX>=0)for(let b=0;b<NB;b++){scx.fillStyle=PAL[palIdx(specN[b])];scx.fillRect(colX,NB-1-b,1,1);}
+  }
+
+  // ---------- drawing ----------
+  const F=(s,w)=>{cx.font=(w||'')+s+'px "DM Mono", monospace';};
+  const yH=v=>hY+hH-Math.min(1,Math.sqrt(Math.max(0,v)/HMAX))*hH;
+
+  function poly(arr,fn,col,lw,glow){
+    cx.strokeStyle=col;cx.lineWidth=lw;cx.shadowColor=col;cx.shadowBlur=glow||0;
+    cx.beginPath();
+    for(let x=GUT;x<W;x+=2){const y=fn(arr[x]);if(x===GUT)cx.moveTo(x,y);else cx.lineTo(x,y);}
+    cx.stroke();cx.shadowBlur=0;
+  }
+
+  function draw(){
+    cx.clearRect(0,0,W,Hh);
+    cx.fillStyle='#01050b';cx.fillRect(0,0,W,Hh);
+
+    // lane frames
+    cx.strokeStyle='rgba(0,229,255,.055)';cx.lineWidth=1;
+    [[lfpY,lfpH],[spY,spH],[hY,hH],[pY,pH]].forEach(L=>{
+      cx.strokeRect(GUT+.5,L[0]+.5,W-GUT-1,L[1]-1);
+    });
+
+    // --- spectrogram lane ---
+    cx.imageSmoothingEnabled=true;
+    cx.drawImage(sc,GUT,0,W-GUT,NB,GUT,spY,W-GUT,spH);
+    const yF=f=>spY+spH*(1-f/(NB*BINHZ));
+    cx.fillStyle='rgba(0,229,255,.05)';cx.fillRect(GUT,yF(250),W-GUT,yF(100)-yF(250));
+    cx.setLineDash([3,4]);cx.strokeStyle='rgba(226,232,240,.22)';cx.lineWidth=1;
+    [100,250].forEach(f=>{cx.beginPath();cx.moveTo(GUT,yF(f)+.5);cx.lineTo(W,yF(f)+.5);cx.stroke();});
+    cx.setLineDash([]);
+
+    // --- LFP lane ---
+    const mid=lfpY+lfpH/2,amp=lfpH/2/1.25;
+    cx.strokeStyle='rgba(226,232,240,.06)';cx.beginPath();
+    cx.moveTo(GUT,mid+.5);cx.lineTo(W,mid+.5);cx.stroke();
+    // theta epochs as a state band
+    let i=GUT;
+    while(i<W){
+      if(cB[i]==='THETA'){let j=i;while(j<W&&cB[j]==='THETA')j++;
+        cx.fillStyle='rgba(167,139,250,.07)';cx.fillRect(i,lfpY+1,j-i,lfpH-2);
+        if(j-i>150){cx.fillStyle='rgba(167,139,250,.75)';F(7.5);
+          cx.fillText('THETA STATE · RIPPLES SUPPRESSED',i+8,lfpY+12);}
+        i=j;} else i++;
+    }
+    cx.lineJoin='round';cx.lineCap='round';
+    i=GUT;
+    while(i<W){
+      const c=cB[i];let j=i;while(j<W&&cB[j]===c)j++;
+      const C=CLS[c]||CLS.BASE;
+      cx.strokeStyle=C.c;cx.lineWidth=c==='BASE'?1.1:1.7;
+      cx.shadowColor=C.c;cx.shadowBlur=c==='BASE'?3:10;
+      cx.beginPath();
+      for(let x=Math.max(GUT,i-1);x<=Math.min(W-1,j);x++){
+        const y=mid-vB[x]*amp;
+        if(x===Math.max(GUT,i-1))cx.moveTo(x,y);else cx.lineTo(x,y);
+      }
+      cx.stroke();i=j;
+    }
+    cx.shadowBlur=0;
+    // time scale bar (1 px = 1 sample at 1250 Hz)
+    const bar=Math.round(0.100*FS);
+    cx.strokeStyle='rgba(122,150,180,.5)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(GUT+12,lfpY+lfpH-8);cx.lineTo(GUT+12+bar,lfpY+lfpH-8);
+    cx.moveTo(GUT+12,lfpY+lfpH-11);cx.lineTo(GUT+12,lfpY+lfpH-5);
+    cx.moveTo(GUT+12+bar,lfpY+lfpH-11);cx.lineTo(GUT+12+bar,lfpY+lfpH-5);cx.stroke();
+    cx.fillStyle='rgba(122,150,180,.7)';F(7);cx.fillText('100 ms',GUT+16+bar,lfpY+lfpH-5);
+
+    // --- NMF activation lane ---
+    cx.strokeStyle='rgba(226,232,240,.05)';cx.beginPath();
+    cx.moveTo(GUT,hY+hH-.5);cx.lineTo(W,hY+hH-.5);cx.stroke();
+    poly(h3,yH,'#fb7185',1.1,0);
+    poly(h2,yH,'#f59e0b',1.1,0);
+    poly(h1,yH,'#a78bfa',1.35,5);
+    poly(h0,yH,'#00e5ff',1.6,8);
+
+    // --- p(SWR) lane ---
+    const yP=v=>pY+pH-Math.max(0,Math.min(1,v))*pH;
+    cx.beginPath();cx.moveTo(GUT,pY+pH);
+    for(let x=GUT;x<W;x+=2)cx.lineTo(x,yP(pB[x]));
+    cx.lineTo(W-1,pY+pH);cx.closePath();
+    cx.fillStyle='rgba(0,229,255,.13)';cx.fill();
+    poly(pB,yP,'#00e5ff',1.3,6);
+    cx.setLineDash([3,4]);cx.strokeStyle='rgba(245,158,11,.4)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(GUT,yP(0.5)+.5);cx.lineTo(W,yP(0.5)+.5);cx.stroke();cx.setLineDash([]);
+    cx.fillStyle='rgba(245,158,11,.55)';F(6.5);cx.fillText('0.5',W-20,yP(0.5)-2);
+    // expert annotations
+    cx.fillStyle='#f59e0b';
+    for(let x=GUT;x<W;x++) if(gtB[x]){
+      cx.beginPath();cx.moveTo(x,pY+pH+1);cx.lineTo(x-4.5,pY+pH+7);cx.lineTo(x+4.5,pY+pH+7);
+      cx.closePath();cx.fill();
+    }
+    cx.beginPath();cx.moveTo(GUT+6,pY+pH+1);cx.lineTo(GUT+2,pY+pH+6);cx.lineTo(GUT+10,pY+pH+6);
+    cx.closePath();cx.fill();
+    cx.fillStyle='rgba(245,158,11,.6)';F(6.5);
+    cx.fillText('EXPERT LABEL',GUT+14,pY+pH+7);
+
+    // --- analysis window (the live STFT frame) ---
+    cx.fillStyle='rgba(0,229,255,.035)';cx.fillRect(W-NFFT,lfpY,NFFT,pY+pH-lfpY);
+    cx.strokeStyle='rgba(0,229,255,.2)';cx.setLineDash([3,4]);cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(W-NFFT+.5,lfpY);cx.lineTo(W-NFFT+.5,pY+pH);cx.stroke();
+    cx.setLineDash([]);
+    cx.fillStyle='rgba(0,229,255,.45)';F(6.8);
+    cx.fillText('102 ms WINDOW',W-NFFT+5,lfpY+11);
+
+    // --- detection bracket ---
+    if(det&&(performance.now()-det.t0)/1000>3.4){det=null;elBadge.classList.remove('on');}
+    if(det){
+      let a=-1,b=-1;
+      for(let x=GUT;x<W;x++)if(eB[x]===det.id){if(a<0)a=x;b=x;}
+      if(a>=0){
+        const C=CLS[det.cls],age=(performance.now()-det.t0)/1000;
+        const fade=Math.max(0,Math.min(1,1-(age-2.4)/1.0));
+        cx.globalAlpha=fade;
+        cx.fillStyle=C.c+'12';cx.fillRect(a,lfpY,b-a,pY+pH-lfpY);
+        cx.strokeStyle=C.c;cx.lineWidth=1;cx.globalAlpha=fade*.85;
+        const k=7,t=lfpY+.5,bo=pY+pH-.5;
+        cx.beginPath();
+        cx.moveTo(a+k,t);cx.lineTo(a+.5,t);cx.lineTo(a+.5,bo);cx.lineTo(a+k,bo);
+        cx.moveTo(b-k,t);cx.lineTo(b-.5,t);cx.lineTo(b-.5,bo);cx.lineTo(b-k,bo);
+        cx.stroke();cx.globalAlpha=1;
+      }
+    }
+
+    // --- gutter labels ---
+    cx.fillStyle='#01050b';cx.fillRect(0,0,GUT,Hh);
+    cx.fillStyle='#5b7796';F(narrow?6.8:7.5);
+    cx.fillText('LFP',6,lfpY+11);
+    cx.fillText('STFT',6,spY+11);
+    cx.fillText(narrow?'H':'NMF H',6,hY+11);
+    cx.fillText(narrow?'p':'p(SWR)',6,pY+11);
+    cx.fillStyle='rgba(122,150,180,.62)';F(6.5);
+    if(narrow){
+      cx.fillStyle='rgba(200,220,235,.55)';
+      cx.fillText('250 Hz',GUT+5,yF(250)-2);
+      cx.fillText('100 Hz',GUT+5,yF(100)-2);
+    } else {
+      cx.textAlign='right';
+      cx.fillText('250',GUT-5,yF(250)+3);
+      cx.fillText('100',GUT-5,yF(100)+3);
+      cx.fillText('Hz',GUT-5,spY+spH-2);
+      cx.fillText('1',GUT-5,pY+8);
+      cx.fillText('0',GUT-5,pY+pH-1);
+      cx.textAlign='left';
+    }
+  }
+
+  // ---------- loop ----------
+  let visible=true;
+  new IntersectionObserver(es=>{es.forEach(e=>{visible=e.isIntersecting;});},{threshold:0})
+    .observe(wrap);
+  function frame(){
+    if(visible){
+      scx.drawImage(sc,-SPD,0);
+      for(let j=0;j<SPD;j++)step(W-SPD+j);
+      // hold each decision until its event has scrolled clear of the readout panel
+      for(let i=armed.length-1;i>=0;i--){
+        let last=-1;
+        for(let x=W-1;x>=GUT;x--)if(eB[x]===armed[i].id){last=x;break;}
+        if(last<0){armed.splice(i,1);continue;}
+        if(last<W-(badgeW+46)){fire(armed[i]);armed.splice(i,1);}
+      }
+      draw();
+    }
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',resize);
+  resize();
+  for(let n=0;n<900;n++)step(-1);              // settle the per-bin baseline
+  for(let x=0;x<W;x++)step(x);                 // fill the visible window
+  frame();
+})();
+
 </script>
 </body>
 </html>
