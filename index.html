@@ -255,8 +255,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 @keyframes ecgPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.7)}}
 .ecg-title{color:#8ab8d0}
 .ecg-meta{color:var(--muted)}
-.ecg-hint{margin-left:auto;color:var(--muted);opacity:.65;transition:opacity .3s}
-.ecg-banner:hover .ecg-hint{opacity:0}
 .ecg-canvas{display:block;width:100%}
 .ecg-badge{position:absolute;z-index:4;top:34px;right:14px;width:178px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
 .ecg-badge.on{opacity:1;transform:none}
@@ -265,21 +263,9 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .ecg-bar{height:3px;background:var(--muted2);position:relative;overflow:hidden}
 .ecg-bar i{position:absolute;inset:0 100% 0 0;display:block;transition:right .5s cubic-bezier(.2,.8,.3,1)}
 .ecg-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted)}
-.ecg-inspect{position:absolute;z-index:5;left:14px;bottom:12px;width:212px;background:rgba(3,8,16,.94);border:1px solid var(--border2);padding:.55rem .7rem .6rem;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(4px)}
-.ecg-banner:hover .ecg-inspect{opacity:1;transform:none}
-.ecg-ins-head{font-size:.5rem;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;display:flex;justify-content:space-between}
-.ecg-ins-head b{color:var(--amber);font-weight:400}
-.ecg-row{display:grid;grid-template-columns:64px 1fr 30px;align-items:center;gap:.4rem;margin-bottom:.25rem;font-size:.53rem;letter-spacing:.08em;color:#7d94b0}
-.ecg-row-bar{height:2px;background:var(--muted2);position:relative}
-.ecg-row-bar i{position:absolute;left:0;top:0;bottom:0;display:block;transition:width .4s ease}
-.ecg-row-val{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
-.ecg-ins-foot{display:flex;gap:.9rem;margin-top:.5rem;padding-top:.4rem;border-top:1px solid var(--border);font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
-.ecg-ins-foot b{color:#8ab8d0;font-weight:400}
 @media(max-width:768px){
   .ecg-badge{width:142px;top:30px;right:8px;padding:.4rem .5rem .5rem}
   .ecg-badge-cls{font-size:.72rem}
-  .ecg-inspect{display:none}
-  .ecg-hint{display:none}
 }
 </style>
 </head>
@@ -315,7 +301,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
     <div class="hero-actions">
       <a href="#projects" class="btn-p">View Projects</a>
       <a href="#contact" class="btn-g">Get in Touch</a>
-      <a href="Sahar_Hosseinzadeh_CV.pdf" class="btn-cv" download>Download CV</a>
+      <a href="CV_industry.pdf" class="btn-cv" download>Download CV</a>
     </div>
   </div>
   <div class="hero-right">
@@ -405,26 +391,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
         </div>
       </div>
 
-      <div class="exp-card reveal d3">
-        <div class="exp-inner">
-          <div class="exp-side">
-            <span class="exp-type internship">Honours</span>
-            <div class="exp-year">2017</div>
-            <div class="exp-org"><span>National Ranking</span></div>
-          </div>
-          <div class="exp-main">
-            <div class="exp-title">National Ranking &middot; Iranian Nationwide University Entrance Examination</div>
-            <div class="exp-date">Konkur 2017 &middot; Mathematics and Physics group</div>
-            <ul class="exp-points">
-              <li>Ranked 200th nationally among approximately 150,000 candidates.</li>
-            </ul>
-            <div class="exp-stack">
-              <span class="etag">Mathematics</span><span class="etag">Physics</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -471,7 +437,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <span class="ecg-live"></span>
             <span class="ecg-title">ECG-Founder &middot; live inference</span>
             <span class="ecg-meta">Lead II &middot; 250 Hz &middot; 12-lead backbone</span>
-            <span class="ecg-hint">hover to inspect</span>
           </div>
           <canvas class="ecg-canvas" id="ecg-canvas"></canvas>
           <div class="ecg-badge" id="ecg-badge">
@@ -479,11 +444,6 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="ecg-badge-cls" id="ecg-cls">&mdash;</div>
             <div class="ecg-bar"><i id="ecg-bar-fill"></i></div>
             <div class="ecg-badge-conf" id="ecg-conf">0.00 confidence</div>
-          </div>
-          <div class="ecg-inspect" id="ecg-inspect">
-            <div class="ecg-ins-head"><span>model output &middot; softmax</span><b id="ecg-paused">paused</b></div>
-            <div id="ecg-rows"></div>
-            <div class="ecg-ins-foot"><span>ST <b id="ecg-st">0.0 mm</b></span><span>HR <b id="ecg-hr">72 bpm</b></span><span>QRS <b id="ecg-qrs">92 ms</b></span></div>
           </div>
         </div>
       </div>
@@ -1054,20 +1014,9 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   };
   const ORDER = ['NORM','STEMI','NSTEMI','CTRL'];
 
-  // ---- inspect panel rows
-  const rowsHost = document.getElementById('ecg-rows');
-  const rowEls = {};
-  ORDER.forEach(k=>{
-    const r=document.createElement('div'); r.className='ecg-row';
-    r.innerHTML = '<span>'+CLS[k].short+'</span><span class="ecg-row-bar"><i style="background:'+CLS[k].c+';width:0%"></i></span><span class="ecg-row-val">.00</span>';
-    rowsHost.appendChild(r);
-    rowEls[k]={bar:r.querySelector('i'), val:r.querySelector('.ecg-row-val')};
-  });
   const elBadge=document.getElementById('ecg-badge'), elCls=document.getElementById('ecg-cls'),
         elFill=document.getElementById('ecg-bar-fill'), elConf=document.getElementById('ecg-conf'),
-        elLat=document.getElementById('ecg-lat'), elST=document.getElementById('ecg-st'),
-        elHR=document.getElementById('ecg-hr'), elQRS=document.getElementById('ecg-qrs'),
-        elPaused=document.getElementById('ecg-paused');
+        elLat=document.getElementById('ecg-lat');
 
   // ---- sizing
   let W=900, H=136;
@@ -1178,21 +1127,11 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     elConf.textContent=det.conf.toFixed(2)+' confidence';
     elLat.textContent=(9+Math.floor(Math.random()*9))+' ms';
     elBadge.classList.add('on');
-    ORDER.forEach(k=>{ rowEls[k].bar.style.width=(probs[k]*100).toFixed(1)+'%';
-                       rowEls[k].val.textContent=probs[k].toFixed(2).replace(/^0/,''); });
-    elST.textContent = b.cls==='STEMI'  ? '+'+(2.4+Math.random()*1.6).toFixed(1)+' mm'
-                     : b.cls==='NSTEMI' ? '-'+(1.2+Math.random()*1.1).toFixed(1)+' mm'
-                     : (Math.random()*0.4).toFixed(1)+' mm';
-    elST.style.color = (b.cls==='STEMI'||b.cls==='NSTEMI') ? C.c : '#8ab8d0';
-    elQRS.textContent = b.cls==='CTRL' ? (128+Math.floor(Math.random()*26))+' ms' : (86+Math.floor(Math.random()*14))+' ms';
-    elHR.textContent = Math.round(60/(b.len/(SPD*60)))+' bpm';
   }
 
   // ---- drawing
   const SPD=2;               // px advanced per frame
-  let paused=false, visible=true, acc=0;
-  wrap.addEventListener('mouseenter',()=>{paused=true; elPaused.style.opacity=1;});
-  wrap.addEventListener('mouseleave',()=>{paused=false;});
+  let visible=true;
 
   function grid(){
     cx.lineWidth=1;
@@ -1269,31 +1208,24 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
     cx.fillStyle=LC.c; cx.shadowColor=LC.c; cx.shadowBlur=14;
     cx.beginPath(); cx.arc(W-1.5,ly,2.4,0,6.283); cx.fill();
     cx.shadowBlur=0;
-
-    if(paused){
-      cx.fillStyle='rgba(0,229,255,.55)'; cx.font='9px monospace';
-      cx.fillText('|| PAUSED', W-72, H-10);
-    }
   }
 
   function step(){
     if(visible){
-      if(!paused){
-        for(let n=0;n<SPD;n++){
-          const [v,c,id]=nextSample();
-          vBuf.push(v); cBuf.push(c); iBuf.push(id);
-          vBuf.shift(); cBuf.shift(); iBuf.shift();
-        }
-        // trigger detection when an anomalous R peak crosses the analysis line
-        while(pending.length){
-          const b=pending[0];
-          const x=W-(globalIdx-b.peakG);
-          if(x>W*LINE) break;
-          pending.shift();
-          if(b.cls!=='NORM' && (!det || det.cls!==b.cls || performance.now()-det.t0>1200)) fireDetection(b);
-        }
-        if(pending.length>40) pending.splice(0,pending.length-40);
+      for(let n=0;n<SPD;n++){
+        const [v,c,id]=nextSample();
+        vBuf.push(v); cBuf.push(c); iBuf.push(id);
+        vBuf.shift(); cBuf.shift(); iBuf.shift();
       }
+      // Classify every beat as its R peak crosses the analysis line.
+      while(pending.length){
+        const b=pending[0];
+        const x=W-(globalIdx-b.peakG);
+        if(x>W*LINE) break;
+        pending.shift();
+        fireDetection(b);
+      }
+      if(pending.length>40) pending.splice(0,pending.length-40);
       draw();
     }
     requestAnimationFrame(step);
@@ -1306,7 +1238,15 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   }
   // warm up the buffer so it opens mid-rhythm
   for(let n=0;n<W;n++){ const [v,c,id]=nextSample(); vBuf.push(v);cBuf.push(c);iBuf.push(id); vBuf.shift();cBuf.shift();iBuf.shift(); }
-  pending.length=0;
+  // Show the latest classification already inside the preloaded trace, while
+  // preserving upcoming beats so the first visible crossings update on time.
+  let initialDetection=null;
+  while(pending.length){
+    const b=pending[0], x=W-(globalIdx-b.peakG);
+    if(x>W*LINE) break;
+    initialDetection=pending.shift();
+  }
+  if(initialDetection) fireDetection(initialDetection);
   requestAnimationFrame(step);
 })();
 
