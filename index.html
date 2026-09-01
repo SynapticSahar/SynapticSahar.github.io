@@ -306,7 +306,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 @media(max-width:900px){.swr-legend{display:none}}
 @media(max-width:640px){.swr-meta{display:none}}
 @media(max-width:768px){
-  .swr-badge{width:150px;top:30px;right:8px;padding:.4rem .5rem .5rem}
+  .swr-badge{width:150px;top:30px;left:8px;right:auto;padding:.4rem .5rem .5rem}
   .swr-badge-cls{font-size:.7rem}
   .swr-badge-why{display:none}
 }
@@ -1364,6 +1364,10 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   const WtW=[];
   for(let i=0;i<K;i++){WtW.push([]);for(let j=0;j<K;j++){let s=0;
     for(let b=0;b<NB;b++)s+=Wm[b][i]*Wm[b][j];WtW[i].push(s);}}
+  const Wn=[];                               // W columns scaled to 1, for the inset
+  for(let k=0;k<K;k++){let mx=0;for(let b=0;b<NB;b++)if(Wm[b][k]>mx)mx=Wm[b][k];
+    const a=new Float32Array(NB);for(let b=0;b<NB;b++)a[b]=Wm[b][k]/mx;Wn.push(a);}
+  const HCOL=['#00e5ff','#a78bfa','#f59e0b','#fb7185'];
   const H=new Float64Array(K).fill(0.05), Wtx=new Float64Array(K);
   function updateH(x){                       // Lee & Seung, W held fixed
     for(let k=0;k<K;k++){let s=0;for(let b=0;b<NB;b++)s+=Wm[b][k]*x[b];Wtx[k]=s;}
@@ -1455,13 +1459,14 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   let lfpY,lfpH,spY,spH,hY,hH,pY,pH;
   const vB=[],cB=[],eB=[],h0=[],h1=[],h2=[],h3=[],pB=[],gtB=[];
   let sc=null,scx=null;                      // offscreen spectrogram
+  let XS=[],cum=null,gain=null;              // x positions, running stack, display gain
   function layout(){
     narrow=window.innerWidth<=768;
     badgeW=narrow?150:196;
-    GUT=narrow?34:48;
+    GUT=narrow?34:90;
     Hh=narrow?206:256;
     const top=narrow?24:28;
-    lfpH=narrow?60:80; spH=narrow?46:58; hH=narrow?36:46; pH=narrow?24:30;
+    lfpH=narrow?58:78; spH=narrow?44:56; hH=narrow?46:58; pH=narrow?24:30;
     lfpY=top; spY=lfpY+lfpH+4; hY=spY+spH+4; pY=hY+hH+4;
     Hh=pY+pH+9;
   }
@@ -1472,6 +1477,8 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     cx.setTransform(dpr,0,0,dpr,0,0);
     const arrs=[vB,cB,eB,h0,h1,h2,h3,pB,gtB];
     arrs.forEach(a=>{while(a.length<W)a.unshift(a===cB?'BASE':0);while(a.length>W)a.shift();});
+    XS=[];for(let x=GUT;x<W;x+=2)XS.push(x);
+    cum=new Float32Array(XS.length);gain=new Float32Array(XS.length);
     sc=document.createElement('canvas');sc.width=W;sc.height=NB;
     scx=sc.getContext('2d');scx.fillStyle='#01050b';scx.fillRect(0,0,W,NB);
   }
@@ -1615,10 +1622,31 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     // --- NMF activation lane ---
     cx.strokeStyle='rgba(226,232,240,.05)';cx.beginPath();
     cx.moveTo(GUT,hY+hH-.5);cx.lineTo(W,hY+hH-.5);cx.stroke();
-    poly(h3,yH,'#fb7185',1.1,0);
-    poly(h2,yH,'#f59e0b',1.1,0);
-    poly(h1,yH,'#a78bfa',1.35,5);
-    poly(h0,yH,'#00e5ff',1.6,8);
+    // stacked, because H is non-negative and additive: the spectrum at any
+    // instant is H1 ripple + H2 sharp wave + H3 gamma + H4 broadband
+    // Broadband sits at the bottom as the ever-present floor; the components a
+    // ripple is made of stack on top of it, so an event reads as a swelling crown.
+    // Band proportions are exact; only the total height is compressed (1-exp) so
+    // background and a saturating artifact both stay on screen.
+    const HARR=[h0,h1,h2,h3], STACK=[3,2,1,0], base0=hY+hH;
+    for(let n=0;n<XS.length;n++){
+      const x=XS[n], t=h0[x]+h1[x]+h2[x]+h3[x];
+      gain[n]=t>1e-6?(1-Math.exp(-t/4))*hH/t:0;
+      cum[n]=0;
+    }
+    for(let q=0;q<K;q++){
+      const arr=HARR[STACK[q]], col=HCOL[STACK[q]];
+      cx.beginPath();
+      for(let n=0;n<XS.length;n++){const y=base0-cum[n];n?cx.lineTo(XS[n],y):cx.moveTo(XS[n],y);}
+      for(let n=XS.length-1;n>=0;n--)cx.lineTo(XS[n],base0-(cum[n]+arr[XS[n]]*gain[n]));
+      cx.closePath();cx.fillStyle=col+'4d';cx.fill();
+      cx.strokeStyle=col;cx.lineWidth=1.1;cx.shadowColor=col;cx.shadowBlur=6;
+      cx.beginPath();
+      for(let n=0;n<XS.length;n++){const y=base0-(cum[n]+arr[XS[n]]*gain[n]);
+        n?cx.lineTo(XS[n],y):cx.moveTo(XS[n],y);}
+      cx.stroke();cx.shadowBlur=0;
+      for(let n=0;n<XS.length;n++)cum[n]+=arr[XS[n]]*gain[n];
+    }
 
     // --- p(SWR) lane ---
     const yP=v=>pY+pH-Math.max(0,Math.min(1,v))*pH;
@@ -1675,16 +1703,28 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     cx.fillText('STFT',6,spY+11);
     cx.fillText(narrow?'H':'NMF H',6,hY+11);
     cx.fillText(narrow?'p':'p(SWR)',6,pY+11);
-    cx.fillStyle='rgba(122,150,180,.62)';F(6.5);
-    if(narrow){
-      cx.fillStyle='rgba(200,220,235,.55)';
-      cx.fillText('250 Hz',GUT+5,yF(250)-2);
-      cx.fillText('100 Hz',GUT+5,yF(100)-2);
-    } else {
+    F(6.5);cx.fillStyle='rgba(200,220,235,.5)';
+    cx.fillText('250 Hz',GUT+5,yF(250)-2);
+    cx.fillText('100 Hz',GUT+5,yF(100)-2);
+    if(!narrow){
+      // dictionary inset: the four W atoms, frequency axis aligned with the
+      // spectrogram beside it, so the colours mean something
+      const ix0=36,ix1=GUT-6;
+      cx.strokeStyle='rgba(0,229,255,.07)';cx.lineWidth=1;
+      cx.strokeRect(ix0+.5,spY+.5,ix1-ix0,spH-1);
+      for(let k=0;k<K;k++){
+        cx.strokeStyle=HCOL[k];cx.lineWidth=1.15;cx.shadowColor=HCOL[k];cx.shadowBlur=4;
+        cx.beginPath();
+        for(let b=0;b<NB;b++){
+          const x=ix0+2+(ix1-ix0-5)*Wn[k][b], y=yF((b+0.5)*BINHZ);
+          b?cx.lineTo(x,y):cx.moveTo(x,y);
+        }
+        cx.stroke();
+      }
+      cx.shadowBlur=0;
+      cx.fillStyle='#5b7796';F(6.3);cx.fillText('W ATOMS',ix0,spY-4);
+      cx.fillStyle='rgba(122,150,180,.62)';F(6.5);
       cx.textAlign='right';
-      cx.fillText('250',GUT-5,yF(250)+3);
-      cx.fillText('100',GUT-5,yF(100)+3);
-      cx.fillText('Hz',GUT-5,spY+spH-2);
       cx.fillText('1',GUT-5,pY+8);
       cx.fillText('0',GUT-5,pY+pH-1);
       cx.textAlign='left';
@@ -1704,7 +1744,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
         let last=-1;
         for(let x=W-1;x>=GUT;x--)if(eB[x]===armed[i].id){last=x;break;}
         if(last<0){armed.splice(i,1);continue;}
-        if(last<W-(badgeW+46)){fire(armed[i]);armed.splice(i,1);}
+        if(narrow||last<W-(badgeW+46)){fire(armed[i]);armed.splice(i,1);}
       }
       draw();
     }
