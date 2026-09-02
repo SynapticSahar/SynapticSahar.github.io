@@ -15,7 +15,7 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#020408;--bg2:#040810;--card:#070d18;--border:#0e1f35;--border2:#142840;--cyan:#00e5ff;--violet:#7c3aed;--violet2:#a78bfa;--amber:#f59e0b;--rose:#fb7185;--green:#10b981;--text:#e2e8f0;--muted:#4a6080;--muted2:#1a2f4a;--content-title:#d6a067;--content-body:#b8c5d2;--content-tag:#80d9c5;--content-tag-border:#2a6b5f;--content-tag-bg:rgba(16,185,129,.04)}
+:root{--bg:#020408;--bg2:#040810;--card:#070d18;--border:#0e1f35;--border2:#142840;--cyan:#00e5ff;--violet:#7c3aed;--violet2:#a78bfa;--amber:#f59e0b;--rose:#fb7185;--green:#10b981;--text:#e2e8f0;--muted:#4a6080;--muted2:#1a2f4a;--content-title:#f59e0b;--content-body:#b8c5d2;--content-tag:#80d9c5;--content-tag-border:#2a6b5f;--content-tag-bg:rgba(16,185,129,.04)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;overflow-x:hidden;cursor:none}
@@ -67,7 +67,7 @@ section{position:relative;z-index:1}
 #about{padding:9rem 0;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
 .about-degree-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,.7fr);gap:1.5rem;align-items:start}
 .about-panel-wrap{max-width:none}
-.degrees-column{min-width:0;padding-top:.25rem}
+.degrees-column{min-width:0;padding-top:4.4rem}
 .degrees-column .exp-grid{gap:1rem}
 .degrees-column .exp-inner{display:block}
 .degrees-column .exp-side{padding:1.15rem 1.2rem;border-right:0;border-bottom:1px solid var(--border);flex-direction:row;align-items:center;gap:.8rem}
@@ -75,7 +75,7 @@ section{position:relative;z-index:1}
 .degrees-column .exp-year{font-size:2.2rem}
 .degrees-column .exp-org{font-size:.54rem;letter-spacing:.08em;text-align:right;margin-left:auto}
 .degrees-column .exp-main{padding:1.2rem}
-.degrees-column .exp-title{font-size:.94rem}
+.degrees-column .exp-title{font-size:1.02rem}
 .degrees-column .exp-date{font-size:.58rem;margin-bottom:.9rem;padding-bottom:.8rem}
 .degrees-column .exp-points{gap:.5rem}
 .degrees-column .exp-points li{font-size:.68rem;line-height:1.6}
@@ -112,7 +112,7 @@ section{position:relative;z-index:1}
 .exp-year{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--muted2);letter-spacing:.05em;line-height:1;transition:color .4s}
 .exp-card:hover .exp-year{color:var(--cyan)}
 .exp-org{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);line-height:1.6}
-.exp-org span{color:var(--amber)}
+.exp-org span{color:var(--violet2)}
 .exp-org span.org-muted{color:var(--muted)}
 .exp-org.compact{font-size:.62rem;letter-spacing:.08em;line-height:1.75}
 .exp-org.compact span{display:block;white-space:nowrap}
@@ -121,7 +121,7 @@ section{position:relative;z-index:1}
 .exp-type.industry{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.05)}
 .exp-type.internship{border-color:var(--violet2);color:var(--violet2);background:rgba(167,139,250,.06)}
 .exp-main{padding:2.2rem 2.8rem}
-.exp-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:.4rem;line-height:1.3;color:var(--content-title)}
+.exp-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.3rem;margin-bottom:.4rem;line-height:1.3;color:var(--content-title)}
 .exp-date{font-size:.68rem;letter-spacing:.1em;color:var(--muted);margin-bottom:1.4rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
 .exp-points{list-style:none;display:flex;flex-direction:column;gap:.7rem}
 .exp-points li{font-size:.8rem;color:var(--content-body);line-height:1.75;display:flex;gap:.8rem}
@@ -134,6 +134,7 @@ section{position:relative;z-index:1}
 .research-core{font-size:.78rem;color:var(--content-body);line-height:1.85}
 .research-meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem;font-size:.72rem;color:var(--muted)}
 .research-meta strong{color:var(--cyan)}
+.supervisor-line{color:var(--violet2)}
 .research-entropy-wrap{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--border)}
 .research-entropy-panel{background:rgba(2,4,8,.65);border:1px solid var(--border);padding:1rem 1.2rem}
 .research-entropy-note{font-size:.72rem;color:var(--violet2);line-height:1.8;margin-top:1rem}
@@ -159,7 +160,7 @@ section{position:relative;z-index:1}
 .proj-badge.thesis{border-color:var(--cyan);color:var(--cyan);background:rgba(0,229,255,.06)}
 .proj-badge.hot{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,.06)}
 .proj-badge.clinical{border-color:var(--green);color:var(--green);background:rgba(16,185,129,.06)}
-.proj-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:.8rem;line-height:1.35;color:var(--content-title)}
+.proj-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:1.14rem;margin-bottom:.8rem;line-height:1.35;color:var(--content-title)}
 .proj-desc{font-size:.78rem;color:var(--content-body);line-height:1.85;margin-bottom:1.5rem}
 .proj-desc a{color:var(--cyan);text-decoration:none}
 .proj-desc a:hover{text-decoration:underline}
@@ -172,7 +173,7 @@ section{position:relative;z-index:1}
 .skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
 .skill-card{background:var(--card);border:1px solid var(--border);padding:1.8rem 2rem;transition:border-color .3s}
 .skill-card:hover{border-color:var(--border2)}
-.skill-card-title{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--content-title);margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+.skill-card-title{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--content-title);margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
 .skill-pills{display:flex;flex-wrap:wrap;gap:.5rem}
 .spill{font-size:.73rem;padding:.3rem .8rem;background:var(--content-tag-bg);border:1px solid var(--content-tag-border);color:var(--content-tag);letter-spacing:.04em;transition:all .25s}
 .spill:hover{border-color:#3a8b7a;color:#a5eadb;background:rgba(16,185,129,.08)}
@@ -194,17 +195,18 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .d4{transition-delay:.35s}.d5{transition-delay:.45s}.d6{transition-delay:.55s}
 .eeg-viz-wrap{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
 .viz-block{background:rgba(2,4,8,.6);border:1px solid var(--border);padding:1rem 1.2rem}
-.viz-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.viz-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;transition:color .25s ease}
 .eeg-wave-canvas{width:100%;height:52px;display:block}
 .band-bars{display:flex;flex-direction:column;gap:.5rem}
 .band-row{display:flex;align-items:center;gap:.7rem}
-.band-name{font-size:.68rem;color:var(--muted);width:3.5rem;flex-shrink:0;letter-spacing:.05em}
+.band-name{font-size:.68rem;color:var(--muted);width:3.5rem;flex-shrink:0;letter-spacing:.05em;transition:color .25s ease}
 .band-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
 .band-fill{height:100%;border-radius:3px;transition:width .4s ease;width:0%}
-.band-val{font-size:.65rem;color:var(--muted);width:2.5rem;text-align:right;font-variant-numeric:tabular-nums}
+.band-val{font-size:.65rem;color:var(--muted);width:2.5rem;text-align:right;font-variant-numeric:tabular-nums;transition:color .25s ease}
 .quad-wrap{position:relative;display:inline-block}
 .quad-canvas{display:block}
-.quad-emotion-label{position:absolute;bottom:.5rem;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
+.quad-emotion-label{position:absolute;bottom:.5rem;left:50%;transform:translateX(-50%);font-size:.82rem;font-weight:600;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
+.viz-block:hover .viz-label,.viz-block:hover .band-name,.viz-block:hover .band-val{color:var(--cyan)}
 .hero-photo-wrap{width:300px;height:300px;border:2px solid var(--cyan);box-shadow:0 0 24px rgba(0,229,255,.3);margin-bottom:1.5rem;flex-shrink:0;overflow:hidden}
 .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center 15%}
 
@@ -271,16 +273,17 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .ecg-head{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:.7rem;padding:.55rem .95rem;z-index:3;pointer-events:none;font-size:.55rem;letter-spacing:.19em;text-transform:uppercase;font-family:inherit}
 .ecg-live{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:ecgPulse 1.5s ease-in-out infinite;flex:none}
 @keyframes ecgPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.7)}}
-.ecg-title{color:#8ab8d0}
-.ecg-meta{color:var(--muted)}
+.ecg-title{color:#8ab8d0;transition:color .25s ease}
+.ecg-meta{color:var(--muted);transition:color .25s ease}
 .ecg-canvas{display:block;width:100%}
 .ecg-badge{position:absolute;z-index:4;top:34px;right:14px;width:178px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
 .ecg-badge.on{opacity:1;transform:none}
-.ecg-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.ecg-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;transition:color .25s ease}
 .ecg-badge-cls{font-size:.86rem;letter-spacing:.05em;font-weight:500;line-height:1.1;margin-bottom:.4rem}
 .ecg-bar{height:3px;background:var(--muted2);position:relative;overflow:hidden}
 .ecg-bar i{position:absolute;inset:0 100% 0 0;display:block;transition:right .5s cubic-bezier(.2,.8,.3,1)}
-.ecg-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted)}
+.ecg-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted);transition:color .25s ease}
+.ecg-banner:hover .ecg-title,.ecg-banner:hover .ecg-meta,.ecg-banner:hover .ecg-badge-top,.ecg-banner:hover .ecg-badge-cls,.ecg-banner:hover .ecg-badge-conf{color:var(--cyan)!important}
 @media(max-width:768px){
   .ecg-badge{width:142px;top:30px;right:8px;padding:.4rem .5rem .5rem}
   .ecg-badge-cls{font-size:.72rem}
@@ -290,19 +293,20 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .swr-banner{position:relative;border-top:1px solid var(--border);background:#01050b;overflow:hidden;cursor:none}
 .swr-head{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:.7rem;padding:.55rem .95rem;z-index:3;pointer-events:none;font-size:.55rem;letter-spacing:.19em;text-transform:uppercase;font-family:inherit}
 .swr-live{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:ecgPulse 1.5s ease-in-out infinite;flex:none}
-.swr-title{color:#8ab8d0}
-.swr-meta{color:var(--muted)}
-.swr-legend{margin-left:auto;display:flex;gap:.75rem;align-items:center;font-size:.5rem;letter-spacing:.12em;color:var(--muted)}
+.swr-title{color:#8ab8d0;transition:color .25s ease}
+.swr-meta{color:var(--muted);transition:color .25s ease}
+.swr-legend{margin-left:auto;display:flex;gap:.75rem;align-items:center;font-size:.5rem;letter-spacing:.12em;color:var(--muted);transition:color .25s ease}
 .swr-legend i{display:inline-block;width:7px;height:2px;margin-right:.3rem;vertical-align:middle}
 .swr-canvas{display:block;width:100%}
 .swr-badge{position:absolute;z-index:4;top:34px;right:14px;width:200px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
 .swr-badge.on{opacity:1;transform:none}
-.swr-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.swr-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;transition:color .25s ease}
 .swr-badge-cls{font-size:.82rem;letter-spacing:.04em;font-weight:500;line-height:1.1;margin-bottom:.4rem}
 .swr-bar{height:3px;background:var(--muted2);position:relative;overflow:hidden}
 .swr-bar i{position:absolute;inset:0 100% 0 0;display:block;transition:right .5s cubic-bezier(.2,.8,.3,1)}
-.swr-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted)}
-.swr-badge-why{margin-top:.32rem;padding-top:.32rem;border-top:1px solid var(--border);font-size:.5rem;letter-spacing:.09em;color:#6f8aa8;line-height:1.45}
+.swr-badge-conf{margin-top:.3rem;font-size:.53rem;letter-spacing:.13em;color:var(--muted);transition:color .25s ease}
+.swr-badge-why{margin-top:.32rem;padding-top:.32rem;border-top:1px solid var(--border);font-size:.5rem;letter-spacing:.09em;color:#6f8aa8;line-height:1.45;transition:color .25s ease}
+.swr-banner:hover .swr-title,.swr-banner:hover .swr-meta,.swr-banner:hover .swr-legend,.swr-banner:hover .swr-badge-top,.swr-banner:hover .swr-badge-cls,.swr-banner:hover .swr-badge-conf,.swr-banner:hover .swr-badge-why{color:var(--cyan)!important}
 @media(max-width:900px){.swr-legend{display:none}}
 @media(max-width:640px){.swr-meta{display:none}}
 @media(max-width:768px){
@@ -455,7 +459,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             </ul>
             <div class="research-extra">
               <div class="research-meta">
-                <span style="color:var(--amber)">Supervised by Dr. Paula Petrone &middot; Digital Health Unit, BSC</span>
+                <span class="supervisor-line">Supervised by Dr. Paula Petrone &middot; Digital Health Unit, BSC</span>
               </div>
             </div>
             <div class="exp-stack">
@@ -503,7 +507,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
                     A novel exponential distance model reproduced the off-diagonal group transition matrix at <strong>r = 0.90</strong>, beat all 5,040 exact state-label permutations, and generalized at <strong>r = 0.54</strong> under leave-one-participant-out cross-validation.
                   </div>
               <div class="research-meta">
-                <span style="color:var(--amber)">Supervised by Prof. Gustavo Deco &amp; Prof. Rub&eacute;n Moreno-Bote &middot; UPF</span>
+                <span class="supervisor-line">Supervised by Prof. Gustavo Deco &amp; Prof. Rub&eacute;n Moreno-Bote &middot; UPF</span>
               </div>
               <div class="research-meta">
                 <a class="about-link" href="https://github.com/SynapticSahar/vortex-brain-states/blob/main/thesis.pdf" target="_blank" rel="noopener noreferrer">Thesis PDF</a>
@@ -1325,7 +1329,8 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   // ---------- analysis ----------
   const FS=1250, NB=26, BINHZ=12, NFFT=64, K=4, HALF=NFFT>>1;
   const PPS=2;              // display px per signal sample -> 1.6 ms per px
-  const SPF=3;              // signal samples advanced per frame
+  const SPS=280;            // signal samples per SECOND of wall clock (not per frame,
+                            // so the banner runs at one speed on 60 and 120 Hz displays)
 
   const wf=new Float32Array(NFFT);
   for(let n=0;n<NFFT;n++) wf[n]=0.5-0.5*Math.cos(2*Math.PI*n/(NFFT-1));
@@ -1409,13 +1414,22 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   // ~2 Hz acquisition high-pass, as in a real LFP recording chain
   const hp=v=>{hpS+=0.010*(v-hpS);return v-hpS;};
   const ms=t=>Math.round(t*FS/1000);
-  const SCRIPT=['BASE','SWR','BASE','SWR','GAP','SWR','BASE','THETA','BASE','ARTIFACT','BASE','SWR','BASE','GAMMA','BASE'];
-  let sPtr=0, segId=0;
+  const SCRIPT=['SWR','GAP','SWR','BASE','ARTIFACT','BASE','SWR','GAP','SWR','BASE',
+                'THETA','BASE','SWR','GAP','SWR','BASE','GAMMA','BASE'];
+  let sPtr=0, segId=0, introFill=false, firstSeg=false;
   function makeSeg(){
+    if(introFill){                      // plain background used to prime the window
+      const n=ms(300+Math.random()*220);segId++;
+      return{kind:'BASE',cls:'BASE',samples:new Float32Array(n),peak:0,id:segId};
+    }
+    if(firstSeg){                       // a short beat of background, then the first ripple
+      firstSeg=false;segId++;
+      return{kind:'BASE',cls:'BASE',samples:new Float32Array(ms(170)),peak:0,id:segId};
+    }
     const kind=SCRIPT[sPtr%SCRIPT.length];sPtr++;segId++;
     let n,out,cls,peak=0;
-    if(kind==='BASE'){n=ms(430+Math.random()*380);out=new Float32Array(n);cls='BASE';}
-    else if(kind==='GAP'){n=ms(80+Math.random()*40);out=new Float32Array(n);cls='BASE';}
+    if(kind==='BASE'){n=ms(300+Math.random()*260);out=new Float32Array(n);cls='BASE';}
+    else if(kind==='GAP'){n=ms(70+Math.random()*40);out=new Float32Array(n);cls='BASE';}
     else if(kind==='SWR'){
       n=ms(190);out=new Float32Array(n);cls='SWR';
       const c=n/2,f0=130+Math.random()*55,ph=Math.random()*6.28;
@@ -1426,7 +1440,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       peak=Math.round(c);
     }
     else if(kind==='THETA'){
-      n=ms(950+Math.random()*350);out=new Float32Array(n);cls='THETA';
+      n=ms(600+Math.random()*220);out=new Float32Array(n);cls='THETA';
       const f=7.5+Math.random()*1.5,ph=Math.random()*6.28;
       for(let i=0;i<n;i++){const t=i/FS,th=Math.sin(2*Math.PI*f*t+ph);
         const e=Math.min(1,i/ms(120))*Math.min(1,(n-i)/ms(120));
@@ -1568,6 +1582,8 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   const yF=f=>spY+spH*(1-f/(NB*BINHZ));
 
   function draw(){
+    const hoverText=wrap.matches(':hover');
+    const hoverTextColor='rgba(0,229,255,.95)';
     cx.clearRect(0,0,W,Hh);
     cx.fillStyle='#01040a';cx.fillRect(0,0,W,Hh);
 
@@ -1577,7 +1593,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     while(i<NS){                                   // theta epochs as a state band
       if(cB[i]==='THETA'){let j=i;while(j<NS&&cB[j]==='THETA')j++;
         cx.fillStyle='rgba(167,139,250,.07)';cx.fillRect(i*PPS,lfpY,(j-i)*PPS,lfpH);
-        if((j-i)*PPS>190){cx.fillStyle='rgba(167,139,250,.8)';F(7.5);
+        if((j-i)*PPS>190){cx.fillStyle=hoverText?hoverTextColor:'rgba(167,139,250,.8)';F(7.5);
           cx.fillText('THETA · RIPPLES SUPPRESSED',i*PPS+10,lfpY+12);}
         i=j;} else i++;
     }
@@ -1603,7 +1619,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     const by=lfpY+lfpH-5;
     cx.beginPath();cx.moveTo(14,by);cx.lineTo(14+bar,by);
     cx.moveTo(14,by-3);cx.lineTo(14,by+3);cx.moveTo(14+bar,by-3);cx.lineTo(14+bar,by+3);cx.stroke();
-    cx.fillStyle='rgba(122,150,180,.65)';F(7);cx.fillText('100 ms',18+bar,by+2.5);
+    cx.fillStyle=hoverText?hoverTextColor:'rgba(122,150,180,.65)';F(7);cx.fillText('100 ms',18+bar,by+2.5);
 
     // ---- spectrogram (hero) ----
     cx.imageSmoothingEnabled=true;
@@ -1614,9 +1630,9 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     F(7.5);
     cx.fillStyle='rgba(0,0,0,.55)';
     cx.fillRect(6,yF(250)-9,54,11);cx.fillRect(6,yF(100)-9,54,11);
-    cx.fillStyle='rgba(226,232,240,.72)';
+    cx.fillStyle=hoverText?hoverTextColor:'rgba(226,232,240,.72)';
     cx.fillText('250 Hz',9,yF(250)-1);cx.fillText('100 Hz',9,yF(100)-1);
-    cx.fillStyle='rgba(226,232,240,.34)';F(6.8);
+    cx.fillStyle=hoverText?hoverTextColor:'rgba(226,232,240,.34)';F(6.8);
     cx.fillText('RIPPLE BAND',9,(yF(250)+yF(100))/2+2);
 
     // ---- H ribbon ----
@@ -1633,7 +1649,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     // ---- decision strip: model vs expert ----
     const dx=narrow?0:DGUT, hr=(dcH-2)/2;
     if(!narrow){
-      cx.fillStyle='rgba(122,150,180,.6)';F(6.4);cx.textAlign='right';
+      cx.fillStyle=hoverText?hoverTextColor:'rgba(122,150,180,.6)';F(6.4);cx.textAlign='right';
       cx.fillText('MODEL',DGUT-6,dcY+hr-1);
       cx.fillText('EXPERT',DGUT-6,dcY+dcH-1);
       cx.textAlign='left';
@@ -1647,7 +1663,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     for(let x=s0;x<NS;x++) if(gtB[x]) cx.fillRect(x*PPS-2,dcY+hr+2,5,hr);
 
     // ---- detection bracket ----
-    if(det&&(performance.now()-det.t0)/1000>3.4){det=null;elBadge.classList.remove('on');}
+    if(det&&(performance.now()-det.t0)/1000>3.0){det=null;elBadge.classList.remove('on');}
     if(det){
       let a=-1,b=-1;
       for(let x=0;x<NS;x++)if(eB[x]===det.id){if(a<0)a=x;b=x;}
@@ -1673,27 +1689,37 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   let visible=true;
   new IntersectionObserver(es=>{es.forEach(e=>{visible=e.isIntersecting;});},{threshold:0})
     .observe(wrap);
-  function frame(){
+  let lastT=0, acc=0;
+  function frame(t){
     if(visible){
-      scx.drawImage(sc,-SPF,0);
-      rbx.drawImage(rb,-SPF,0);
-      for(let j=0;j<SPF;j++)step(NS-SPF+j);
-      // hold each decision until its event has scrolled clear of the readout panel
-      for(let n=armed.length-1;n>=0;n--){
-        let last=-1;
-        for(let x=NS-1;x>=0;x--)if(eB[x]===armed[n].id){last=x;break;}
-        if(last<0){armed.splice(n,1);continue;}
-        if(narrow||last*PPS<W-(badgeW+40)){fire(armed[n]);armed.splice(n,1);}
+      if(!lastT)lastT=t;
+      acc+=Math.min(0.05,(t-lastT)/1000)*SPS;lastT=t;
+      let adv=Math.min(30,Math.floor(acc));acc-=adv;
+      if(adv>0){
+        scx.drawImage(sc,-adv,0);
+        rbx.drawImage(rb,-adv,0);
+        for(let j=0;j<adv;j++)step(NS-adv+j);
+        // hold each decision until its event has scrolled clear of the readout panel
+        for(let n=armed.length-1;n>=0;n--){
+          let last=-1;
+          for(let x=NS-1;x>=0;x--)if(eB[x]===armed[n].id){last=x;break;}
+          if(last<0){armed.splice(n,1);continue;}
+          if(narrow||last*PPS<W-(badgeW+40)){fire(armed[n]);armed.splice(n,1);}
+        }
       }
       draw();
-    }
+    } else lastT=0;
     requestAnimationFrame(frame);
   }
   window.addEventListener('resize',resize);
   resize();
+  introFill=true;
   for(let n=0;n<4000;n++)step(-1);              // settle the per-bin baselines
-  for(let x=0;x<NS;x++)step(x);                 // fill the visible window
-  frame();
+  for(let x=0;x<NS;x++)step(x);                 // prime the window with background
+  introFill=false;firstSeg=true;                // one short beat of background, then
+  sPtr=0;seg=null;si=0;                         // SCRIPT[0]='SWR': the first event to
+  pending.length=0;armed.length=0;              // scroll in is a sharp-wave ripple
+  requestAnimationFrame(frame);                 // entered via rAF so `t` is always defined
 })();
 
 </script>
