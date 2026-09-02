@@ -295,7 +295,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 .swr-legend{margin-left:auto;display:flex;gap:.75rem;align-items:center;font-size:.5rem;letter-spacing:.12em;color:var(--muted)}
 .swr-legend i{display:inline-block;width:7px;height:2px;margin-right:.3rem;vertical-align:middle}
 .swr-canvas{display:block;width:100%}
-.swr-badge{position:absolute;z-index:4;top:34px;right:14px;width:196px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
+.swr-badge{position:absolute;z-index:4;top:34px;right:14px;width:200px;background:rgba(3,8,16,.93);border:1px solid var(--border2);padding:.5rem .65rem .6rem;opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(4px)}
 .swr-badge.on{opacity:1;transform:none}
 .swr-badge-top{display:flex;justify-content:space-between;align-items:center;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
 .swr-badge-cls{font-size:.82rem;letter-spacing:.04em;font-weight:500;line-height:1.1;margin-bottom:.4rem}
@@ -306,9 +306,12 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
 @media(max-width:900px){.swr-legend{display:none}}
 @media(max-width:640px){.swr-meta{display:none}}
 @media(max-width:768px){
-  .swr-badge{width:150px;top:30px;left:8px;right:auto;padding:.4rem .5rem .5rem}
-  .swr-badge-cls{font-size:.7rem}
-  .swr-badge-why{display:none}
+  .swr-badge{top:21px;left:0;right:0;width:auto;border-left:0;border-right:0;
+    padding:.3rem .7rem;display:flex;align-items:center;gap:.55rem;background:rgba(3,8,16,.94)}
+  .swr-badge-top,.swr-badge-why{display:none}
+  .swr-badge-cls{margin:0;font-size:.66rem;flex:none}
+  .swr-bar{flex:1;height:2px;margin:0}
+  .swr-badge-conf{margin:0;font-size:.5rem;flex:none;letter-spacing:.08em}
 }
 </style>
 </head>
@@ -557,8 +560,8 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
         <div class="swr-banner" id="swr-banner">
           <div class="swr-head">
             <span class="swr-live"></span>
-            <span class="swr-title">STFT &rarr; NMF &rarr; sequence model</span>
-            <span class="swr-meta">CA1 LFP &middot; 1250 Hz &middot; simulated trace &middot; ~0.2&times; speed</span>
+            <span class="swr-title">SWR detector</span>
+            <span class="swr-meta">CA1 LFP &middot; 1250 Hz &middot; 51 ms STFT &rarr; NMF &rarr; CNN &middot; simulated</span>
             <span class="swr-legend">
               <span><i style="background:#00e5ff"></i>H&#8321; ripple</span>
               <span><i style="background:#a78bfa"></i>H&#8322; sharp wave</span>
@@ -568,7 +571,7 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
           </div>
           <canvas class="swr-canvas" id="swr-canvas"></canvas>
           <div class="swr-badge" id="swr-badge">
-            <div class="swr-badge-top"><span>event decision</span><span id="swr-lat">102 ms</span></div>
+            <div class="swr-badge-top"><span>event decision</span><span id="swr-lat">51 ms</span></div>
             <div class="swr-badge-cls" id="swr-cls">&mdash;</div>
             <div class="swr-bar"><i id="swr-bar-fill"></i></div>
             <div class="swr-badge-conf" id="swr-conf">0.00 confidence</div>
@@ -1307,12 +1310,11 @@ const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersec
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 
-// ===== SHARP-WAVE RIPPLE PIPELINE BANNER (CMC Lab card) =====
+// ===== SHARP-WAVE RIPPLE DETECTOR BANNER (CMC Lab card) =====
 // Simulated CA1 LFP -> STFT -> NMF activations (H) -> event decision.
-// Every lane is computed live from the same synthetic trace: the spectrogram is
-// a real short-time Fourier transform of it, H comes from Lee & Seung
-// multiplicative updates against a fixed spectral dictionary W, and the
-// decision is a function of H only. Nothing is scripted except the signal.
+// The spectrogram is a real short-time Fourier transform of the trace above it,
+// H comes from Lee & Seung multiplicative updates against a fixed dictionary W,
+// and the decision is a function of H alone. Only the signal is synthetic.
 (function(){
   const wrap=document.getElementById('swr-banner');
   const cv=document.getElementById('swr-canvas');
@@ -1320,13 +1322,11 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   const cx=cv.getContext('2d');
   const dpr=window.devicePixelRatio||1;
 
-  // ---------- analysis constants ----------
-  const FS=1250, NB=26, BINHZ=12, NFFT=128, K=4, HALF=NFFT>>1;
-  const SPD=4;            // display px (= signal samples) advanced per frame
-  const HMAX=9;           // display ceiling for H
-  const LINE=0.62;        // analysis-window boundary, fraction of width
+  // ---------- analysis ----------
+  const FS=1250, NB=26, BINHZ=12, NFFT=64, K=4, HALF=NFFT>>1;
+  const PPS=2;              // display px per signal sample -> 1.6 ms per px
+  const SPF=3;              // signal samples advanced per frame
 
-  // ---------- STFT tables ----------
   const wf=new Float32Array(NFFT);
   for(let n=0;n<NFFT;n++) wf[n]=0.5-0.5*Math.cos(2*Math.PI*n/(NFFT-1));
   const cosT=[],sinT=[];
@@ -1335,8 +1335,8 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     for(let n=0;n<NFFT;n++){const a=2*Math.PI*f*n/FS;c[n]=Math.cos(a)*wf[n];s[n]=Math.sin(a)*wf[n];}
     cosT.push(c);sinT.push(s);
   }
-  const RING=2048, ring=new Float32Array(RING);
-  let wp=0, gi=0;
+  const RING=1024, ring=new Float32Array(RING);
+  let wp=0, gi=0, nrate=0.004;
   const spec=new Float32Array(NB), specN=new Float32Array(NB), specB=new Float32Array(NB).fill(0.02);
   function stft(){
     for(let b=0;b<NB;b++){
@@ -1345,12 +1345,13 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       spec[b]=2*Math.sqrt(re*re+im*im)/NFFT;
     }
     // per-bin background normalisation: LFP power is ~1/f, so the raw spectrogram
-    // is dominated by low frequencies. Divide each bin by a slowly tracked
-    // baseline and rectify -> relative deviation from the ongoing background.
+    // is all low frequency. Divide each bin by a slowly tracked baseline and
+    // rectify -> relative deviation from the ongoing background.
     for(let b=0;b<NB;b++){
-      specB[b]+=0.00025*(Math.min(spec[b],specB[b]*2.5)-specB[b]);
+      specB[b]+=nrate*(Math.min(spec[b],specB[b]*2.5)-specB[b]);
       specN[b]=Math.max(0,spec[b]/(specB[b]+1e-9)-1);
     }
+    nrate+=(0.00025-nrate)*0.0012;
   }
 
   // ---------- NMF dictionary W (NB x K) ----------
@@ -1364,10 +1365,6 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   const WtW=[];
   for(let i=0;i<K;i++){WtW.push([]);for(let j=0;j<K;j++){let s=0;
     for(let b=0;b<NB;b++)s+=Wm[b][i]*Wm[b][j];WtW[i].push(s);}}
-  const Wn=[];                               // W columns scaled to 1, for the inset
-  for(let k=0;k<K;k++){let mx=0;for(let b=0;b<NB;b++)if(Wm[b][k]>mx)mx=Wm[b][k];
-    const a=new Float32Array(NB);for(let b=0;b<NB;b++)a[b]=Wm[b][k]/mx;Wn.push(a);}
-  const HCOL=['#00e5ff','#a78bfa','#f59e0b','#fb7185'];
   const H=new Float64Array(K).fill(0.05), Wtx=new Float64Array(K);
   function updateH(x){                       // Lee & Seung, W held fixed
     for(let k=0;k<K;k++){let s=0;for(let b=0;b<NB;b++)s+=Wm[b][k]*x[b];Wtx[k]=s;}
@@ -1379,14 +1376,12 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
   // ---------- class logits over H ----------
   // The ripple rule is a conjunction: ripple-band energy AND a concurrent
-  // low-frequency sharp wave, penalised by the broadband component. That is
-  // what separates a true SWR from a movement artifact of equal raw amplitude.
+  // low-frequency sharp wave, penalised by the broadband component. That is what
+  // separates a true SWR from a movement artifact of equal raw amplitude.
   const ORDER=['SWR','THETA','GAMMA','ARTIFACT','BASE'];
-  // theta is a brain state, not an event class: the event-level head decides
-  // between ripple, gamma burst, artifact and nothing.
-  const EVT=['SWR','GAMMA','ARTIFACT','BASE'];
+  const EVT=['SWR','GAMMA','ARTIFACT','BASE'];   // theta is a state, not an event
   function logits(h){return{
-    SWR:2.20*Math.sqrt(h[0]*(h[1]+0.15))-0.55*h[3]-2.50,
+    SWR:2.20*Math.sqrt(h[0]*(h[1]+0.15))-0.55*h[3]-2.85,
     THETA:1.30*h[1]-0.75*h[0]-0.50*h[3]-1.55,
     GAMMA:1.45*h[2]-0.55*h[3]-0.55*h[0]-1.80,
     ARTIFACT:0.65*h[3]-0.20*h[1]-3.00,
@@ -1399,20 +1394,19 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     THETA   :{n:'Theta state',       c:'#a78bfa', why:'sustained H2 near 8 Hz, no ripple-band activation'},
     GAMMA   :{n:'Gamma burst',       c:'#f59e0b', why:'H3 only, 40-90 Hz - rejected, not a ripple'},
     ARTIFACT:{n:'Broadband artifact',c:'#fb7185', why:'H4 flat across bands, no sharp wave - rejected'},
-    BASE    :{n:'Background',        c:'#4a6080', why:'no component above background'}
+    BASE    :{n:'Background',        c:'#4a6080', why:''}
   };
+  const HRGB=[[0,229,255],[167,139,250],[245,158,11],[251,113,133]];
 
   // ---------- synthetic CA1 LFP ----------
-  let q0=0,q1=0,q2=0,q3=0,q4=0,q5=0,q6=0;
+  let q0=0,q1=0,q2=0,q3=0,q4=0,q5=0,q6=0,hpS=0;
   function pink(){
     const w=Math.random()*2-1;
     q0=0.99886*q0+w*0.0555179;q1=0.99332*q1+w*0.0750759;q2=0.96900*q2+w*0.1538520;
     q3=0.86650*q3+w*0.3104856;q4=0.55000*q4+w*0.5329522;q5=-0.7616*q5-w*0.0168980;
     const o=q0+q1+q2+q3+q4+q5+q6+w*0.5362;q6=w*0.115926;return o*0.11;
   }
-  // acquisition high-pass (~2 Hz one-pole), as in a real LFP recording chain:
-  // removes slow drift so the sharp wave and theta are not buried in 1/f wander
-  let hpS=0;
+  // ~2 Hz acquisition high-pass, as in a real LFP recording chain
   const hp=v=>{hpS+=0.010*(v-hpS);return v-hpS;};
   const ms=t=>Math.round(t*FS/1000);
   const SCRIPT=['BASE','SWR','BASE','SWR','GAP','SWR','BASE','THETA','BASE','ARTIFACT','BASE','SWR','BASE','GAMMA','BASE'];
@@ -1448,52 +1442,55 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     else{                                   // broadband transient, ripple-like amplitude
       n=ms(140);out=new Float32Array(n);cls='ARTIFACT';
       const c=Math.round(n/2),sg=ms(11);
-      for(let i=0;i<n;i++){out[i]+=Math.exp(-((i-c)*(i-c))/(2*sg*sg))*(Math.random()*2-1)*0.85;}
+      for(let i=0;i<n;i++)out[i]+=Math.exp(-((i-c)*(i-c))/(2*sg*sg))*(Math.random()*2-1)*0.85;
       peak=c;
     }
     return{kind,cls,samples:out,peak,id:segId};
   }
 
-  // ---------- rolling display buffers ----------
-  let W=900,Hh=252,GUT=48,narrow=false,badgeW=196;
-  let lfpY,lfpH,spY,spH,hY,hH,pY,pH;
-  const vB=[],cB=[],eB=[],h0=[],h1=[],h2=[],h3=[],pB=[],gtB=[];
-  let sc=null,scx=null;                      // offscreen spectrogram
-  let XS=[],cum=null,gain=null;              // x positions, running stack, display gain
+  // ---------- layout + rolling buffers ----------
+  let W=900,Hh=248,NS=450,narrow=false,badgeW=200;
+  let lfpY,lfpH,spY,spH,rbY,rbH,dcY,dcH,DGUT=52;
+  const vB=[],cB=[],eB=[],hA=[[],[],[],[]],pB=[],gtB=[];
+  let sc=null,scx=null,rb=null,rbx=null;
   function layout(){
     narrow=window.innerWidth<=768;
-    badgeW=narrow?150:196;
-    GUT=narrow?34:90;
-    Hh=narrow?206:256;
-    const top=narrow?24:28;
-    lfpH=narrow?58:78; spH=narrow?44:56; hH=narrow?46:58; pH=narrow?24:30;
-    lfpY=top; spY=lfpY+lfpH+4; hY=spY+spH+4; pY=hY+hH+4;
-    Hh=pY+pH+9;
+    badgeW=narrow?150:200;
+    DGUT=narrow?40:52;
+    const top=narrow?46:28;
+    lfpH=narrow?44:66; spH=narrow?78:118; rbH=narrow?16:26; dcH=narrow?10:14;
+    lfpY=top; spY=lfpY+lfpH+4; rbY=spY+spH+5; dcY=rbY+rbH+3;
+    Hh=dcY+dcH+4;
   }
   function resize(){
     W=Math.max(360,Math.floor(wrap.clientWidth));
+    NS=Math.ceil(W/PPS);
     layout();
     cv.width=W*dpr;cv.height=Hh*dpr;cv.style.width=W+'px';cv.style.height=Hh+'px';
     cx.setTransform(dpr,0,0,dpr,0,0);
-    const arrs=[vB,cB,eB,h0,h1,h2,h3,pB,gtB];
-    arrs.forEach(a=>{while(a.length<W)a.unshift(a===cB?'BASE':0);while(a.length>W)a.shift();});
-    XS=[];for(let x=GUT;x<W;x+=2)XS.push(x);
-    cum=new Float32Array(XS.length);gain=new Float32Array(XS.length);
-    sc=document.createElement('canvas');sc.width=W;sc.height=NB;
-    scx=sc.getContext('2d');scx.fillStyle='#01050b';scx.fillRect(0,0,W,NB);
+    [vB,cB,eB,hA[0],hA[1],hA[2],hA[3],pB,gtB].forEach(a=>{
+      while(a.length<NS)a.unshift(a===cB?'BASE':0);while(a.length>NS)a.shift();});
+    sc=document.createElement('canvas');sc.width=NS;sc.height=NB;
+    scx=sc.getContext('2d');scx.fillStyle='#01040a';scx.fillRect(0,0,NS,NB);
+    rb=document.createElement('canvas');rb.width=NS;rb.height=1;
+    rbx=rb.getContext('2d');rbx.fillStyle='#05080f';rbx.fillRect(0,0,NS,1);
   }
 
   // ---------- spectrogram colour ramp ----------
-  const STOPS=[[0,[1,5,11]],[0.18,[7,28,48]],[0.38,[10,64,98]],[0.58,[0,190,222]],[0.80,[167,139,250]],[1,[245,158,11]]];
+  const STOPS=[[0,[1,4,10]],[0.20,[6,26,52]],[0.40,[0,120,170]],[0.58,[0,229,255]],
+               [0.76,[167,139,250]],[0.90,[245,158,11]],[1,[255,250,238]]];
   const PAL=[];
-  for(let i=0;i<192;i++){
-    const t=i/191;let a=STOPS[0],b=STOPS[STOPS.length-1];
+  for(let i=0;i<224;i++){
+    const t=i/223;let a=STOPS[0],b=STOPS[STOPS.length-1];
     for(let s=0;s<STOPS.length-1;s++){if(t>=STOPS[s][0]&&t<=STOPS[s+1][0]){a=STOPS[s];b=STOPS[s+1];break;}}
     const u=(t-a[0])/((b[0]-a[0])||1);
     PAL.push('rgb('+Math.round(a[1][0]+u*(b[1][0]-a[1][0]))+','+Math.round(a[1][1]+u*(b[1][1]-a[1][1]))+','+Math.round(a[1][2]+u*(b[1][2]-a[1][2]))+')');
   }
-  const DEN=Math.log1p(10/0.35);
-  const palIdx=v=>Math.max(0,Math.min(191,Math.round(Math.log1p(Math.max(0,v)/0.35)/DEN*191)));
+  const DEN=Math.log1p(9/0.45);
+  const palIdx=v=>{
+    const t=Math.min(1,Math.log1p(Math.max(0,v)/0.45)/DEN);
+    return Math.round(Math.pow(t,1.8)*223);
+  };
 
   // ---------- stream + event-level decision ----------
   const elBadge=document.getElementById('swr-badge'),elCls=document.getElementById('swr-cls'),
@@ -1505,7 +1502,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   function fire(ev){
     let best='BASE',m=-1e9;
     EVT.forEach(c=>{if(ev.acc[c]>m){m=ev.acc[c];best=c;}});
-    if(best==='BASE')return;          // a miss produces no detection, as it should
+    if(best==='BASE')return;          // a miss produces no badge, as it should
     const conf=pOf(ev.acc,best,EVT),C=CLS[best];
     det={id:ev.id,cls:best,t0:performance.now()};
     elCls.textContent=C.n;elCls.style.color=C.c;
@@ -1515,7 +1512,17 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     elBadge.classList.add('on');
   }
 
-  function step(colX){
+  // ribbon colour: the H composition, sharpened by squared weights so the
+  // dominant component reads as its own colour, brightness from total activation
+  function ribCol(a,b,c,d){
+    const w=[a*a,b*b,c*c,d*d],t=w[0]+w[1]+w[2]+w[3]+1e-9;
+    let r=0,g=0,bl=0;
+    for(let k=0;k<K;k++){const u=w[k]/t;r+=u*HRGB[k][0];g+=u*HRGB[k][1];bl+=u*HRGB[k][2];}
+    const lum=0.03+0.97*Math.max(0,1-Math.exp(-((a+b+c+d)-1.15)/2.3));
+    return 'rgb('+Math.round(r*lum)+','+Math.round(g*lum)+','+Math.round(bl*lum)+')';
+  }
+
+  function step(col){
     if(!seg||si>=seg.samples.length){
       seg=makeSeg();si=0;
       if(seg.cls!=='BASE')pending.push({id:seg.id,cls:seg.cls,at:gi+seg.peak,acc:null});
@@ -1548,186 +1555,117 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     }
 
     vB.push(v);vB.shift();cB.push(cls);cB.shift();eB.push(eid);eB.shift();
-    h0.push(H[0]);h0.shift();h1.push(H[1]);h1.shift();h2.push(H[2]);h2.shift();h3.push(H[3]);h3.shift();
+    for(let k=0;k<K;k++){hA[k].push(H[k]);hA[k].shift();}
     pB.push(pSm);pB.shift();gtB.push(gt);gtB.shift();
-    if(colX>=0)for(let b=0;b<NB;b++){scx.fillStyle=PAL[palIdx(specN[b])];scx.fillRect(colX,NB-1-b,1,1);}
+    if(col>=0){
+      for(let b=0;b<NB;b++){scx.fillStyle=PAL[palIdx(specN[b])];scx.fillRect(col,NB-1-b,1,1);}
+      rbx.fillStyle=ribCol(H[0],H[1],H[2],H[3]);rbx.fillRect(col,0,1,1);
+    }
   }
 
   // ---------- drawing ----------
   const F=(s,w)=>{cx.font=(w||'')+s+'px "DM Mono", monospace';};
-  const yH=v=>hY+hH-Math.min(1,Math.sqrt(Math.max(0,v)/HMAX))*hH;
-
-  function poly(arr,fn,col,lw,glow){
-    cx.strokeStyle=col;cx.lineWidth=lw;cx.shadowColor=col;cx.shadowBlur=glow||0;
-    cx.beginPath();
-    for(let x=GUT;x<W;x+=2){const y=fn(arr[x]);if(x===GUT)cx.moveTo(x,y);else cx.lineTo(x,y);}
-    cx.stroke();cx.shadowBlur=0;
-  }
+  const yF=f=>spY+spH*(1-f/(NB*BINHZ));
 
   function draw(){
     cx.clearRect(0,0,W,Hh);
-    cx.fillStyle='#01050b';cx.fillRect(0,0,W,Hh);
+    cx.fillStyle='#01040a';cx.fillRect(0,0,W,Hh);
 
-    // lane frames
-    cx.strokeStyle='rgba(0,229,255,.055)';cx.lineWidth=1;
-    [[lfpY,lfpH],[spY,spH],[hY,hH],[pY,pH]].forEach(L=>{
-      cx.strokeRect(GUT+.5,L[0]+.5,W-GUT-1,L[1]-1);
-    });
-
-    // --- spectrogram lane ---
-    cx.imageSmoothingEnabled=true;
-    cx.drawImage(sc,GUT,0,W-GUT,NB,GUT,spY,W-GUT,spH);
-    const yF=f=>spY+spH*(1-f/(NB*BINHZ));
-    cx.fillStyle='rgba(0,229,255,.05)';cx.fillRect(GUT,yF(250),W-GUT,yF(100)-yF(250));
-    cx.setLineDash([3,4]);cx.strokeStyle='rgba(226,232,240,.22)';cx.lineWidth=1;
-    [100,250].forEach(f=>{cx.beginPath();cx.moveTo(GUT,yF(f)+.5);cx.lineTo(W,yF(f)+.5);cx.stroke();});
-    cx.setLineDash([]);
-
-    // --- LFP lane ---
-    const mid=lfpY+lfpH/2,amp=lfpH/2/1.25;
-    cx.strokeStyle='rgba(226,232,240,.06)';cx.beginPath();
-    cx.moveTo(GUT,mid+.5);cx.lineTo(W,mid+.5);cx.stroke();
-    // theta epochs as a state band
-    let i=GUT;
-    while(i<W){
-      if(cB[i]==='THETA'){let j=i;while(j<W&&cB[j]==='THETA')j++;
-        cx.fillStyle='rgba(167,139,250,.07)';cx.fillRect(i,lfpY+1,j-i,lfpH-2);
-        if(j-i>150){cx.fillStyle='rgba(167,139,250,.75)';F(7.5);
-          cx.fillText('THETA STATE · RIPPLES SUPPRESSED',i+8,lfpY+12);}
+    // ---- LFP ----
+    const mid=lfpY+lfpH*0.52, amp=lfpH/2/1.2;
+    let i=0;
+    while(i<NS){                                   // theta epochs as a state band
+      if(cB[i]==='THETA'){let j=i;while(j<NS&&cB[j]==='THETA')j++;
+        cx.fillStyle='rgba(167,139,250,.07)';cx.fillRect(i*PPS,lfpY,(j-i)*PPS,lfpH);
+        if((j-i)*PPS>190){cx.fillStyle='rgba(167,139,250,.8)';F(7.5);
+          cx.fillText('THETA · RIPPLES SUPPRESSED',i*PPS+10,lfpY+12);}
         i=j;} else i++;
     }
     cx.lineJoin='round';cx.lineCap='round';
-    i=GUT;
-    while(i<W){
-      const c=cB[i];let j=i;while(j<W&&cB[j]===c)j++;
+    i=0;
+    while(i<NS){
+      const c=cB[i];let j=i;while(j<NS&&cB[j]===c)j++;
       const C=CLS[c]||CLS.BASE;
-      cx.strokeStyle=C.c;cx.lineWidth=c==='BASE'?1.1:1.7;
-      cx.shadowColor=C.c;cx.shadowBlur=c==='BASE'?3:10;
+      cx.strokeStyle=c==='BASE'?'#3f5f80':C.c;
+      cx.lineWidth=c==='BASE'?1.2:2;
+      cx.shadowColor=C.c;cx.shadowBlur=c==='BASE'?0:14;
       cx.beginPath();
-      for(let x=Math.max(GUT,i-1);x<=Math.min(W-1,j);x++){
+      const s0=Math.max(0,i-1);
+      for(let x=s0;x<=Math.min(NS-1,j);x++){
         const y=mid-vB[x]*amp;
-        if(x===Math.max(GUT,i-1))cx.moveTo(x,y);else cx.lineTo(x,y);
+        if(x===s0)cx.moveTo(x*PPS,y);else cx.lineTo(x*PPS,y);
       }
       cx.stroke();i=j;
     }
     cx.shadowBlur=0;
-    // time scale bar (1 px = 1 sample at 1250 Hz)
-    const bar=Math.round(0.100*FS);
-    cx.strokeStyle='rgba(122,150,180,.5)';cx.lineWidth=1;
-    cx.beginPath();cx.moveTo(GUT+12,lfpY+lfpH-8);cx.lineTo(GUT+12+bar,lfpY+lfpH-8);
-    cx.moveTo(GUT+12,lfpY+lfpH-11);cx.lineTo(GUT+12,lfpY+lfpH-5);
-    cx.moveTo(GUT+12+bar,lfpY+lfpH-11);cx.lineTo(GUT+12+bar,lfpY+lfpH-5);cx.stroke();
-    cx.fillStyle='rgba(122,150,180,.7)';F(7);cx.fillText('100 ms',GUT+16+bar,lfpY+lfpH-5);
+    const bar=ms(100)*PPS;                          // 100 ms scale
+    cx.strokeStyle='rgba(122,150,180,.45)';cx.lineWidth=1;
+    const by=lfpY+lfpH-5;
+    cx.beginPath();cx.moveTo(14,by);cx.lineTo(14+bar,by);
+    cx.moveTo(14,by-3);cx.lineTo(14,by+3);cx.moveTo(14+bar,by-3);cx.lineTo(14+bar,by+3);cx.stroke();
+    cx.fillStyle='rgba(122,150,180,.65)';F(7);cx.fillText('100 ms',18+bar,by+2.5);
 
-    // --- NMF activation lane ---
-    cx.strokeStyle='rgba(226,232,240,.05)';cx.beginPath();
-    cx.moveTo(GUT,hY+hH-.5);cx.lineTo(W,hY+hH-.5);cx.stroke();
-    // stacked, because H is non-negative and additive: the spectrum at any
-    // instant is H1 ripple + H2 sharp wave + H3 gamma + H4 broadband
-    // Broadband sits at the bottom as the ever-present floor; the components a
-    // ripple is made of stack on top of it, so an event reads as a swelling crown.
-    // Band proportions are exact; only the total height is compressed (1-exp) so
-    // background and a saturating artifact both stay on screen.
-    const HARR=[h0,h1,h2,h3], STACK=[3,2,1,0], base0=hY+hH;
-    for(let n=0;n<XS.length;n++){
-      const x=XS[n], t=h0[x]+h1[x]+h2[x]+h3[x];
-      gain[n]=t>1e-6?(1-Math.exp(-t/4))*hH/t:0;
-      cum[n]=0;
-    }
-    for(let q=0;q<K;q++){
-      const arr=HARR[STACK[q]], col=HCOL[STACK[q]];
-      cx.beginPath();
-      for(let n=0;n<XS.length;n++){const y=base0-cum[n];n?cx.lineTo(XS[n],y):cx.moveTo(XS[n],y);}
-      for(let n=XS.length-1;n>=0;n--)cx.lineTo(XS[n],base0-(cum[n]+arr[XS[n]]*gain[n]));
-      cx.closePath();cx.fillStyle=col+'4d';cx.fill();
-      cx.strokeStyle=col;cx.lineWidth=1.1;cx.shadowColor=col;cx.shadowBlur=6;
-      cx.beginPath();
-      for(let n=0;n<XS.length;n++){const y=base0-(cum[n]+arr[XS[n]]*gain[n]);
-        n?cx.lineTo(XS[n],y):cx.moveTo(XS[n],y);}
-      cx.stroke();cx.shadowBlur=0;
-      for(let n=0;n<XS.length;n++)cum[n]+=arr[XS[n]]*gain[n];
-    }
-
-    // --- p(SWR) lane ---
-    const yP=v=>pY+pH-Math.max(0,Math.min(1,v))*pH;
-    cx.beginPath();cx.moveTo(GUT,pY+pH);
-    for(let x=GUT;x<W;x+=2)cx.lineTo(x,yP(pB[x]));
-    cx.lineTo(W-1,pY+pH);cx.closePath();
-    cx.fillStyle='rgba(0,229,255,.13)';cx.fill();
-    poly(pB,yP,'#00e5ff',1.3,6);
-    cx.setLineDash([3,4]);cx.strokeStyle='rgba(245,158,11,.4)';cx.lineWidth=1;
-    cx.beginPath();cx.moveTo(GUT,yP(0.5)+.5);cx.lineTo(W,yP(0.5)+.5);cx.stroke();cx.setLineDash([]);
-    cx.fillStyle='rgba(245,158,11,.55)';F(6.5);cx.fillText('0.5',W-20,yP(0.5)-2);
-    // expert annotations
-    cx.fillStyle='#f59e0b';
-    for(let x=GUT;x<W;x++) if(gtB[x]){
-      cx.beginPath();cx.moveTo(x,pY+pH+1);cx.lineTo(x-4.5,pY+pH+7);cx.lineTo(x+4.5,pY+pH+7);
-      cx.closePath();cx.fill();
-    }
-    cx.beginPath();cx.moveTo(GUT+6,pY+pH+1);cx.lineTo(GUT+2,pY+pH+6);cx.lineTo(GUT+10,pY+pH+6);
-    cx.closePath();cx.fill();
-    cx.fillStyle='rgba(245,158,11,.6)';F(6.5);
-    cx.fillText('EXPERT LABEL',GUT+14,pY+pH+7);
-
-    // --- analysis window (the live STFT frame) ---
-    cx.fillStyle='rgba(0,229,255,.035)';cx.fillRect(W-NFFT,lfpY,NFFT,pY+pH-lfpY);
-    cx.strokeStyle='rgba(0,229,255,.2)';cx.setLineDash([3,4]);cx.lineWidth=1;
-    cx.beginPath();cx.moveTo(W-NFFT+.5,lfpY);cx.lineTo(W-NFFT+.5,pY+pH);cx.stroke();
+    // ---- spectrogram (hero) ----
+    cx.imageSmoothingEnabled=true;
+    cx.drawImage(sc,0,0,NS,NB,0,spY,W,spH);
+    cx.setLineDash([3,5]);cx.strokeStyle='rgba(255,255,255,.16)';cx.lineWidth=1;
+    [100,250].forEach(f=>{cx.beginPath();cx.moveTo(0,yF(f)+.5);cx.lineTo(W,yF(f)+.5);cx.stroke();});
     cx.setLineDash([]);
-    cx.fillStyle='rgba(0,229,255,.45)';F(6.8);
-    cx.fillText('102 ms WINDOW',W-NFFT+5,lfpY+11);
+    F(7.5);
+    cx.fillStyle='rgba(0,0,0,.55)';
+    cx.fillRect(6,yF(250)-9,54,11);cx.fillRect(6,yF(100)-9,54,11);
+    cx.fillStyle='rgba(226,232,240,.72)';
+    cx.fillText('250 Hz',9,yF(250)-1);cx.fillText('100 Hz',9,yF(100)-1);
+    cx.fillStyle='rgba(226,232,240,.34)';F(6.8);
+    cx.fillText('RIPPLE BAND',9,(yF(250)+yF(100))/2+2);
 
-    // --- detection bracket ---
+    // ---- H ribbon ----
+    cx.drawImage(rb,0,0,NS,1,0,rbY,W,rbH);
+    cx.strokeStyle='rgba(255,255,255,.07)';cx.lineWidth=1;
+    cx.strokeRect(.5,rbY+.5,W-1,rbH-1);
+    cx.strokeStyle='rgba(255,255,255,.85)';cx.lineWidth=1.4;
+    cx.shadowColor='#ffffff';cx.shadowBlur=4;
+    cx.beginPath();
+    for(let x=0;x<NS;x+=2){const y=rbY+rbH-2-Math.max(0,Math.min(1,pB[x]))*(rbH-4);
+      x?cx.lineTo(x*PPS,y):cx.moveTo(x*PPS,y);}
+    cx.stroke();cx.shadowBlur=0;
+
+    // ---- decision strip: model vs expert ----
+    const dx=narrow?0:DGUT, hr=(dcH-2)/2;
+    if(!narrow){
+      cx.fillStyle='rgba(122,150,180,.6)';F(6.4);cx.textAlign='right';
+      cx.fillText('MODEL',DGUT-6,dcY+hr-1);
+      cx.fillText('EXPERT',DGUT-6,dcY+dcH-1);
+      cx.textAlign='left';
+    }
+    cx.fillStyle='rgba(255,255,255,.05)';
+    cx.fillRect(dx,dcY,W-dx,hr);cx.fillRect(dx,dcY+hr+2,W-dx,hr);
+    const s0=Math.ceil(dx/PPS);
+    cx.fillStyle='#00e5ff';
+    for(let x=s0;x<NS;x++) if(pB[x]>0.5) cx.fillRect(x*PPS,dcY,PPS+.5,hr);
+    cx.fillStyle='#f59e0b';
+    for(let x=s0;x<NS;x++) if(gtB[x]) cx.fillRect(x*PPS-2,dcY+hr+2,5,hr);
+
+    // ---- detection bracket ----
     if(det&&(performance.now()-det.t0)/1000>3.4){det=null;elBadge.classList.remove('on');}
     if(det){
       let a=-1,b=-1;
-      for(let x=GUT;x<W;x++)if(eB[x]===det.id){if(a<0)a=x;b=x;}
+      for(let x=0;x<NS;x++)if(eB[x]===det.id){if(a<0)a=x;b=x;}
       if(a>=0){
         const C=CLS[det.cls],age=(performance.now()-det.t0)/1000;
         const fade=Math.max(0,Math.min(1,1-(age-2.4)/1.0));
-        cx.globalAlpha=fade;
-        cx.fillStyle=C.c+'12';cx.fillRect(a,lfpY,b-a,pY+pH-lfpY);
-        cx.strokeStyle=C.c;cx.lineWidth=1;cx.globalAlpha=fade*.85;
-        const k=7,t=lfpY+.5,bo=pY+pH-.5;
+        const ax=a*PPS,bx=b*PPS,t=lfpY,bo=rbY+rbH;
+        cx.globalAlpha=fade*.9;
+        cx.strokeStyle=C.c;cx.lineWidth=1.2;
+        const k=9;
         cx.beginPath();
-        cx.moveTo(a+k,t);cx.lineTo(a+.5,t);cx.lineTo(a+.5,bo);cx.lineTo(a+k,bo);
-        cx.moveTo(b-k,t);cx.lineTo(b-.5,t);cx.lineTo(b-.5,bo);cx.lineTo(b-k,bo);
-        cx.stroke();cx.globalAlpha=1;
-      }
-    }
-
-    // --- gutter labels ---
-    cx.fillStyle='#01050b';cx.fillRect(0,0,GUT,Hh);
-    cx.fillStyle='#5b7796';F(narrow?6.8:7.5);
-    cx.fillText('LFP',6,lfpY+11);
-    cx.fillText('STFT',6,spY+11);
-    cx.fillText(narrow?'H':'NMF H',6,hY+11);
-    cx.fillText(narrow?'p':'p(SWR)',6,pY+11);
-    F(6.5);cx.fillStyle='rgba(200,220,235,.5)';
-    cx.fillText('250 Hz',GUT+5,yF(250)-2);
-    cx.fillText('100 Hz',GUT+5,yF(100)-2);
-    if(!narrow){
-      // dictionary inset: the four W atoms, frequency axis aligned with the
-      // spectrogram beside it, so the colours mean something
-      const ix0=36,ix1=GUT-6;
-      cx.strokeStyle='rgba(0,229,255,.07)';cx.lineWidth=1;
-      cx.strokeRect(ix0+.5,spY+.5,ix1-ix0,spH-1);
-      for(let k=0;k<K;k++){
-        cx.strokeStyle=HCOL[k];cx.lineWidth=1.15;cx.shadowColor=HCOL[k];cx.shadowBlur=4;
-        cx.beginPath();
-        for(let b=0;b<NB;b++){
-          const x=ix0+2+(ix1-ix0-5)*Wn[k][b], y=yF((b+0.5)*BINHZ);
-          b?cx.lineTo(x,y):cx.moveTo(x,y);
-        }
+        cx.moveTo(ax+k,t+.5);cx.lineTo(ax+.5,t+.5);cx.lineTo(ax+.5,bo-.5);cx.lineTo(ax+k,bo-.5);
+        cx.moveTo(bx-k,t+.5);cx.lineTo(bx-.5,t+.5);cx.lineTo(bx-.5,bo-.5);cx.lineTo(bx-k,bo-.5);
         cx.stroke();
+        cx.globalAlpha=fade*.10;cx.fillStyle=C.c;
+        cx.fillRect(ax,t,bx-ax,lfpH);
+        cx.globalAlpha=1;
       }
-      cx.shadowBlur=0;
-      cx.fillStyle='#5b7796';F(6.3);cx.fillText('W ATOMS',ix0,spY-4);
-      cx.fillStyle='rgba(122,150,180,.62)';F(6.5);
-      cx.textAlign='right';
-      cx.fillText('1',GUT-5,pY+8);
-      cx.fillText('0',GUT-5,pY+pH-1);
-      cx.textAlign='left';
     }
   }
 
@@ -1737,14 +1675,15 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     .observe(wrap);
   function frame(){
     if(visible){
-      scx.drawImage(sc,-SPD,0);
-      for(let j=0;j<SPD;j++)step(W-SPD+j);
+      scx.drawImage(sc,-SPF,0);
+      rbx.drawImage(rb,-SPF,0);
+      for(let j=0;j<SPF;j++)step(NS-SPF+j);
       // hold each decision until its event has scrolled clear of the readout panel
-      for(let i=armed.length-1;i>=0;i--){
+      for(let n=armed.length-1;n>=0;n--){
         let last=-1;
-        for(let x=W-1;x>=GUT;x--)if(eB[x]===armed[i].id){last=x;break;}
-        if(last<0){armed.splice(i,1);continue;}
-        if(narrow||last<W-(badgeW+46)){fire(armed[i]);armed.splice(i,1);}
+        for(let x=NS-1;x>=0;x--)if(eB[x]===armed[n].id){last=x;break;}
+        if(last<0){armed.splice(n,1);continue;}
+        if(narrow||last*PPS<W-(badgeW+40)){fire(armed[n]);armed.splice(n,1);}
       }
       draw();
     }
@@ -1752,8 +1691,8 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   }
   window.addEventListener('resize',resize);
   resize();
-  for(let n=0;n<900;n++)step(-1);              // settle the per-bin baseline
-  for(let x=0;x<W;x++)step(x);                 // fill the visible window
+  for(let n=0;n<4000;n++)step(-1);              // settle the per-bin baselines
+  for(let x=0;x<NS;x++)step(x);                 // fill the visible window
   frame();
 })();
 
