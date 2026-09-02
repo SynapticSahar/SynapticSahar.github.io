@@ -318,6 +318,40 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
   .swr-bar{flex:1;height:2px;margin:0}
   .swr-badge-conf{margin:0;font-size:.5rem;flex:none;letter-spacing:.08em}
 }
+
+/* ===== Agentic ECG decision-support panel (project card 01) ===== */
+.agx{margin-top:1.3rem;border:1px solid var(--border);background:#01050b;padding:.7rem .75rem .6rem;font-family:'DM Mono',monospace}
+.agx-head{display:flex;align-items:center;gap:.45rem;font-size:.5rem;letter-spacing:.17em;text-transform:uppercase;margin-bottom:.6rem}
+.agx-dot{width:4px;height:4px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:ecgPulse 1.6s ease-in-out infinite;flex:none}
+.agx-h1{color:#8ab8d0}
+.agx-h2{margin-left:auto;color:var(--muted)}
+.agx-tools{display:flex;flex-direction:column;gap:.28rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
+.agx-tool{display:flex;align-items:center;gap:.4rem;font-size:.53rem;letter-spacing:.06em;opacity:.3;transition:opacity .35s}
+.agx-tool.on{opacity:1}
+.agx-tool b{font-weight:400;color:var(--muted);flex:none;width:72px;letter-spacing:.1em;text-transform:uppercase;font-size:.5rem}
+.agx-rule{flex:1;height:1px;background:var(--muted2);position:relative;overflow:hidden}
+.agx-rule i{position:absolute;inset:0 100% 0 0;display:block;transition:right .55s cubic-bezier(.2,.8,.3,1)}
+.agx-val{flex:none;color:var(--content-body);white-space:nowrap;font-size:.53rem}
+.agx-report{padding-top:.55rem;display:flex;flex-direction:column;gap:.3rem;height:86px;overflow:hidden}
+.agx-line{display:flex;gap:.4rem;align-items:baseline;font-size:.55rem;line-height:1.5;
+  opacity:0;transform:translateY(3px);transition:opacity .3s,transform .3s}
+.agx-line.on{opacity:1;transform:none}
+.agx-txt{flex:1;min-width:0;color:var(--content-body)}
+.agx-cite{flex:none;font-size:.46rem;letter-spacing:.06em;padding:.05rem .28rem;border:1px solid;white-space:nowrap}
+.agx-cite.ecg{color:#7fe9f7;border-color:#1d5a6b}
+.agx-cite.fhir{color:#c4b1fb;border-color:#4a3b7a}
+.agx-cite.gl{color:#f5c46b;border-color:#6b4d1d}
+.agx-cite.miss{color:#94a9bd;border-color:#33465c}
+.agx-line.bad .agx-txt{color:#6d7f92;text-decoration:line-through;text-decoration-color:rgba(251,113,133,.8)}
+.agx-cite.bad{color:#fb7185;border-color:#7a2c3a;text-decoration:none}
+.agx-status{margin-top:.55rem;font-size:.5rem;letter-spacing:.11em;text-transform:uppercase;
+  height:22px;display:flex;align-items:center;padding:0 .45rem;border:1px solid transparent;
+  opacity:0;transition:opacity .35s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agx-status.on{opacity:1}
+.agx-status.ok{color:#7fe0c4;border-color:#245c4d;background:rgba(16,185,129,.05)}
+.agx-status.abstain{color:#f5c46b;border-color:#6b4d1d;background:rgba(245,158,11,.05)}
+.agx-foot{margin-top:.42rem;font-size:.45rem;letter-spacing:.09em;color:#3f5570;text-transform:uppercase}
+@media(max-width:768px){.agx-tool b{width:62px}}
 </style>
 </head>
 <body>
@@ -704,7 +738,8 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
               <li>Foundations: clean code, REST APIs, OOP design patterns, Agile workflow, directly applicable to production ML system deployment.</li>
             </ul>
             <div class="exp-stack">
-              <span class="etag">JavaScript</span><span class="etag">REST APIs</span>
+              <span class="etag">Java</span><span class="etag">Spring</span><span class="etag">JavaScript</span>
+              <span class="etag">HTML</span><span class="etag">CSS</span><span class="etag">React</span><span class="etag">REST APIs</span>
               <span class="etag">Full-Stack</span><span class="etag">OOP</span><span class="etag">Agile</span>
             </div>
           </div>
@@ -727,6 +762,21 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
         <div class="proj-title">Agentic ECG Decision Support</div>
         <div class="proj-desc">Grounded an LLM in a calibrated ECG classifier and clinical guidelines to cut unsupported claims versus retrieval alone. Fine-tuned ECGFounder on PTB-XL (21,799 12-lead ECGs from 18,869 patients) and registered it as an LLM tool, fusing classifier output, FHIR records and ESC and ACC/AHA guidelines into schema-validated reports with missing-data flags and confidence-based abstention. Benchmarked against no retrieval, standard RAG, reranked RAG and a tool-using agent on adversarial PTB-XL and Synthea data.</div>
         <div class="proj-tags"><span class="ptag key">ECGFounder</span><span class="ptag key">PTB-XL</span><span class="ptag key">RAG</span><span class="ptag">LangChain</span><span class="ptag">FHIR</span><span class="ptag">LLM Tool Use</span><span class="ptag">Abstention</span></div>
+        <div class="agx" id="agx">
+          <div class="agx-head">
+            <span class="agx-dot"></span>
+            <span class="agx-h1">grounded report</span>
+            <span class="agx-h2" id="agx-case">PTB-XL sample</span>
+          </div>
+          <div class="agx-tools">
+            <div class="agx-tool" id="agx-t0"><b>ECGFounder</b><span class="agx-rule"><i id="agx-bar"></i></span><span class="agx-val" id="agx-v0">&mdash;</span></div>
+            <div class="agx-tool" id="agx-t1"><b>FHIR</b><span class="agx-rule"></span><span class="agx-val" id="agx-v1">&mdash;</span></div>
+            <div class="agx-tool" id="agx-t2"><b>Guidelines</b><span class="agx-rule"></span><span class="agx-val" id="agx-v2">&mdash;</span></div>
+          </div>
+          <div class="agx-report" id="agx-report"></div>
+          <div class="agx-status" id="agx-status"></div>
+          <div class="agx-foot">illustrative example &middot; not a patient record</div>
+        </div>
       </div>
 
       <div class="proj-card c2 reveal d1">
@@ -941,9 +991,12 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
   ];
   let wT = 0;
 
-  function drawWave(){
+  let wLast = 0;
+  function drawWave(now){
     const cw = wCanvas.offsetWidth;
     if(cw !== wCanvas.width){ wCanvas.width = cw; }
+    if(!wLast) wLast = now;
+    const wDt = Math.min(0.05, (now - wLast)/1000); wLast = now;
     wCtx.clearRect(0,0,cw,52);
     channels.forEach(ch => {
       wCtx.beginPath();
@@ -957,10 +1010,10 @@ setInterval(()=>{const k=Math.floor(Math.random()*nN.length);nN[k].firing=true;n
       wCtx.lineWidth = 1.2;
       wCtx.stroke();
     });
-    wT += 0.6;
+    wT += wDt * 6;            // wall-clock, so the sweep is the same on 60 and 120 Hz
     requestAnimationFrame(drawWave);
   }
-  drawWave();
+  requestAnimationFrame(drawWave);
 
   const bandState = {theta:0, alpha:0, beta:0, gamma:0};
   const bandTargets = {theta:0, alpha:0, beta:0, gamma:0};
@@ -1330,7 +1383,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   // ---------- analysis ----------
   const FS=1250, NB=26, BINHZ=12, NFFT=64, K=4, HALF=NFFT>>1;
   const PPS=2;              // display px per signal sample -> 1.6 ms per px
-  const SPS=280;            // signal samples per SECOND of wall clock (not per frame,
+  const SPS=190;            // signal samples per SECOND of wall clock (not per frame,
                             // so the banner runs at one speed on 60 and 120 Hz displays)
 
   const wf=new Float32Array(NFFT);
@@ -1429,8 +1482,8 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     }
     const kind=SCRIPT[sPtr%SCRIPT.length];sPtr++;segId++;
     let n,out,cls,peak=0;
-    if(kind==='BASE'){n=ms(300+Math.random()*260);out=new Float32Array(n);cls='BASE';}
-    else if(kind==='GAP'){n=ms(70+Math.random()*40);out=new Float32Array(n);cls='BASE';}
+    if(kind==='BASE'){n=ms(240+Math.random()*180);out=new Float32Array(n);cls='BASE';}
+    else if(kind==='GAP'){n=ms(55+Math.random()*30);out=new Float32Array(n);cls='BASE';}
     else if(kind==='SWR'){
       n=ms(190);out=new Float32Array(n);cls='SWR';
       const c=n/2,f0=130+Math.random()*55,ph=Math.random()*6.28;
@@ -1441,7 +1494,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       peak=Math.round(c);
     }
     else if(kind==='THETA'){
-      n=ms(600+Math.random()*220);out=new Float32Array(n);cls='THETA';
+      n=ms(520+Math.random()*180);out=new Float32Array(n);cls='THETA';
       const f=7.5+Math.random()*1.5,ph=Math.random()*6.28;
       for(let i=0;i<n;i++){const t=i/FS,th=Math.sin(2*Math.PI*f*t+ph);
         const e=Math.min(1,i/ms(120))*Math.min(1,(n-i)/ms(120));
@@ -1721,6 +1774,103 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   sPtr=0;seg=null;si=0;                         // SCRIPT[0]='SWR': the first event to
   pending.length=0;armed.length=0;              // scroll in is a sharp-wave ripple
   requestAnimationFrame(frame);                 // entered via rAF so `t` is always defined
+})();
+
+
+
+// ===== AGENTIC ECG DECISION SUPPORT - grounded report panel (project card 01) =====
+// Illustrative walkthrough of the pipeline: tool calls resolve, claims are emitted
+// with the citation they are grounded in, an ungrounded claim is dropped by schema
+// validation, and a low-confidence case abstains instead of answering.
+(function(){
+  const root=document.getElementById('agx');
+  if(!root) return;
+  const elCase=document.getElementById('agx-case'),
+        elRep=document.getElementById('agx-report'),
+        elStat=document.getElementById('agx-status'),
+        elBar=document.getElementById('agx-bar'),
+        T=[0,1,2].map(i=>document.getElementById('agx-t'+i)),
+        V=[0,1,2].map(i=>document.getElementById('agx-v'+i));
+
+  const CASES=[
+    { tag:'PTB-XL #04122', conf:0.91, barCol:'#00e5ff',
+      tools:[{at:400,v:'MI &middot; 0.91',bar:91},
+             {at:1500,v:'troponin I 4.2 &uarr;'},
+             {at:2600,v:'ESC 2023 ACS'}],
+      lines:[{at:900, t:'Anterior MI pattern \u00b7 0.91', c:'ECG', k:'ecg'},
+             {at:2000,t:'Troponin I 4.2, elevated', c:'FHIR', k:'fhir'},
+             {at:3100,t:'Invasive strategy indicated', c:'ESC 5.2', k:'gl'},
+             {at:4000,t:'Prior stent, no stenosis', c:'no source', k:'bad', bad:true}],
+      status:{at:4900, cls:'ok', t:'schema valid &middot; 3 cited &middot; 1 dropped'},
+      end:8200 },
+    { tag:'PTB-XL #11908', conf:0.42, barCol:'#f59e0b',
+      tools:[{at:400,v:'ST/T change &middot; 0.42',bar:42},
+             {at:1500,v:'troponin not recorded'},
+             {at:2600,v:'not invoked'}],
+      lines:[{at:900, t:'Nonspecific ST/T change \u00b7 0.42', c:'ECG', k:'ecg'},
+             {at:2000,t:'Troponin not in record', c:'missing', k:'miss'}],
+      status:{at:3300, cls:'abstain', t:'abstain &middot; 0.42 below threshold'},
+      end:6800 },
+    { tag:'PTB-XL #07361', conf:0.88, barCol:'#00e5ff',
+      tools:[{at:400,v:'normal &middot; 0.88',bar:88},
+             {at:1500,v:'potassium 4.1 mmol/L'},
+             {at:2600,v:'ACC/AHA &middot; no pathway'}],
+      lines:[{at:900, t:'No acute ischaemia \u00b7 0.88', c:'ECG', k:'ecg'},
+             {at:2000,t:'Potassium 4.1, in range', c:'FHIR', k:'fhir'}],
+      status:{at:3300, cls:'ok', t:'schema valid &middot; 2 cited'},
+      end:6800 }
+  ];
+
+  let ci=-1, t0=0, done=0, lineEls=[];
+
+  function reset(){
+    ci=(ci+1)%CASES.length;
+    const C=CASES[ci];
+    elCase.textContent=C.tag;
+    T.forEach(e=>e.classList.remove('on'));
+    V.forEach(e=>e.innerHTML='&mdash;');
+    elBar.style.right='100%';elBar.style.background=C.barCol;
+    elStat.className='agx-status';elStat.innerHTML='';
+    elRep.innerHTML='';lineEls=[];
+    C.lines.forEach(L=>{
+      const d=document.createElement('div');d.className='agx-line'+(L.bad?' bad':'');
+      const s=document.createElement('span');s.className='agx-txt';s.textContent=L.t;
+      const c=document.createElement('span');c.className='agx-cite '+L.k+(L.bad?' bad':'');
+      c.textContent=L.c;
+      d.appendChild(s);d.appendChild(c);elRep.appendChild(d);lineEls.push(d);
+    });
+    done=0;
+  }
+
+  // one ordered list of timed actions, replayed per case
+  function tick(ms){
+    const C=CASES[ci];
+    const acts=[];
+    C.tools.forEach((x,i)=>acts.push({at:x.at,f:()=>{
+      T[i].classList.add('on');V[i].innerHTML=x.v;
+      if(x.bar!==undefined)elBar.style.right=(100-x.bar)+'%';
+    }}));
+    C.lines.forEach((L,i)=>acts.push({at:L.at,f:()=>lineEls[i].classList.add('on')}));
+    acts.push({at:C.status.at,f:()=>{
+      elStat.className='agx-status '+C.status.cls+' on';elStat.innerHTML=C.status.t;}});
+    acts.sort((a,b)=>a.at-b.at);
+    while(done<acts.length&&acts[done].at<=ms){acts[done].f();done++;}
+    return ms>=C.end;
+  }
+
+  let visible=false, start=0;
+  new IntersectionObserver(es=>{es.forEach(e=>{
+    if(e.isIntersecting&&!visible){visible=true;reset();start=performance.now();}
+    else if(!e.isIntersecting)visible=false;
+  });},{threshold:.25}).observe(root);
+
+  function loop(t){
+    if(visible){
+      if(tick(t-start)){reset();start=t;}
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
 })();
 
 </script>
