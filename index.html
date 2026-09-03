@@ -631,15 +631,14 @@ footer{padding:2.5rem 5rem;border-top:1px solid var(--border);display:flex;justi
             <div class="exp-title"><span class="title-role">AI Research Engineer</span> - EEG-Based Affective State Decoding</div>
             <div class="exp-date">Jan 2025 &ndash; Jul 2025</div>
             <ul class="exp-points">
-              <li>Developed an EEG-based affective-state decoder to read shopper responses to product presentations using a wearable g.tec EEG system paired with eye-tracking glasses. Gaze fixation linked each EEG segment to a product, while pupil diameter provided an arousal measure when self-report ratings were unavailable.</li>
-              <li>Built the EEG pipeline end to end using bandpass filtering, ICA-based artifact removal and epoching in MNE-Python, followed by theta, alpha, beta and gamma band-power features.</li>
-              <li>Trained EEGNet for four-class valence-arousal classification on DEAP under a leave-one-participant-out protocol. Mean accuracy reached 58.0% against a 35.8% majority-class baseline, with mean macro F<sub>1</sub> of 0.54 across 32 folds.</li>
-              <li>Characterized the domain shift between laboratory EEG and the wearable deployment setting, including fewer channels, a different montage, ambulatory motion artifacts and pupil-derived arousal.</li>
-              <li>Deployed the trained model as a real-time inference service: a FastAPI backend, a Streamlit frontend, containerized with Docker on AWS EC2.</li>
+              <li>Developed a proof-of-concept EEG affective-state decoder using the DEAP dataset, intended for estimating shopper responses to product presentations.</li>
+              <li>Built an end-to-end EEG pipeline in MNE-Python, including bandpass filtering, ICA-based artifact removal, epoching, and extraction of theta, alpha, beta and gamma band-power features.</li>
+              <li>Trained EEGNet from scratch for four-class valence-arousal classification using leave-one-participant-out cross-validation, achieving 58.0% mean accuracy against a 35.8% majority-class baseline and mean macro F<sub>1</sub> = 0.54 across 32 folds.</li>
+              <li>Deployed the DEAP-trained model as an inference application using FastAPI and Streamlit, containerized with Docker and hosted on AWS EC2.</li>
             </ul>
             <div class="exp-stack">
               <span class="etag">EEG</span><span class="etag">MNE-Python</span><span class="etag">EEGNet</span><span class="etag">DEAP</span>
-              <span class="etag">g.tec</span><span class="etag">Eye Tracking</span><span class="etag">PyTorch</span><span class="etag">FastAPI</span><span class="etag">Streamlit</span><span class="etag">Docker</span><span class="etag">AWS EC2</span>
+              <span class="etag">PyTorch</span><span class="etag">FastAPI</span><span class="etag">Streamlit</span><span class="etag">Docker</span><span class="etag">AWS EC2</span>
             </div>
 
             <div class="eeg-viz-wrap">
